@@ -3,7 +3,12 @@ module watch_test();
 reg [3:0] sec_in_lsb_t, sec_in_msb_t, min_in_lsb_t, min_in_msb_t, hr_in_lsb_t, hr_in_msb_t;
 reg set_t, clk_t;
 wire [3:0] sec_out_lsb_t, sec_out_msb_t,min_out_lsb_t, min_out_msb_t,hr_out_lsb_t, hr_out_msb_t;
-
+assign sec_out_lsb_t = sec_in_lsb_t;
+assign sec_out_msb_t = sec_in_msb_t;
+assign min_out_lsb_t = min_in_lsb_t;
+assign min_out_msb_t = min_in_msb_t;
+assign hr_out_lsb_t = hr_in_lsb_t;
+assign hr_out_msb_t = hr_in_msb_t;
 
 watch test_watch (sec_in_lsb_t, sec_in_msb_t, min_in_lsb_t, min_in_msb_t, hr_in_lsb_t, hr_in_msb_t, set_t,clk_t,sec_out_lsb_t, sec_out_msb_t,min_out_lsb_t, min_out_msb_t,hr_out_lsb_t, hr_out_msb_t);
 
