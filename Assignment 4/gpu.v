@@ -52,16 +52,16 @@ reg init_phase;
 
 initial begin 
 	/* case 0 < m < 1 */
-	/* p0x = 1; 
+	p0x = 1; 
 	p0y = 1; 
 	p1x = 200;
-	p1y = 100; */
+	p1y = 100; 
 	
 	/* case x2 < x1 */
-	p0x = 200;
+	/* p0x = 200;
 	p0y = 1;
 	p1x = 1;
-	p1y = 100;
+	p1y = 100; */
 	
 	temp_p0x = p0x;
 	
@@ -112,7 +112,14 @@ begin
 					O_GPU_READ <= 1'b0;
 					O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
 				end
-			end 
+			end else if (p0x == p1x) begin
+				if ((rowInd * 640 + colInd) > (p0y * 640 + p0x)) begin
+					O_GPU_ADDR <= rowInd * 640 + colInd;
+					O_GPU_WRITE <= 1'b1;
+					O_GPU_READ <= 1'b0;
+					O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
+				end
+			end
 				/* reset the screen */ 		
 			/*else if (count[26] == 1) begin 
 			
