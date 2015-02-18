@@ -42,9 +42,9 @@ reg [26:0] count;
 reg [9:0]  rowInd;
 reg [9:0]  colInd;
 
-reg [9:0] p0x, p0y, p1x, p1y, temp_p0x, temp_p1x;
-reg [19:0] dx, dy, incrE, incrNE; 
-reg signed [20:0] d;
+reg [9:0] p0x, p0y, p1x, p1y, temp_p0x, temp_p0y, temp_p1x, temp_p1y;
+reg [19:0] dx, dy, dx2, dy2, incrE; 
+reg signed [20:0] d, incrNE;
 
 
 reg init_phase; 
@@ -52,30 +52,51 @@ reg init_phase;
 
 initial begin 
 	/* case 0 < m < 1 */
-	p0x = 1; 
+	/* p0x = 1; 
 	p0y = 1; 
 	p1x = 200;
-	p1y = 100; 
-	
-	/* case x2 < x1 */
-	/* p0x = 200;
-	p0y = 1;
-	p1x = 1;
 	p1y = 100; */
 	
+	/* case x2 < x1 */
+	p0x = 200;
+	p0y = 1;
+	p1x = 1;
+	p1y = 100;
+	
+	/* case m > 1 */
+	/* p0x = 1;
+	p0y = 1;
+	p1x = 100;
+	p1y = 200; */
+	
 	temp_p0x = p0x;
+	temp_p0y = p0y;
+	temp_p1x = p1x;
+	temp_p1y = p1y;
 	
 	if (p1x < p0x) begin
-		p0x = p1x;
+		//p1x = p0x;
+		p0x = temp_p1x;
 		p1x = temp_p0x;
 	end
 	
 	dx = p1x - p0x;
 	dy = p1y - p0y;
+	dy2 = dy;
+	dx2 = dx;
+	
+	if (dy2 > dx2) begin
+		 p0x = temp_p0y;
+		 p0y = temp_p0x;
+		 p1x = temp_p1y;
+		 p1y = temp_p1x;
+		 dx = dy2;
+		 dy = dx2;
+	end
+	
 	d = (dy * 2) - dx;
 	incrE = 2 * dy;
-	incrNE = (dx - dy) * 2;
-
+	incrNE = (dy - dx) * 2;
 end 
 
  
@@ -88,52 +109,71 @@ begin
 		O_GPU_READ <= 1'b0;
 		O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
 		count <= 0;
-	end else begin
+	end 
+	else begin
 		if (!I_VIDEO_ON) begin
-		  	count <= count + 1;
-			if (p0x < p1x) begin
-				if ((rowInd * 640 + colInd) == (p0y * 640 + p0x)) begin
-					O_GPU_ADDR <= rowInd * 640 + colInd;
-					O_GPU_WRITE <= 1'b1;
-					O_GPU_READ <= 1'b0;
-					O_GPU_DATA <= {4'h0, 4'hf, 4'hf, 4'h0};
-					if (d <= 0) begin
-						d <= d + incrE;
-						p0x <= p0x + 1;
-					end else begin
-						d <= d - incrNE;
-						p0x <= p0x + 1;
-						p0y <= p0y + 1;
+			count <= count + 1;
+			if (dy2 < dx2) begin
+				if (p0x < p1x) begin
+					if ((rowInd * 640 + colInd) == (p0y * 640 + p0x)) begin
+						O_GPU_ADDR <= rowInd * 640 + colInd;
+						O_GPU_WRITE <= 1'b1;
+						O_GPU_READ <= 1'b0;
+						O_GPU_DATA <= {4'h0, 4'hf, 4'hf, 4'h0};
+						if (d <= 0) begin
+							d <= d + incrE;
+							p0x <= p0x + 1;
+						end else begin
+							d <= d + incrNE;
+							p0x <= p0x + 1;
+							p0y <= p0y + 1;
+						end
+					end 
+					else begin
+						O_GPU_ADDR <= rowInd*640 + colInd;
+						O_GPU_WRITE <= 1'b1;
+						O_GPU_READ <= 1'b0;
+						O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
 					end
 				end 
-				else begin
-					O_GPU_ADDR <= rowInd*640 + colInd;
-					O_GPU_WRITE <= 1'b1;
-					O_GPU_READ <= 1'b0;
-					O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
-				end
-			end else if (p0x == p1x) begin
-				if ((rowInd * 640 + colInd) > (p0y * 640 + p0x)) begin
+				else if ((rowInd * 640 + colInd) > (p0y * 640 + p0x)) begin
 					O_GPU_ADDR <= rowInd * 640 + colInd;
 					O_GPU_WRITE <= 1'b1;
 					O_GPU_READ <= 1'b0;
 					O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
 				end
 			end
-				/* reset the screen */ 		
-			/*else if (count[26] == 1) begin 
-			
-			 
-					
-				O_GPU_ADDR <= rowInd*640 + colInd;
-				O_GPU_WRITE <= 1'b1;
-				O_GPU_READ <= 1'b0;
-				O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
-			
-			end */
-					
-		end 
-	end
+			else begin
+				if (p0x < p1x) begin
+					if ((rowInd * 640 + colInd) == (p0x * 640 + p0y)) begin
+						O_GPU_ADDR <= p0x * 640 + p0y;
+						O_GPU_WRITE <= 1'b1;
+						O_GPU_READ <= 1'b0;
+						O_GPU_DATA <= {4'h0, 4'hf, 4'hf, 4'h0};
+						if (d <= 0) begin
+							d <= d + incrE;
+							p0x <= p0x + 1;
+						end else begin
+							d <= d + incrNE;
+							p0x <= p0x + 1;
+							p0y <= p0y + 1;
+						end
+					end 
+					else begin
+						O_GPU_ADDR <= rowInd*640 + colInd;
+						O_GPU_WRITE <= 1'b1;
+						O_GPU_READ <= 1'b0;
+						O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
+					end
+				end else if ((rowInd * 640 + colInd) > (p0y * 640 + p0x)) begin
+					O_GPU_ADDR <= rowInd * 640 + colInd;
+					O_GPU_WRITE <= 1'b1;
+					O_GPU_READ <= 1'b0;
+					O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
+				end
+			end
+		end
+	end 
 end
 
 
