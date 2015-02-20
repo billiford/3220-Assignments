@@ -54,24 +54,29 @@ reg line_draw;
 initial begin 
 	/*	test	case	0	<	m	<	1	*/	
 	/* p0x	=	1;	
-	p0y	=	100;	
+	p0y	=	1;	
 	p1x	=	200;
-	p1y	=	1;	*/
+	p1y	=	100; */
 
 	/*	test	case	m	>	1	*/	
-	/*	
+	/*
 	p0x	=	1;	
 	p0y	=	1;	
 	p1x	=	100;
-	p1y	=	200;	
-	end	
-	*/	
+	p1y	=	200;	*/
+	
+	
+	/*	test	case	x2	<	x1	&& y2 < y1 */	
+	/* p0x	=	200;	
+	p0y	=	100;
+	p1x	=	1;
+	p1y	=	1; */
 
-	/*	test	case	x2	<	x1	*/	
-	p0x	=	100;	
+	/*	test	case	x2	<	x1	&& y2 < y1 && steep */	
+	/* p0x	=	100;	
 	p0y	=	200;
 	p1x	=	1;
-	p1y	=	1;
+	p1y	=	1; */
 	
 	
 	temp_p0x = p0x;
@@ -85,10 +90,12 @@ initial begin
 	end
 	
 	dx = p1x - p0x;
+
 	if (p0y < p1y)
 		dy = p1y - p0y;
 	else
 		dy = p0y - p1y;
+
 	dy2 = dy;
 	dx2 = dx;
 	
@@ -99,6 +106,11 @@ initial begin
 		 p1y = temp_p1x;
 		 dx = dy2;
 		 dy = dx2;
+	end
+	
+	if (p1x < p0x) begin //done if steep and dy > dx
+		p0x = temp_p1y;
+		p1x = temp_p0y;
 	end
 	
 	d = (dy * 2) - dx;
@@ -150,7 +162,7 @@ begin
 								p0y <= p0y - 1;
 						end
 					end 
-				end 
+				end
 			end
 			else begin
 				if (p0x < p1x) begin
@@ -165,7 +177,10 @@ begin
 						end else begin
 							d <= d + incrNE;
 							p0x <= p0x + 1;
-							p0y <= p0y + 1;
+							if (temp_p0y < temp_p1y)
+								p0y <= p0y + 1;
+							else
+								p0y <= p0y - 1;
 						end
 					end 
 				end
