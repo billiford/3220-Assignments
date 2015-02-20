@@ -42,7 +42,7 @@ reg [26:0] count;
 reg [9:0]  rowInd;
 reg [9:0]  colInd;
 
-reg [9:0] p0x, p0y, p1x, p1y, temp_p0x, temp_p0y, temp_p1x, temp_p1y;
+reg signed [9:0] p0x, p0y, p1x, p1y, temp_p0x, temp_p0y, temp_p1x, temp_p1y;
 reg [19:0] dx, dy, dx2, dy2, incrE; 
 reg signed [20:0] d, incrNE;
 
@@ -52,23 +52,27 @@ reg line_draw;
 
 
 initial begin 
-	/* case 0 < m < 1 */
-	p0x = 1; 
-	p0y = 1; 
-	p1x = 200;
-	p1y = 100;
+	/*	test	case	0	<	m	<	1	*/	
+	/* p0x	=	1;	
+	p0y	=	100;	
+	p1x	=	200;
+	p1y	=	1;	*/
+
+	/*	test	case	m	>	1	*/	
+	/*	
+	p0x	=	1;	
+	p0y	=	1;	
+	p1x	=	100;
+	p1y	=	200;	
+	end	
+	*/	
+
+	/*	test	case	x2	<	x1	*/	
+	p0x	=	100;	
+	p0y	=	200;
+	p1x	=	1;
+	p1y	=	1;
 	
-	/* case x2 < x1 */
-	/* p0x = 200;
-	p0y = 1;
-	p1x = 1;
-	p1y = 100; */
-	
-	/* case m > 1 */
-	/* p0x = 1;
-	p0y = 1;
-	p1x = 100;
-	p1y = 200; */
 	
 	temp_p0x = p0x;
 	temp_p0y = p0y;
@@ -81,7 +85,10 @@ initial begin
 	end
 	
 	dx = p1x - p0x;
-	dy = p1y - p0y;
+	if (p0y < p1y)
+		dy = p1y - p0y;
+	else
+		dy = p0y - p1y;
 	dy2 = dy;
 	dx2 = dx;
 	
@@ -112,7 +119,7 @@ begin
 		count <= 0;
 		line_draw <= 0;
 	end
-	else if (!line_draw) begin
+	else if (!line_draw && !I_VIDEO_ON) begin
 		O_GPU_ADDR <= rowInd * 640 + colInd;
 		O_GPU_WRITE <= 1'b1;
 		O_GPU_READ <= 1'b0;
@@ -133,10 +140,14 @@ begin
 						if (d <= 0) begin
 							d <= d + incrE;
 							p0x <= p0x + 1;
-						end else begin
+						end 
+						else begin
 							d <= d + incrNE;
 							p0x <= p0x + 1;
-							p0y <= p0y + 1;
+							if (p0y < p1y)
+								p0y <= p0y + 1;
+							else
+								p0y <= p0y - 1;
 						end
 					end 
 				end 
