@@ -42,21 +42,20 @@ reg [26:0] count;
 reg [9:0]  rowInd;
 reg [9:0]  colInd;
 
-reg signed [9:0] p0x, p0y, p1x, p1y, temp_p0x, temp_p0y, temp_p1x, temp_p1y;
+reg [9:0] p0x, p0y, p1x, p1y, temp_p0x, temp_p0y, temp_p1x, temp_p1y, reset_p0x, reset_p0y, reset_p1x, reset_p1y;
 reg [19:0] dx, dy, dx2, dy2, incrE; 
 reg signed [20:0] d, incrNE;
 
 
 reg init_phase; 
-reg line_draw;
-
+reg [1:0] screen_clear;
 
 initial begin 
 	/*	test	case	0	<	m	<	1	*/	
-	/* p0x	=	1;	
+	p0x	=	1;	
 	p0y	=	1;	
 	p1x	=	200;
-	p1y	=	100; */
+	p1y	=	100;
 
 	/*	test	case	m	>	1	*/	
 	/*
@@ -116,7 +115,11 @@ initial begin
 	d = (dy * 2) - dx;
 	incrE = 2 * dy;
 	incrNE = (dy - dx) * 2;
-	line_draw = 0;
+	screen_clear = 0;
+	reset_p0x = p0x;
+	reset_p0y = p0y;
+	reset_p1x = p1x;
+	reset_p1y = p1y;
 end 
 
  
@@ -129,15 +132,19 @@ begin
 		O_GPU_READ <= 1'b0;
 		O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
 		count <= 0;
-		line_draw <= 0;
+		screen_clear <= 0;
+		p0x <= reset_p0x;
+		p0y <= reset_p0y;
+		p1x <= reset_p1x;
+		p1y <= reset_p1y;
 	end
-	else if (!line_draw && !I_VIDEO_ON) begin
+	else if (screen_clear < 2 && !I_VIDEO_ON) begin
 		O_GPU_ADDR <= rowInd * 640 + colInd;
 		O_GPU_WRITE <= 1'b1;
 		O_GPU_READ <= 1'b0;
 		O_GPU_DATA <= {4'h0, 4'h0, 4'h0, 4'h0};
 		if (rowInd == 399 && colInd == 639)
-			line_draw <= 1'b1;
+			screen_clear <= screen_clear + 2'b1;
 	end
 	else begin
 		if (!I_VIDEO_ON) begin
