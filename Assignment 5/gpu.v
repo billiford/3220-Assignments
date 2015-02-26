@@ -39,12 +39,10 @@ output [6:0] O_HEX0, O_HEX1, O_HEX2, O_HEX3;
 /////////////////////////////////////////
 //
 reg [26:0] count;
-reg [9:0]  rowInd;
-reg [9:0]  colInd;
 
-reg signed [15:0] p0x, p0y, p1x, p1y, p2x, p2y;
+reg [15:0] p0x, p0y, p1x, p1y, p2x, p2y;
 reg signed [15:0] A0, A1, A2, B0, B1, B2;
-reg signed [15:0] x, y, x_min, y_min, x_max, y_max;
+reg [15:0] x, y, x_min, y_min, x_max, y_max;
 reg signed [15:0] e0, e1, e2;
 reg [9:0] screen_clear_x, screen_clear_y;
 
@@ -53,15 +51,19 @@ reg [1:0] screen_clear;
 
 initial begin 
 	/*	test case triangle 1	*/	
-	//p0x = 1; p0y = 1; p1x = 200; p1y = 100; p2x = 50; p2y = 50;	
+	p0x = 1; p0y = 1; p1x = 200; p1y = 100; p2x = 50; p2y = 50;	
+	
 	/*	test case triangle	2*/	
 	//p0x	= 100; p0y = 100; p1x =	200; p1y = 100; p2x = 200;	p2y =	200;
+	
 	/*	test	case	triangle	3*/	
 	//p0x	= 100; p0y = 100; p1x =	200; p1y = 100; p2x = 200;	p2y =	1;
+	
 	/*	test	case	triangle	4*/	
 	//p0x	= 20;	p0y =	20; p1x = 200; p1y =	1;	p2x =	1;	p2y =	1;
+	
 	/*	test	case	triangle	5*/	
-	p0x	= 1; p0y	= 1; p1x	= 100; p1y = 90; p2x	= 20;	p2y =	100;
+	//p0x	= 1; p0y	= 1; p1x	= 100; p1y = 90; p2x	= 20;	p2y =	100;
 	
 	if (p0x <= p1x && p0x <= p2x) x_min = p0x;
 	else if (p1x <= p0x && p1x <= p2x) x_min = p1x;
@@ -99,9 +101,17 @@ initial begin
 		B2 = -B2;
 	end
 	
+	if (A0 == 0) A0 = A0 + 1;
+	if (B0 == 0) B0 = B0 + 1;
+	if (A1 == 0) A1 = A1 + 1;
+	if (B1 == 0) B1 = B1 + 1;
+	if (A2 == 0) A2 = A2 + 1;
+	if (B2 == 0) B2 = B2 + 1;
+	
 	screen_clear = 0;
 	screen_clear_x = 0;
 	screen_clear_y = 0;
+	count = 0;
 end 
 
  
@@ -123,17 +133,17 @@ begin
 		if (screen_clear_x == 639 && screen_clear_y == 399)
 			screen_clear <= screen_clear + 2'b1;
 	end
-	else begin
-		if (!I_VIDEO_ON) begin
-			e0 <= A0 * (x - p1x) + B0 * (y - p1y); 
-			e1 <= A1 * (x - p2x) + B1 * (y - p2y); 
-			e2 <= A2 * (x - p0x) + B2 * (y - p0y);
-			if ((e0 >= 0) && (e1 >= 0) && (e2 >= 0)) begin
-				O_GPU_ADDR <= y * 640 + x;
-				O_GPU_WRITE <= 1'b1;
-				O_GPU_READ <= 1'b0;
-				O_GPU_DATA <= {4'h0, 4'hf, 4'hf, 4'h0};
-			end
+	else if (!I_VIDEO_ON) begin
+		count <= count + 1;
+		
+		e0 <= A0 * (x - p1x) + B0 * (y - p1y); 
+		e1 <= A1 * (x - p2x) + B1 * (y - p2y); 
+		e2 <= A2 * (x - p0x) + B2 * (y - p0y);
+		if ((e0 >= 0) && (e1 >= 0) && (e2 >= 0)) begin
+			O_GPU_ADDR <= y * 640 + x;
+			O_GPU_WRITE <= 1'b1;
+			O_GPU_READ <= 1'b0;
+			O_GPU_DATA <= {count[26:23], 4'h8, 4'hf, 4'hf};
 		end
 	end 
 end
