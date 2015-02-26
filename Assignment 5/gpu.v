@@ -86,12 +86,18 @@ initial begin
    A1 = -(p0y - p2y);  B1 = (p0x - p2x); 
    A2 = -(p1y - p0y);  B2 = (p1x - p0x);
 	
-	/*if (A0 < 0) A0 = -A0;
-	if (B0 < 0) B0 = -B0;
-	if (A1 < 0) A1 = -A1;
-	if (B1 < 0) B1 = -B1;
-	if (A2 < 0) A2 = -A2;
-	if (B2 < 0) B2 = -B2;*/
+	e0 = A0 * (x - p1x) + B0 * (y - p1y); 
+	e1 = A1 * (x - p2x) + B1 * (y - p2y); 
+	e2 = A2 * (x - p0x) + B2 * (y - p0y);
+	
+	if (e0 < 0 || e1 < 0 || e2 < 0) begin
+		A0 = -A0;
+		B0 = -B0;
+		A1 = -A1;
+		B1 = -B1;
+		A2 = -A2;
+		B2 = -B2;
+	end
 	
 	screen_clear = 0;
 	screen_clear_x = 0;
