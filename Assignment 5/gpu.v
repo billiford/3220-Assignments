@@ -101,12 +101,14 @@ initial begin
 		B2 = -B2;
 	end
 	
+	/* TODO this fixes one glitch, but not the other
 	if (A0 == 0) A0 = A0 + 1;
 	if (B0 == 0) B0 = B0 + 1;
 	if (A1 == 0) A1 = A1 + 1;
 	if (B1 == 0) B1 = B1 + 1;
 	if (A2 == 0) A2 = A2 + 1;
 	if (B2 == 0) B2 = B2 + 1;
+	*/
 	
 	screen_clear = 0;
 	screen_clear_x = 0;
@@ -135,7 +137,6 @@ begin
 	end
 	else if (!I_VIDEO_ON) begin
 		count <= count + 1;
-		
 		e0 <= A0 * (x - p1x) + B0 * (y - p1y); 
 		e1 <= A1 * (x - p2x) + B1 * (y - p2y); 
 		e2 <= A2 * (x - p0x) + B2 * (y - p0y);
@@ -143,7 +144,7 @@ begin
 			O_GPU_ADDR <= y * 640 + x;
 			O_GPU_WRITE <= 1'b1;
 			O_GPU_READ <= 1'b0;
-			O_GPU_DATA <= {count[26:23], 4'h8, 4'hf, 4'hf};
+			O_GPU_DATA <= {count[26:23], count[26:23], 4'hf, 4'hf};
 		end
 	end 
 end
