@@ -51,19 +51,19 @@ reg init_phase;
 reg [1:0] screen_clear;
 
 initial begin 
-	/*	test case triangle 1	Works*/	
+	/*	test case triangle 1*/	
 //	p0x = 1; p0y = 1; p1x = 200; p1y = 100; p2x = 50; p2y = 50;	
 	
-	/*	test case triangle	2 - fixed*/	
-	p0x	= 100; p0y = 100; p1x =	200; p1y = 100; p2x = 200;	p2y =	200;
+	/*	test case triangle	2*/	
+//	p0x	= 100; p0y = 100; p1x =	200; p1y = 100; p2x = 200;	p2y =	200;
 
-	/*	test	case	triangle	3 - fixed*/	
-//	p0x	= 100; p0y = 100; p1x =	200; p1y = 100; p2x = 200;	p2y =	1;
+	/*	test	case	triangle	3*/	
+	p0x	= 100; p0y = 100; p1x =	200; p1y = 100; p2x = 200;	p2y =	1;
 	
-	/*	test	case	triangle	4 Works, ugly as hell*/	
+	/*	test	case	triangle	4/	
 //	p0x	= 20;	p0y =	20; p1x = 200; p1y =	1;	p2x =	1;	p2y =	1;
 	
-	/*	test	case	triangle	5 Works, not as ugly*/	
+	/*	test	case	triangle	5*/	
 //	p0x	= 1; p0y	= 1; p1x	= 100; p1y = 90; p2x	= 20;	p2y =	100;
 	
 	//Fix for drawing a certain case...
@@ -112,7 +112,7 @@ initial begin
 		B2 = -B2;
 	end
 		
-	// TODO this fixes one glitch, but not the other
+	// removes extra line in special cases
 	if (A0 <= 0) A0 = A0 + 1;
 	if (B0 <= 0) B0 = B0 + 1;
 	if (A1 <= 0) A1 = A1 + 1;
