@@ -41,6 +41,7 @@ output [6:0] O_HEX0, O_HEX1, O_HEX2, O_HEX3;
 reg [26:0] count;
 
 reg [15:0] p0x, p0y, p1x, p1y, p2x, p2y;
+reg[15:0] ptempx, ptempy;
 reg signed [15:0] A0, A1, A2, B0, B1, B2;
 reg [15:0] x, y, x_min, y_min, x_max, y_max;
 reg signed [15:0] e0, e1, e2;
@@ -50,20 +51,30 @@ reg init_phase;
 reg [1:0] screen_clear;
 
 initial begin 
-	/*	test case triangle 1	*/	
-	p0x = 1; p0y = 1; p1x = 200; p1y = 100; p2x = 50; p2y = 50;	
+	/*	test case triangle 1	Works*/	
+//	p0x = 1; p0y = 1; p1x = 200; p1y = 100; p2x = 50; p2y = 50;	
 	
-	/*	test case triangle	2*/	
-	//p0x	= 100; p0y = 100; p1x =	200; p1y = 100; p2x = 200;	p2y =	200;
+	/*	test case triangle	2 - fixed*/	
+	p0x	= 100; p0y = 100; p1x =	200; p1y = 100; p2x = 200;	p2y =	200;
+
+	/*	test	case	triangle	3 - fixed*/	
+//	p0x	= 100; p0y = 100; p1x =	200; p1y = 100; p2x = 200;	p2y =	1;
 	
-	/*	test	case	triangle	3*/	
-	//p0x	= 100; p0y = 100; p1x =	200; p1y = 100; p2x = 200;	p2y =	1;
+	/*	test	case	triangle	4 Works, ugly as hell*/	
+//	p0x	= 20;	p0y =	20; p1x = 200; p1y =	1;	p2x =	1;	p2y =	1;
 	
-	/*	test	case	triangle	4*/	
-	//p0x	= 20;	p0y =	20; p1x = 200; p1y =	1;	p2x =	1;	p2y =	1;
+	/*	test	case	triangle	5 Works, not as ugly*/	
+//	p0x	= 1; p0y	= 1; p1x	= 100; p1y = 90; p2x	= 20;	p2y =	100;
 	
-	/*	test	case	triangle	5*/	
-	//p0x	= 1; p0y	= 1; p1x	= 100; p1y = 90; p2x	= 20;	p2y =	100;
+	//Fix for drawing a certain case...
+	if (p1x == p2x && p2y > p1y) begin
+		ptempx = p1x;
+		ptempy = p1y;
+		p1x = p2x;
+		p1y = p2y;
+		p2x = ptempx;
+		p2y = ptempy;
+	end
 	
 	if (p0x <= p1x && p0x <= p2x) x_min = p0x;
 	else if (p1x <= p0x && p1x <= p2x) x_min = p1x;
@@ -100,15 +111,14 @@ initial begin
 		A2 = -A2;
 		B2 = -B2;
 	end
-	
-	/* TODO this fixes one glitch, but not the other
-	if (A0 == 0) A0 = A0 + 1;
-	if (B0 == 0) B0 = B0 + 1;
-	if (A1 == 0) A1 = A1 + 1;
-	if (B1 == 0) B1 = B1 + 1;
-	if (A2 == 0) A2 = A2 + 1;
-	if (B2 == 0) B2 = B2 + 1;
-	*/
+		
+	// TODO this fixes one glitch, but not the other
+	if (A0 <= 0) A0 = A0 + 1;
+	if (B0 <= 0) B0 = B0 + 1;
+	if (A1 <= 0) A1 = A1 + 1;
+	if (B1 <= 0) B1 = B1 + 1;
+	if (A2 <= 0) A2 = A2 + 1;
+	if (B2 <= 0) B2 = B2 + 1;
 	
 	screen_clear = 0;
 	screen_clear_x = 0;
