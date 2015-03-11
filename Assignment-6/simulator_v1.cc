@@ -51,7 +51,9 @@ unsigned int g_program_halt = 0;
 void SetConditionCodeInt(const int16_t val1, const int16_t val2) 
 {
   /* fill out the conditional code checking logic */ 
-
+  if(val1 == val2) g_condition_code_register[1] = 1;
+  else if (val1 > val2) g_condition_code_register[0] = 1;
+  else g_condition_code_register[2] = 1;
 }
 
 
@@ -476,14 +478,19 @@ int ExecuteInstruction(const TraceOp &trace_op)
     case OP_STW: 
     case OP_SETVERTEX: 
     case OP_SETCOLOR:
-    case OP_ROTATE:  // optional 
+    case OP_ROTATE:  // optional
+    break;
     case OP_TRANSLATE: 
     case OP_SCALE:  // optional 
+    break;
     case OP_PUSHMATRIX:       // deprecated 
+    break;
     case OP_POPMATRIX:   // deprecated 
+    break;
     case OP_BEGINPRIMITIVE: 
     case OP_ENDPRIMITIVE:
     case OP_LOADIDENTITY:  // deprecated 
+    break;
     case OP_FLUSH: 
     case OP_DRAW: 
     case OP_BRN: 
