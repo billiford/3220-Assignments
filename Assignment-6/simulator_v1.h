@@ -105,8 +105,7 @@ typedef struct FloatRegister_ {
 ////////////////////////////////////////////////////////////////////////
 typedef struct TraceOp_ {
 	int16_t opcode;
-	int16_t scalar_registers[3];
-  int16_t float_registers[3];
+	int16_t scalar_registers[3]; //register 8-14 are fp
 	int64_t vector_registers[3];
 	int idx;
 	int primitive_type;
