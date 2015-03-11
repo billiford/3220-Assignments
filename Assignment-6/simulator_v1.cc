@@ -332,7 +332,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
       ret_trace_op.primitive_type = destination_register_idx;
     }    
     break;
-    case OP_ENDPRIMITIVE:
+    case OP_ENDPRIMITIVE: //according to update this is deprecated
     {
       //Doesn't take any arguments
     }  
