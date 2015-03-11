@@ -112,24 +112,34 @@ TraceOp DecodeInstruction(const uint32_t instruction)
 
     case OP_ADD_F:  
     {
-      int destination_register_idx = FLOAT_TO_FIXED1114((instruction & 0x00F00000) >> 20);
-      int source_register_1_idx = FLOAT_TO_FIXED1114((instruction & 0x000F0000) >> 16);
-      int source_register_2_idx = FLOAT_TO_FIXED1114((instruction & 0x00000F00) >> 8); 
-      ret_trace_op.scalar_registers[0] = destination_register_idx;
-      ret_trace_op.scalar_registers[1] = source_register_1_idx;
-      ret_trace_op.scalar_registers[2] = source_register_2_idx;
+      int destination_register_idx = (instruction & 0x00F00000) >> 20;
+      int source_register_1_idx = (instruction & 0x000F0000) >> 16;
+      int source_register_2_idx = (instruction & 0x00000F00) >> 8; 
+      ret_trace_op.float_registers[0] = destination_register_idx;
+      ret_trace_op.float_registers[1] = source_register_1_idx;
+      ret_trace_op.float_registers[2] = source_register_2_idx;
     }
     case OP_ADDI_D:
     {
-
+      int destination_register_idx = (instruction & 0x00F00000) >> 20;
+      int source_register_1_idx = (instruction & 0x000F0000) >> 16;
+      int source_imm = (instruction & 0x0000FFFF); //This should be the last 16 bits to int?
+      ret_trace_op.scalar_registers[0] = destination_register_idx;
+      ret_trace_op.scalar_registers[1] = source_register_1_idx;
+      ret_trace_op.int_value = source_imm;   
     }
     case OP_ADDI_F: 
     {
-      
+      int destination_register_idx = (instruction & 0x00F00000) >> 20;
+      int source_register_1_idx = (instruction & 0x000F0000) >> 16;
+      float source_imm = (instruction & 0x0000FFFF); //This should be the last 16 bits to float? 
+      ret_trace_op.float_registers[0] = destination_register_idx;
+      ret_trace_op.float_registers[1] = source_register_1_idx;
+      ret_trace_op.float_value = source_imm;     
     }    
     case OP_VADD:
     {
-      
+      int destination_register_idx = (instruction & 0x003F0000) >> 16;
     }    
     case OP_AND_D:
     {
