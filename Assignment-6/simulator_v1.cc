@@ -106,7 +106,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
       ret_trace_op.scalar_registers[1] = source_register_1_idx;
       ret_trace_op.scalar_registers[2] = source_register_2_idx;
     }
-    break; //Probably should remember to remove this at some point.
+    break; //!!!!!!!!!!! Probably should remember to remove this at some point. !!!!!!!!!!!!!!!
     
     /* fill out all the instruction's decode information */ 
 
@@ -132,7 +132,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     {
       int destination_register_idx = (instruction & 0x00F00000) >> 20;
       int source_register_1_idx = (instruction & 0x000F0000) >> 16;
-      float source_imm = (instruction & 0x0000FFFF); //This should be the last 16 bits to float? 
+      float source_imm = FIXED_TO_FLOAT1114(instruction & 0x0000FFFF); //This should be the last 16 bits to float? Not sure if it casts it as is or if we have to use the convert function
       ret_trace_op.float_registers[0] = destination_register_idx;
       ret_trace_op.float_registers[1] = source_register_1_idx;
       ret_trace_op.float_value = source_imm;     
@@ -140,86 +140,157 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     case OP_VADD:
     {
       int destination_register_idx = (instruction & 0x003F0000) >> 16;
+      int source_register_1_idx = (instruction & 0x00003F00) >> 4;
+      int source_register_2_idx = (instruction & 0x0000003F);
+      ret_trace_op.vector_registers[0] = destination_register_idx;
+      ret_trace_op.vector_registers[1] = source_register_1_idx;
+      ret_trace_op.vector_registers[2] = source_register_2_idx;
     }    
     case OP_AND_D:
-    {
-      
+    { //Same as ADD_D
+      int destination_register_idx = (instruction & 0x00F00000) >> 20;
+      int source_register_1_idx = (instruction & 0x000F0000) >> 16;
+      int source_register_2_idx = (instruction & 0x00000F00) >> 4;
+      ret_trace_op.scalar_registers[0] = destination_register_idx;
+      ret_trace_op.scalar_registers[1] = source_register_1_idx;
+      ret_trace_op.scalar_registers[2] = source_register_2_idx;      
     }    
     case OP_ANDI_D:
-    {
-      
+    { //Same as ADDI_D
+      int destination_register_idx = (instruction & 0x00F00000) >> 20;
+      int source_register_1_idx = (instruction & 0x000F0000) >> 16;
+      int source_imm = (instruction & 0x0000FFFF); //This should be the last 16 bits to int?
+      ret_trace_op.scalar_registers[0] = destination_register_idx;
+      ret_trace_op.scalar_registers[1] = source_register_1_idx;
+      ret_trace_op.int_value = source_imm;       
     }    
     case OP_MOV: 
     {
-      
+      int destination_register_idx = (instruction & 0x000F0000) >> 16;
+      int source_register_1_idx = (instruction & 0x00000F00) >> 8; //Bits 8-11 inclusive
+      ret_trace_op.scalar_registers[0] = destination_register_idx;
+      ret_trace_op.scalar_registers[1] = source_register_1_idx;
     }    
     case OP_MOVI_D:
     {
-      
+      int destination_register_idx = (instruction & 0x000F0000) >> 16;
+      int source_imm = (instruction & 0x0000FFFF); //bits 0-15 inclusive
+      ret_trace_op.scalar_registers[0] = destination_register_idx;
+      ret_trace_op.int_value = source_imm;    
     }    
     case OP_MOVI_F: 
     {
-      
+      int destination_register_idx = (instruction & 0x000F0000) >> 16;
+      float source_imm = FIXED_TO_FLOAT1114(instruction & 0x0000FFFF); //bits 0-15 inclusive
+      ret_trace_op.scalar_registers[0] = destination_register_idx;
+      ret_trace_op.float_value = source_imm;       
     }    
     case OP_VMOV:  
     {
-      
+      int destination_register_idx = (instruction & 0x0003F000) >> 8; //Bits 16-21
+      int source_register_1_idx = (instruction & 0x00003F00) >> 4; //Bits 8-13
+      ret_trace_op.vector_registers[0] = destination_register_idx;
+      ret_trace_op.vector_registers[1] = source_register_1_idx;      
     }    
     case OP_VMOVI: 
     {
-      
+      int destination_register_idx = (instruction & 0x0003F000) >> 8; //Bits 16-21
+      float source_imm = FIXED_TO_FLOAT1114(instruction & 0x0000FFFF); //Bits 0-15
+      ret_trace_op.vector_registers[0] = destination_register_idx;
+      ret_trace_op.float_value = source_imm;
     }    
     case OP_CMP: 
     {
-      
+      int source_register_1_idx = (instruction & 0x000F0000) >> 16; //Bits 16-19
+      int source_register_2_idx = (instruction & 0x00000F00) >> 4; //Bits 8-11
+      ret_trace_op.scalar_registers[1] = source_register_1_idx;
+      ret_trace_op.scalar_registers[2] = source_register_2_idx; 
     }    
     case OP_CMPI:
     {
-      
+      int source_register_1_idx = (instruction & 0x000F0000) >> 16; //Bits 16-19
+      int source_imm = (instruction & 0x00000FFF); //Bits 8-11
+      ret_trace_op.scalar_registers[1] = source_register_1_idx;
+      ret_trace_op.int_value = source_imm;
     }    
     case OP_VCOMPMOV: 
-    {
-      
+    { // vector reg dest[idx] <- scalar src register
+      int destination_register_idx = (instruction & 0x0003F000) >> 12;
+      int source_register_1_idx = (instruction & 0x00000F00) >> 4;
+      int idx = (instuction & 0x00A00000) >> 20;
+      ret_trace_op.vector_registers[0] = destination_register_idx;
+      ret_trace_op.scalar_registers[1] = source_register_1_idx;
+      ret_trace_op.idx = idx; 
     }    
     case OP_VCOMPMOVI:  
     {
-      
+      int destination_register_idx = (instruction & 0x0003F000) >> 12;
+      int source_imm = FIXED_TO_FLOAT1114(instruction & 0x0000FFFF);
+      int idx = (instuction & 0x00A00000) >> 20;
+      ret_trace_op.vector_registers[0] = destination_register_idx;
+      ret_trace_op.float_value = source_imm;
+      ret_trace_op.idx = idx;
     }    
     case OP_LDB: 
     {
-      
+      int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
+      int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
+      int source_imm = (instuction & 0x0000FFFF); //Bits 0-15
+      ret_trace_op.scalar_registers[0] = destination_register_idx;     
+      ret_trace_op.scalar_registers[1] = base_register;        
+      ret_trace_op.int_value = source_imm;  
     }    
     case OP_LDW:
-    {
-      
+    { //same as LDB
+      int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
+      int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
+      int source_imm = (instuction & 0x0000FFFF); //Bits 0-15
+      ret_trace_op.scalar_registers[0] = destination_register_idx;     
+      ret_trace_op.scalar_registers[1] = base_register;        
+      ret_trace_op.int_value = source_imm;  
     }    
     case OP_STB:  
-    {
-      
+    { //same as LDB
+      int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
+      int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
+      int source_imm = (instuction & 0x0000FFFF); //Bits 0-15
+      ret_trace_op.scalar_registers[0] = destination_register_idx;     
+      ret_trace_op.scalar_registers[1] = base_register;        
+      ret_trace_op.int_value = source_imm;        
     }    
     case OP_STW: 
-    {
-      
+    { //same as LDB
+      int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
+      int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
+      int source_imm = (instuction & 0x0000FFFF); //Bits 0-15
+      ret_trace_op.scalar_registers[0] = destination_register_idx;     
+      ret_trace_op.scalar_registers[1] = base_register;        
+      ret_trace_op.int_value = source_imm;  
     }    
     case OP_SETVERTEX: 
     {
-      
+      int destination_register_idx = (instruction & 0x003F0000) >> 20; //Bits 16-21
+      ret_trace_op.vector_registers[0] = destination_register_idx;
     }    
     case OP_SETCOLOR:
-    {
-      
+    { // same as SETVERTEX
+      int destination_register_idx = (instruction & 0x003F0000) >> 20; //Bits 16-21
+      ret_trace_op.vector_registers[0] = destination_register_idx;
     }    
     case OP_ROTATE:  // optional 
-    {
-      
+    { //same as SETVERTEX
+      int destination_register_idx = (instruction & 0x003F0000) >> 20; //Bits 16-21
+      ret_trace_op.vector_registers[0] = destination_register_idx;      
     }    
     case OP_TRANSLATE: 
-    {
-      
+    { //same as SETVERTEX
+      int destination_register_idx = (instruction & 0x003F0000) >> 20; //Bits 16-21
+      ret_trace_op.vector_registers[0] = destination_register_idx;
     }    
     case OP_SCALE:  // optional 
-    {
-      
+    { //same as SETVERTEX
+      int destination_register_idx = (instruction & 0x003F0000) >> 20; //Bits 16-21
+      ret_trace_op.vector_registers[0] = destination_register_idx;
     }    
     case OP_PUSHMATRIX:       // deprecated 
     {
@@ -231,11 +302,12 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     }    
     case OP_BEGINPRIMITIVE: 
     {
-      
+      int destination_register_idx = (instruction & 0x000F0000) >> 20; //Bits 16-19
+      ret_trace_op.primitive_type = destination_register_idx;
     }    
     case OP_ENDPRIMITIVE:
     {
-      
+      //Doesn't take any arguments
     }    
     case OP_LOADIDENTITY:  // deprecated 
     {
@@ -243,55 +315,71 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     }    
     case OP_FLUSH: 
     {
-      
+      //Doesn't take any arguments
+      //Flushes frame buffer
     }    
     case OP_DRAW: 
     {
-      
+      //Doesn't take any arguments
+      //Draws frame buffer to screen
     }    
     case OP_BRN: 
-    {
-      
+    { //All branch comparisons take same format
+      int pc_offset = (instruction & 0x0000FFFF);
+      ret_trace_op.int_value = pc_offset;
     }    
     case OP_BRZ:
     {
-      
+      int pc_offset = (instruction & 0x0000FFFF);
+      ret_trace_op.int_value = pc_offset;      
     }    
     case OP_BRP:
     {
-      
+      int pc_offset = (instruction & 0x0000FFFF);
+      ret_trace_op.int_value = pc_offset;      
     }    
     case OP_BRNZ:
     {
-      
+      int pc_offset = (instruction & 0x0000FFFF);
+      ret_trace_op.int_value = pc_offset;      
     }    
     case OP_BRNP:
     {
-      
+      int pc_offset = (instruction & 0x0000FFFF);
+      ret_trace_op.int_value = pc_offset;      
     }    
     case OP_BRZP:
     {
-      
+      int pc_offset = (instruction & 0x0000FFFF);
+      ret_trace_op.int_value = pc_offset;      
     }    
     case OP_BRNZP:
     {
-      
+      int pc_offset = (instruction & 0x0000FFFF);
+      ret_trace_op.int_value = pc_offset;      
     }    
     case OP_JMP:
     {
-      
+      int base_register_idx = (instruction & 0x000F0000) >> 20; //Bits 16-19
+      ret_trace_op.int_value = base_register_idx;      
     }    
     case OP_JSR: 
     {
-      
+      int pc_offset = (instruction & 0x0000FFFF);
+      ret_trace_op.int_value = pc_offset;         
     }    
     case OP_JSRR: 
     {
-      
+      int base_register_idx = (instruction & 0x000F0000) >> 20; //Bits 16-19
+      ret_trace_op.int_value = base_register_idx;        
     }    
     case OP_HALT: 
     {
-      
+      // X = R0, Y = R0, Z = R0, imm = R0. If we can't figure out a nop from this, we might as well drop out
+      ret_trace_op.dest.int_value = 0;
+      ret_trace_op.scalar_registers[0] = 0;
+      ret_trace_op.scalar_registers[1] = 0;
+      ret_trace_op.scalar_registers[2] = 0;
     }     
       break; 
       
