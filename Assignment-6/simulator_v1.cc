@@ -50,7 +50,7 @@ unsigned int g_program_halt = 0;
 ////////////////////////////////////////////////////////////////////////
 void SetConditionCodeInt(const int16_t val1, const int16_t val2) 
 {
-  /* fill out the conditional code checking logic */ 
+  //is the hint above wrong?
   if(val1 == val2) g_condition_code_register[1] = 1;
   else if (val1 > val2) g_condition_code_register[0] = 1;
   else g_condition_code_register[2] = 1;
@@ -457,30 +457,126 @@ int ExecuteInstruction(const TraceOp &trace_op)
 
     /* fill out instruction behaviors */ 
 
-    case OP_ADD_F:  
+    case OP_ADD_F:
+    {
+      float source_value_1 = FIXED_TO_FLOAT1114(g_scalar_registers[trace_op.scalar_registers[1]].int_value);
+      float source_value_2 = FIXED_TO_FLOAT1114(g_scalar_registers[trace_op.scalar_registers[2]].int_value);
+      g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
+        FLOAT_TO_FIXED1114(source_value_1 + source_value_2);
+      SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
+    }  
+    break;
     case OP_ADDI_D:
+    {
+      int source_value_1 = g_scalar_registers[trace_op.scalar_registers[1]].int_value;
+      int source_immediate = trace_op.int_value;
+      g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
+        source_value_1 + source_value_2;
+      SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
+    }  
+    break;
     case OP_ADDI_F: 
+    {
+
+    }  
+    break;
     case OP_VADD:
+    {
+
+    }  
+    break;
     case OP_AND_D:
+    {
+
+    }  
+    break;
     case OP_ANDI_D:
+    {
+
+    }  
+    break;
     case OP_MOV: 
+    {
+
+    }  
+    break;
     case OP_MOVI_D:
+    {
+
+    }  
+    break;
     case OP_MOVI_F: 
+    {
+
+    }  
+    break;
     case OP_VMOV:  
+    {
+
+    }  
+    break;
     case OP_VMOVI: 
+    {
+
+    }  
+    break;
     case OP_CMP: 
+    {
+
+    }  
+    break;
     case OP_CMPI:
+    {
+
+    }  
+    break;
     case OP_VCOMPMOV: 
-    case OP_VCOMPMOVI:  
+    {
+
+    }  
+    break;
+    case OP_VCOMPMOVI:
+    {
+
+    }  
+    break;  
     case OP_LDB: 
+    {
+
+    }  
+    break;
     case OP_LDW:
-    case OP_STB:  
+    {
+
+    }  
+    break;
+    case OP_STB: 
+    {
+
+    }  
+    break; 
     case OP_STW: 
-    case OP_SETVERTEX: 
+    {
+
+    }  
+    break;
+    case OP_SETVERTEX:
+    {
+
+    }  
+    break; 
     case OP_SETCOLOR:
+    {
+
+    }  
+    break;
     case OP_ROTATE:  // optional
     break;
-    case OP_TRANSLATE: 
+    case OP_TRANSLATE:
+    {
+
+    }  
+    break; 
     case OP_SCALE:  // optional 
     break;
     case OP_PUSHMATRIX:       // deprecated 
@@ -488,21 +584,76 @@ int ExecuteInstruction(const TraceOp &trace_op)
     case OP_POPMATRIX:   // deprecated 
     break;
     case OP_BEGINPRIMITIVE: 
+    {
+
+    }  
+    break;
     case OP_ENDPRIMITIVE:
+    {
+
+    }  
+    break;
     case OP_LOADIDENTITY:  // deprecated 
     break;
     case OP_FLUSH: 
-    case OP_DRAW: 
-    case OP_BRN: 
+    {
+
+    }  
+    break;
+    case OP_DRAW:
+    {
+
+    }  
+    break; 
+    case OP_BRN:{
+
+    }  
+    break;
+
     case OP_BRZ:
+    {
+
+    }  
+    break;
     case OP_BRP:
+    {
+
+    }  
+    break;
     case OP_BRNZ:
+    {
+
+    }  
+    break;
     case OP_BRNP:
+    {
+
+    }  
+    break;
     case OP_BRZP:
+    {
+
+    }  
+    break;
     case OP_BRNZP:
+    {
+
+    }  
+    break;
     case OP_JMP:
+    {
+
+    }  
+    break;
     case OP_JSR: 
+    {
+
+    }  
+    break;
     case OP_JSRR: 
+    {
+
+    }  
       break; 
       
 
