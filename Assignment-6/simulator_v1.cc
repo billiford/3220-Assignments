@@ -232,7 +232,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     { // vector reg dest[idx] <- scalar src register
       int destination_register_idx = (instruction & 0x0003F000) >> 12;
       int source_register_1_idx = (instruction & 0x00000F00) >> 4;
-      int idx = (instuction & 0x00A00000) >> 20;
+      int idx = (instruction & 0x00A00000) >> 20;
       ret_trace_op.vector_registers[0] = destination_register_idx;
       ret_trace_op.scalar_registers[1] = source_register_1_idx;
       ret_trace_op.idx = idx; 
@@ -242,7 +242,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     {
       int destination_register_idx = (instruction & 0x0003F000) >> 12;
       int source_imm = FIXED_TO_FLOAT1114(instruction & 0x0000FFFF);
-      int idx = (instuction & 0x00A00000) >> 20;
+      int idx = (instruction & 0x00A00000) >> 20;
       ret_trace_op.vector_registers[0] = destination_register_idx;
       ret_trace_op.float_value = source_imm;
       ret_trace_op.idx = idx;
@@ -252,7 +252,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     {
       int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
       int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
-      int source_imm = (instuction & 0x0000FFFF); //Bits 0-15
+      int source_imm = (instruction & 0x0000FFFF); //Bits 0-15
       ret_trace_op.scalar_registers[0] = destination_register_idx;     
       ret_trace_op.scalar_registers[1] = base_register;        
       ret_trace_op.int_value = source_imm;  
@@ -262,7 +262,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     { //same as LDB
       int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
       int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
-      int source_imm = (instuction & 0x0000FFFF); //Bits 0-15
+      int source_imm = (instruction & 0x0000FFFF); //Bits 0-15
       ret_trace_op.scalar_registers[0] = destination_register_idx;     
       ret_trace_op.scalar_registers[1] = base_register;        
       ret_trace_op.int_value = source_imm;  
@@ -272,7 +272,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     { //same as LDB
       int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
       int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
-      int source_imm = (instuction & 0x0000FFFF); //Bits 0-15
+      int source_imm = (instruction & 0x0000FFFF); //Bits 0-15
       ret_trace_op.scalar_registers[0] = destination_register_idx;     
       ret_trace_op.scalar_registers[1] = base_register;        
       ret_trace_op.int_value = source_imm;        
@@ -282,7 +282,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     { //same as LDB
       int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
       int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
-      int source_imm = (instuction & 0x0000FFFF); //Bits 0-15
+      int source_imm = (instruction & 0x0000FFFF); //Bits 0-15
       ret_trace_op.scalar_registers[0] = destination_register_idx;     
       ret_trace_op.scalar_registers[1] = base_register;        
       ret_trace_op.int_value = source_imm;  
