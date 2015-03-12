@@ -456,7 +456,13 @@ int ExecuteInstruction(const TraceOp &trace_op)
 
 
     /* fill out instruction behaviors */ 
-
+    /* It seems to me that float registers should have their contents converted to float upon retreival. 
+     * However, it seems like the float immediates that I've already converted above can be accessed via float_value
+     * This is because of how this simulator works. g_scalar_registers contains the register contents, indexed by the int register index from
+     * trace_op.scalar_registers[index]. The simulator automatically fills the int_value field of the scalar register, so we can't have a float_value field
+     * here. So upon retreival of an int value from an fp register on a float operation, we should convert the value using FIXED_TO_FLOAT1114. ????
+     * TLDR: g_scalar_register[Register Number] - contents of the scalar registers. ONLY HAS A int_value field
+     * trace_op - current operation struct that we fill in with regnos, imm values, idx, etc. */
     case OP_ADD_F:
     {
       float source_value_1 = FIXED_TO_FLOAT1114(g_scalar_registers[trace_op.scalar_registers[1]].int_value);
@@ -477,12 +483,16 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_ADDI_F: 
     {
-
+      int source_value_1 = g_scalar_registers[trace_op.scalar_registers[1]].int_value;
+      float source_immediate = trace_op.float_value;
+      g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
+        FLOAT_TO_FIXED1114(source_value_1 + source_value_2); //C++ implicit type conversion. Float + anything = Float
+      SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
     case OP_VADD:
     {
-
+      //definitely going to be messy.
     }  
     break;
     case OP_AND_D:
