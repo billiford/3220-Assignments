@@ -91,9 +91,6 @@ typedef struct VertexRegister_ {
         int b_value; 
 } VertexRegister;
 
-typedef struct FloatRegister_ {
-  float float_value;
-} FloatRegister
 ////////////////////////////////////////////////////////////////////////
 // 1. opcode
 // 2. scalar_registers: If instruction has dest, src1, src2 registers
