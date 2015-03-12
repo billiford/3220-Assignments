@@ -51,9 +51,9 @@ unsigned int g_program_halt = 0;
 void SetConditionCodeInt(const int16_t val1, const int16_t val2) 
 {
   //is the hint above wrong?
-  if(val1 == val2) g_condition_code_register[1] = 1;
-  else if (val1 > val2) g_condition_code_register[0] = 1;
-  else g_condition_code_register[2] = 1;
+  if(val1 == val2) g_condition_code_register.int_value |= 0x00000002;
+  else if (val1 > val2) g_condition_code_register.int_value |= 0x00000001;
+  else g_condition_code_register.int_value |= 0x00000004;
 }
 
 
@@ -419,7 +419,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     case OP_HALT: 
     {
       // X = R0, Y = R0, Z = R0, imm = R0. If we can't figure out a nop from this, we might as well drop out
-      ret_trace_op.dest.int_value = 0;
+      ret_trace_op.int_value = 0;
       ret_trace_op.scalar_registers[0] = 0;
       ret_trace_op.scalar_registers[1] = 0;
       ret_trace_op.scalar_registers[2] = 0;
@@ -474,7 +474,10 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_ADDI_D:
     {
-      int source_value_1 = g_scalar_registers[trace_op.scalar_registers[1]].int_value;
+      int source_value_1 = 
+			g_scalar_registers[trace_op.scalar_registers[1]].int_value;
+	  int source_value_2 = 
+			g_scalar_registers[trace_op.scalar_registers[2]].int_value;
       int source_immediate = trace_op.int_value;
       g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
         source_value_1 + source_value_2;
@@ -483,7 +486,10 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_ADDI_F: 
     {
-      int source_value_1 = g_scalar_registers[trace_op.scalar_registers[1]].int_value;
+      int source_value_1 = 
+			g_scalar_registers[trace_op.scalar_registers[1]].int_value;
+	  int source_value_2 = 
+			g_scalar_registers[trace_op.scalar_registers[2]].int_value;
       float source_immediate = trace_op.float_value;
       g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
         FLOAT_TO_FIXED1114(source_value_1 + source_value_2); //C++ implicit type conversion. Float + anything = Float
