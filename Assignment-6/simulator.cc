@@ -487,8 +487,7 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_ADDI_F: 
     {
-      int source_value_1 = 
-			g_scalar_registers[trace_op.scalar_registers[1]].int_value;
+      float source_value_1 = FIXED_TO_FLOAT1114(g_scalar_registers[trace_op.scalar_registers[1]].int_value);
       float source_immediate = trace_op.float_value;
       g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
         FLOAT_TO_FIXED1114(source_value_1 + source_immediate); //C++ implicit type conversion. Float + anything = Float
@@ -742,7 +741,6 @@ int ExecuteInstruction(const TraceOp &trace_op)
     default:
     break;
     }
-	cout << "return: " << ret_next_instruction_idx << endl;
   return ret_next_instruction_idx;
 }
 
