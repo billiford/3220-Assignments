@@ -84,11 +84,11 @@ typedef struct VectorRegister_ {
 ////////////////////////////////////////////////////////////////////////
 typedef struct VertexRegister_ {
 	int x_value; 
-        int y_value; 
-        int z_value; 
-        int r_value; 
-        int g_value; 
-        int b_value; 
+	int y_value; 
+	int z_value; 
+	int r_value; 
+	int g_value; 
+	int b_value; 
 } VertexRegister;
 
 ////////////////////////////////////////////////////////////////////////
@@ -107,7 +107,7 @@ typedef struct TraceOp_ {
 	int idx;
 	int primitive_type;
 	int int_value;
-  float float_value;
+	float float_value;
 } TraceOp;
 
 ////////////////////////////////////////////////////////////////////////

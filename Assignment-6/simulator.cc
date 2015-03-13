@@ -145,7 +145,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     case OP_VADD:
     {
       int destination_register_idx = (instruction & 0x003F0000) >> 16;
-      int source_register_1_idx = (instruction & 0x00003F00) >> 4;
+      int source_register_1_idx = (instruction & 0x00003F00) >> 8;
       int source_register_2_idx = (instruction & 0x0000003F);
       ret_trace_op.vector_registers[0] = destination_register_idx;
       ret_trace_op.vector_registers[1] = source_register_1_idx;
@@ -156,7 +156,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     { //Same as ADD_D
       int destination_register_idx = (instruction & 0x00F00000) >> 20;
       int source_register_1_idx = (instruction & 0x000F0000) >> 16;
-      int source_register_2_idx = (instruction & 0x00000F00) >> 4;
+      int source_register_2_idx = (instruction & 0x00000F00) >> 8;
       ret_trace_op.scalar_registers[0] = destination_register_idx;
       ret_trace_op.scalar_registers[1] = source_register_1_idx;
       ret_trace_op.scalar_registers[2] = source_register_2_idx;      
@@ -191,7 +191,8 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     case OP_MOVI_F: 
     {
       int destination_register_idx = (instruction & 0x000F0000) >> 16;
-      float source_imm = FIXED_TO_FLOAT1114(instruction & 0x0000FFFF); //bits 0-15 inclusive
+	  int imm = instruction & 0x00008000 ? instruction & 0x0000FFFF - 65536 : instruction & 0x0000FFFF; //SIGNED CHECK
+      float source_imm = FIXED_TO_FLOAT1114(imm); //bits 0-15 inclusive
       ret_trace_op.scalar_registers[0] = destination_register_idx;
       ret_trace_op.float_value = source_imm;       
     }  
@@ -199,7 +200,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     case OP_VMOV:  
     {
       int destination_register_idx = (instruction & 0x0003F000) >> 8; //Bits 16-21
-      int source_register_1_idx = (instruction & 0x00003F00) >> 4; //Bits 8-13
+      int source_register_1_idx = (instruction & 0x00003F00) >> 8; //Bits 8-13
       ret_trace_op.vector_registers[0] = destination_register_idx;
       ret_trace_op.vector_registers[1] = source_register_1_idx;      
     }  
@@ -215,7 +216,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     case OP_CMP: 
     {
       int source_register_1_idx = (instruction & 0x000F0000) >> 16; //Bits 16-19
-      int source_register_2_idx = (instruction & 0x00000F00) >> 4; //Bits 8-11
+      int source_register_2_idx = (instruction & 0x00000F00) >> 8; //Bits 8-11
       ret_trace_op.scalar_registers[1] = source_register_1_idx;
       ret_trace_op.scalar_registers[2] = source_register_2_idx; 
     }    
@@ -231,7 +232,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     case OP_VCOMPMOV: 
     { // vector reg dest[idx] <- scalar src register
       int destination_register_idx = (instruction & 0x0003F000) >> 12;
-      int source_register_1_idx = (instruction & 0x00000F00) >> 4;
+      int source_register_1_idx = (instruction & 0x00000F00) >> 8;
       int idx = (instruction & 0x00A00000) >> 20;
       ret_trace_op.vector_registers[0] = destination_register_idx;
       ret_trace_op.scalar_registers[1] = source_register_1_idx;
@@ -252,40 +253,40 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     {
       int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
       int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
-      int source_imm = (instruction & 0x0000FFFF); //Bits 0-15
+      int offset_imm = (instruction & 0x0000FFFF); //Bits 0-15
       ret_trace_op.scalar_registers[0] = destination_register_idx;     
       ret_trace_op.scalar_registers[1] = base_register;        
-      ret_trace_op.int_value = source_imm;  
+      ret_trace_op.int_value = offset_imm;  
     }   
     break; 
     case OP_LDW:
     { //same as LDB
       int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
       int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
-      int source_imm = (instruction & 0x0000FFFF); //Bits 0-15
+      int offset_imm = (instruction & 0x0000FFFF); //Bits 0-15
       ret_trace_op.scalar_registers[0] = destination_register_idx;     
       ret_trace_op.scalar_registers[1] = base_register;        
-      ret_trace_op.int_value = source_imm;  
+      ret_trace_op.int_value = offset_imm;  
     }  
     break;  
     case OP_STB:  
     { //same as LDB
-      int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
+      int source_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
       int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
-      int source_imm = (instruction & 0x0000FFFF); //Bits 0-15
-      ret_trace_op.scalar_registers[0] = destination_register_idx;     
+      int offset_imm = (instruction & 0x0000FFFF); //Bits 0-15
+      ret_trace_op.scalar_registers[0] = source_register_idx;     
       ret_trace_op.scalar_registers[1] = base_register;        
-      ret_trace_op.int_value = source_imm;        
+      ret_trace_op.int_value = offset_imm;        
     }    
     break;
     case OP_STW: 
     { //same as LDB
-      int destination_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
+      int source_register_idx = (instruction & 0x00F00000) >> 20; //Bits 20-23
       int base_register = (instruction & 0x000F0000) >> 16; //Bits 16-19
-      int source_imm = (instruction & 0x0000FFFF); //Bits 0-15
-      ret_trace_op.scalar_registers[0] = destination_register_idx;     
+      int offset_imm = (instruction & 0x0000FFFF); //Bits 0-15
+      ret_trace_op.scalar_registers[0] = source_register_idx;     
       ret_trace_op.scalar_registers[1] = base_register;        
-      ret_trace_op.int_value = source_imm;  
+      ret_trace_op.int_value = offset_imm;  
     }   
     break; 
     case OP_SETVERTEX: 
@@ -371,6 +372,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     case OP_BRP:
     {
       int pc_offset = (instruction & 0x0000FFFF);
+	  if (pc_offset & 0x00008000) pc_offset -= 65536; 
       ret_trace_op.int_value = pc_offset;      
     }    
     break;
@@ -476,8 +478,6 @@ int ExecuteInstruction(const TraceOp &trace_op)
     {
       int source_value_1 = 
 			g_scalar_registers[trace_op.scalar_registers[1]].int_value;
-	  int source_value_2 = 
-			g_scalar_registers[trace_op.scalar_registers[2]].int_value;
       int source_immediate = trace_op.int_value;
       g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
         source_value_1 + source_immediate;
@@ -488,8 +488,6 @@ int ExecuteInstruction(const TraceOp &trace_op)
     {
       int source_value_1 = 
 			g_scalar_registers[trace_op.scalar_registers[1]].int_value;
-	  int source_value_2 = 
-			g_scalar_registers[trace_op.scalar_registers[2]].int_value;
       float source_immediate = trace_op.float_value;
       g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
         FLOAT_TO_FIXED1114(source_value_1 + source_immediate); //C++ implicit type conversion. Float + anything = Float
@@ -498,7 +496,10 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_VADD:
     {
-      //definitely going to be messy.
+      for (int i = 0; i < 4; i++) {
+		  //need to do something with vector regs
+	  }
+		  
     }  
     break;
     case OP_AND_D:
@@ -531,8 +532,7 @@ int ExecuteInstruction(const TraceOp &trace_op)
     case OP_MOVI_D:
     { //iffy
       int mov_immediate = trace_op.int_value;
-      g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
-        source_value_1 + mov_immediate;
+      g_scalar_registers[trace_op.scalar_registers[0]].int_value = mov_immediate;
       SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
@@ -540,18 +540,23 @@ int ExecuteInstruction(const TraceOp &trace_op)
     {
       float mov_immediate = trace_op.float_value;
       g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
-        FLOAT_TO_FIXED1114(source_value_1 + mov_immediate);
+        FLOAT_TO_FIXED1114(mov_immediate);
       SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
     case OP_VMOV:  
     {
-
+		//is this correct? not sure what they want us to do from the slides
+		VectorRegister dest = g_vector_registers[trace_op.vector_registers[0]];
+		VectorRegister src = g_vector_registers[trace_op.vector_registers[1]];
+		//dest = src;
     }  
     break;
     case OP_VMOVI: 
     {
-
+		for (int idx = 0; idx < NUM_VECTOR_ELEMENTS; idx++) {
+			//more vector stuff
+		}
     }  
     break;
     case OP_CMP: 
@@ -578,39 +583,64 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;  
     case OP_LDB: 
     {
-
+		//Set the destinations int_value to be the unsigned char found in memory
+		ScalarRegister dest = g_scalar_registers[trace_op.scalar_registers[0]];
+		ScalarRegister base = g_scalar_registers[trace_op.scalar_registers[1]];
+		int offset = trace_op.int_value;
+		unsigned char byte = g_memory[base.int_value + offset];
+		dest.int_value = byte;
+		//TODO what to compare to set the conditional code?
+		//SetConditionCodeInt();
     }  
     break;
     case OP_LDW:
     {
-
+		//Set the destinations int_value to be the unsigned word found in memory
+		ScalarRegister dest = g_scalar_registers[trace_op.scalar_registers[0]];
+		ScalarRegister base = g_scalar_registers[trace_op.scalar_registers[1]];
+		int offset = trace_op.int_value;
+		unsigned char byte2 = g_memory[base.int_value + offset + 1];
+		unsigned char byte1 = g_memory[base.int_value + offset];
+		int word = (byte2 << 8) | byte1;
+		dest.int_value = word;
+		//TODO what to compare to set the conditional code?
+		//SetConditionCodeInt();
     }  
     break;
     case OP_STB: 
     {
-
+		//Store a byte at memory address base + offset
+		ScalarRegister src = g_scalar_registers[trace_op.scalar_registers[0]];
+		ScalarRegister base = g_scalar_registers[trace_op.scalar_registers[1]];
+		int offset = trace_op.int_value;
+		g_memory[base.int_value + offset] = src.int_value & 0x00FF;
     }  
     break; 
     case OP_STW: 
     {
-
+		//Store a word at memory address base + offset + 1 : base + offset
+		ScalarRegister src = g_scalar_registers[trace_op.scalar_registers[0]];
+		ScalarRegister base = g_scalar_registers[trace_op.scalar_registers[1]];
+		int offset = trace_op.int_value;
+		g_memory[base.int_value + offset] = src.int_value & 0x00FF;
+		g_memory[base.int_value + offset + 1] = (src.int_value & 0xFF00) >> 8;
     }  
     break;
     case OP_SETVERTEX:
     {
-
+		//TODO
     }  
     break; 
     case OP_SETCOLOR:
     {
-
+		//TODO
     }  
     break;
     case OP_ROTATE:  // optional
     break;
     case OP_TRANSLATE:
     {
-
+		//TODO
     }  
     break; 
     case OP_SCALE:  // optional 
@@ -621,12 +651,12 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_BEGINPRIMITIVE: 
     {
-
+		//Delimit the vertices that define a primitive or a group of primitives??
     }  
     break;
     case OP_ENDPRIMITIVE:
     {
-
+		//Delimit the vertices that define a primitive or a group of primitives??
     }  
     break;
     case OP_LOADIDENTITY:  // deprecated 
@@ -638,57 +668,68 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_DRAW:
     {
-
+		//Draw the contents of the frame buffer on a screen (if available).
     }  
     break; 
     case OP_BRN:{
-
+		//I believe the pc is only incremented by 1 each time
+		if (g_condition_code_register.int_value == 4) 
+			ret_next_instruction_idx = trace_op.int_value;
     }  
     break;
 
     case OP_BRZ:
     {
-
+		if (g_condition_code_register.int_value == 2)
+			ret_next_instruction_idx = trace_op.int_value;
     }  
     break;
     case OP_BRP:
     {
-
+		if (g_condition_code_register.int_value == 1) 
+			ret_next_instruction_idx = trace_op.int_value;
     }  
     break;
     case OP_BRNZ:
     {
-
+		if (g_condition_code_register.int_value == 2 || g_condition_code_register.int_value == 4)
+			ret_next_instruction_idx = trace_op.int_value;
     }  
     break;
     case OP_BRNP:
     {
-
+		if (g_condition_code_register.int_value == 4 || g_condition_code_register.int_value == 1)
+			ret_next_instruction_idx = trace_op.int_value;
     }  
     break;
     case OP_BRZP:
     {
-
+		if (g_condition_code_register.int_value == 2 || g_condition_code_register.int_value == 1)
+			ret_next_instruction_idx = trace_op.int_value;
     }  
     break;
     case OP_BRNZP:
     {
-
+		ret_next_instruction_idx = trace_op.int_value;
     }  
     break;
     case OP_JMP:
     {
-
+		//TODO: debugging
+		ScalarRegister base = g_scalar_registers[trace_op.scalar_registers[0]];
+		ret_next_instruction_idx = base.int_value;
     }  
     break;
     case OP_JSR: 
     {
-
+		g_scalar_registers[7].int_value = g_current_pc;
+		ret_next_instruction_idx = trace_op.int_value;
     }  
     break;
     case OP_JSRR: 
     {
-
+		g_scalar_registers[7].int_value = g_current_pc;
+		ret_next_instruction_idx = g_scalar_registers[trace_op.scalar_registers[0]].int_value;
     }  
       break; 
       
@@ -700,7 +741,7 @@ int ExecuteInstruction(const TraceOp &trace_op)
     default:
     break;
     }
-
+	cout << "return: " << ret_next_instruction_idx << endl;
   return ret_next_instruction_idx;
 }
 
