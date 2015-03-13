@@ -51,9 +51,9 @@ unsigned int g_program_halt = 0;
 void SetConditionCodeInt(const int16_t val1, const int16_t val2) 
 {
   //is the hint above wrong?
-  if(val1 == val2) g_condition_code_register.int_value |= 0x00000002;
-  else if (val1 > val2) g_condition_code_register.int_value |= 0x00000001;
-  else g_condition_code_register.int_value |= 0x00000004;
+  if(val1 == val2) g_condition_code_register.int_value = 2; //010
+  else if (val1 > val2) g_condition_code_register.int_value = 1; //001
+  else g_condition_code_register.int_value = 4; //100
 }
 
 
@@ -480,7 +480,7 @@ int ExecuteInstruction(const TraceOp &trace_op)
 			g_scalar_registers[trace_op.scalar_registers[2]].int_value;
       int source_immediate = trace_op.int_value;
       g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
-        source_value_1 + source_value_2;
+        source_value_1 + source_immediate;
       SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
@@ -492,7 +492,7 @@ int ExecuteInstruction(const TraceOp &trace_op)
 			g_scalar_registers[trace_op.scalar_registers[2]].int_value;
       float source_immediate = trace_op.float_value;
       g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
-        FLOAT_TO_FIXED1114(source_value_1 + source_value_2); //C++ implicit type conversion. Float + anything = Float
+        FLOAT_TO_FIXED1114(source_value_1 + source_immediate); //C++ implicit type conversion. Float + anything = Float
       SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
