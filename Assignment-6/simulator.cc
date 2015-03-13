@@ -136,7 +136,8 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     {
       int destination_register_idx = (instruction & 0x00F00000) >> 20;
       int source_register_1_idx = (instruction & 0x000F0000) >> 16;
-      float source_imm = FIXED_TO_FLOAT1114(instruction & 0x0000FFFF); //This should be the last 16 bits to float? Not sure if it casts it as is or if we have to use the convert function
+	  int imm = instruction & 0x00008000 ? instruction & 0x0000FFFF - 65536 : instruction & 0x0000FFFF; //SIGNED CHECK
+      float source_imm = FIXED_TO_FLOAT1114(imm); //This should be the last 16 bits to float? Not sure if it casts it as is or if we have to use the convert function
       ret_trace_op.scalar_registers[0] = destination_register_idx;
       ret_trace_op.scalar_registers[1] = source_register_1_idx;
       ret_trace_op.float_value = source_imm;     
