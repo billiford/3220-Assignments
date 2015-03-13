@@ -200,7 +200,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     break;  
     case OP_VMOV:  
     {
-      int destination_register_idx = (instruction & 0x0003F000) >> 8; //Bits 16-21
+      int destination_register_idx = (instruction & 0x003F0000) >> 16; //Bits 16-21
       int source_register_1_idx = (instruction & 0x00003F00) >> 8; //Bits 8-13
       ret_trace_op.vector_registers[0] = destination_register_idx;
       ret_trace_op.vector_registers[1] = source_register_1_idx;      
@@ -208,8 +208,9 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     break;  
     case OP_VMOVI: 
     {
-      int destination_register_idx = (instruction & 0x0003F000) >> 8; //Bits 16-21
-      float source_imm = FIXED_TO_FLOAT1114(instruction & 0x0000FFFF); //Bits 0-15
+      int destination_register_idx = (instruction & 0x003F0000) >> 16; //Bits 16-21
+	  int imm = instruction & 0x00008000 ? (instruction & 0x0000FFFF) - 65536 : instruction & 0x0000FFFF; //SIGNED CHECK
+      float source_imm = FIXED_TO_FLOAT1114(imm); //Bits 0-15
       ret_trace_op.vector_registers[0] = destination_register_idx;
       ret_trace_op.float_value = source_imm;
     }  
@@ -232,7 +233,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     break;
     case OP_VCOMPMOV: 
     { // vector reg dest[idx] <- scalar src register
-      int destination_register_idx = (instruction & 0x0003F000) >> 12;
+      int destination_register_idx = (instruction & 0x003F0000) >> 16;
       int source_register_1_idx = (instruction & 0x00000F00) >> 8;
       int idx = (instruction & 0x00A00000) >> 20;
       ret_trace_op.vector_registers[0] = destination_register_idx;
@@ -242,9 +243,10 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     break;
     case OP_VCOMPMOVI:  
     {
-      int destination_register_idx = (instruction & 0x0003F000) >> 12;
-      int source_imm = FIXED_TO_FLOAT1114(instruction & 0x0000FFFF);
-      int idx = (instruction & 0x00A00000) >> 20;
+      int destination_register_idx = (instruction & 0x003F0000) >> 16;
+	  int imm = instruction & 0x00008000 ? (instruction & 0x0000FFFF) - 65536 : instruction & 0x0000FFFF; //SIGNED CHECK
+      float source_imm = FIXED_TO_FLOAT1114(imm); //Bits 0-15
+      int idx = (instruction & 0x00C00000) >> 22;
       ret_trace_op.vector_registers[0] = destination_register_idx;
       ret_trace_op.float_value = source_imm;
       ret_trace_op.idx = idx;
@@ -496,10 +498,11 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_VADD:
     {
-      for (int i = 0; i < 4; i++) {
-		  //need to do something with vector regs
-	  }
-		  
+		for (int i = 0; i < NUM_VECTOR_ELEMENTS; i++) {
+			g_vector_registers[trace_op.vector_registers[0]].element[i].int_value =
+				g_vector_registers[trace_op.vector_registers[1]].element[i].int_value + 
+				g_vector_registers[trace_op.vector_registers[2]].element[i].int_value;
+		}
     }  
     break;
     case OP_AND_D:
@@ -546,16 +549,16 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_VMOV:  
     {
-		//is this correct? not sure what they want us to do from the slides
-		VectorRegister dest = g_vector_registers[trace_op.vector_registers[0]];
-		VectorRegister src = g_vector_registers[trace_op.vector_registers[1]];
-		//dest = src;
+		for (int i = 0; i < NUM_VECTOR_ELEMENTS; i++) {
+			g_vector_registers[trace_op.vector_registers[0]].element[i].int_value =
+				g_vector_registers[trace_op.vector_registers[1]].element[i].int_value;
+		}
     }  
     break;
     case OP_VMOVI: 
     {
-		for (int idx = 0; idx < NUM_VECTOR_ELEMENTS; idx++) {
-			//more vector stuff
+		for (int i = 0; i < NUM_VECTOR_ELEMENTS; i++) {
+			g_vector_registers[trace_op.vector_registers[0]].element[i].int_value = FLOAT_TO_FIXED1114(trace_op.float_value);
 		}
     }  
     break;
@@ -578,7 +581,8 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_VCOMPMOVI:
     {
-
+		g_vector_registers[trace_op.vector_registers[0]].element[trace_op.idx].int_value = 
+			FLOAT_TO_FIXED1114(trace_op.float_value);
     }  
     break;  
     case OP_LDB: 
