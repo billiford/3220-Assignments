@@ -235,9 +235,9 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     { // vector reg dest[idx] <- scalar src register
       int destination_register_idx = (instruction & 0x003F0000) >> 16;
       int source_register_1_idx = (instruction & 0x00000F00) >> 8;
-      int idx = (instruction & 0x00A00000) >> 20;
+      int idx = (instruction & 0x00C00000) >> 22;
       ret_trace_op.vector_registers[0] = destination_register_idx;
-      ret_trace_op.scalar_registers[1] = source_register_1_idx;
+      ret_trace_op.scalar_registers[0] = source_register_1_idx;
       ret_trace_op.idx = idx; 
     }    
     break;
@@ -294,31 +294,31 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     break; 
     case OP_SETVERTEX: 
     {
-      int destination_register_idx = (instruction & 0x003F0000) >> 20; //Bits 16-21
+      int destination_register_idx = (instruction & 0x003F0000) >> 16; //Bits 16-21
       ret_trace_op.vector_registers[0] = destination_register_idx;
     }    
     break;
     case OP_SETCOLOR:
     { // same as SETVERTEX
-      int destination_register_idx = (instruction & 0x003F0000) >> 20; //Bits 16-21
+      int destination_register_idx = (instruction & 0x003F0000) >> 16; //Bits 16-21
       ret_trace_op.vector_registers[0] = destination_register_idx;
     }    
     break;
     case OP_ROTATE:  // optional 
     { //same as SETVERTEX
-      int destination_register_idx = (instruction & 0x003F0000) >> 20; //Bits 16-21
+      int destination_register_idx = (instruction & 0x003F0000) >> 16; //Bits 16-21
       ret_trace_op.vector_registers[0] = destination_register_idx;      
     }    
     break;
     case OP_TRANSLATE: 
     { //same as SETVERTEX
-      int destination_register_idx = (instruction & 0x003F0000) >> 20; //Bits 16-21
+      int destination_register_idx = (instruction & 0x003F0000) >> 16; //Bits 16-21
       ret_trace_op.vector_registers[0] = destination_register_idx;
     }    
     break;
     case OP_SCALE:  // optional 
     { //same as SETVERTEX
-      int destination_register_idx = (instruction & 0x003F0000) >> 20; //Bits 16-21
+      int destination_register_idx = (instruction & 0x003F0000) >> 16; //Bits 16-21
       ret_trace_op.vector_registers[0] = destination_register_idx;
     }   
     break; 
@@ -334,8 +334,7 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     break;  
     case OP_BEGINPRIMITIVE: 
     {
-      int destination_register_idx = (instruction & 0x000F0000) >> 20; //Bits 16-19
-      ret_trace_op.primitive_type = destination_register_idx;
+      ret_trace_op.primitive_type = (instruction & 0x000F0000) >> 16;
     }    
     break;
     case OP_ENDPRIMITIVE: //according to update this is deprecated
@@ -576,7 +575,8 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_VCOMPMOV: 
     {
-
+		g_vector_registers[trace_op.vector_registers[0]].element[trace_op.idx].int_value =
+			g_scalar_registers[trace_op.scalar_registers[0]].int_value;
     }  
     break;
     case OP_VCOMPMOVI:
@@ -632,19 +632,35 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_SETVERTEX:
     {
-		//TODO
+		g_gpu_vertex_registers[g_vertex_id].x_value = 
+			FIXED1114_TO_INT(g_vector_registers[trace_op.vector_registers[0]].element[1].int_value);
+		g_gpu_vertex_registers[g_vertex_id].y_value = 
+			FIXED1114_TO_INT(g_vector_registers[trace_op.vector_registers[0]].element[2].int_value);
+		g_gpu_vertex_registers[g_vertex_id].z_value = 
+			FIXED1114_TO_INT(g_vector_registers[trace_op.vector_registers[0]].element[3].int_value);
+		g_vertex_id = g_vertex_id == 2 ? 0 : g_vertex_id + 1;
     }  
     break; 
     case OP_SETCOLOR:
     {
-		//TODO
+		g_gpu_vertex_registers[0].r_value = 
+			FIXED1114_TO_INT(g_vector_registers[trace_op.vector_registers[0]].element[0].int_value);
+		g_gpu_vertex_registers[0].g_value = 
+			FIXED1114_TO_INT(g_vector_registers[trace_op.vector_registers[0]].element[1].int_value);
+		g_gpu_vertex_registers[0].b_value = 
+			FIXED1114_TO_INT(g_vector_registers[trace_op.vector_registers[0]].element[2].int_value);
     }  
     break;
     case OP_ROTATE:  // optional
     break;
     case OP_TRANSLATE:
     {
-		//TODO
+		for (int i = 0; i < NUM_VERTEX_REGISTER; i++) {
+			g_gpu_vertex_registers[i].x_value +=
+				FIXED1114_TO_INT(g_vector_registers[trace_op.vector_registers[0]].element[1].int_value);
+			g_gpu_vertex_registers[i].y_value +=
+				FIXED1114_TO_INT(g_vector_registers[trace_op.vector_registers[0]].element[2].int_value);
+		}
     }  
     break; 
     case OP_SCALE:  // optional 
@@ -656,23 +672,27 @@ int ExecuteInstruction(const TraceOp &trace_op)
     case OP_BEGINPRIMITIVE: 
     {
 		//Delimit the vertices that define a primitive or a group of primitives??
+		g_gpu_status_register.int_value &= ~(1u << 2);
+		g_gpu_status_register.int_value |= (trace_op.primitive_type << 2);
     }  
     break;
     case OP_ENDPRIMITIVE:
     {
-		//Delimit the vertices that define a primitive or a group of primitives??
+
     }  
     break;
     case OP_LOADIDENTITY:  // deprecated 
     break;
     case OP_FLUSH: 
     {
-
+		g_gpu_status_register.int_value &= ~(1u);
+		g_gpu_status_register.int_value |= (1u << 1);
     }  
     break;
     case OP_DRAW:
     {
-		//Draw the contents of the frame buffer on a screen (if available).
+		g_gpu_status_register.int_value &= ~(1u << 1);
+		g_gpu_status_register.int_value |= (1u);
     }  
     break; 
     case OP_BRN:{
