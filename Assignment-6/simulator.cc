@@ -503,27 +503,45 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_AND_D:
     {
-
+      int source_value_1 = g_scalar_registers[trace_op.scalar_registers[1]].int_value;
+      int source_value_2 = g_scalar_registers[trace_op.scalar_registers[2]].int_value;
+      g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
+        source_value_1 & source_value_2;
+      SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
     case OP_ANDI_D:
     {
-
+      int source_value_1 = g_scalar_registers[trace_op.scalar_registers[1]].int_value;
+      int source_immediate = trace_op.int_value;
+      g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
+        source_value_1 & source_immediate;
+      SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
     case OP_MOV: 
-    {
-
+    { // Just add 0 to the register and put it in destination. Alternatively, we could AND 0xFFFFFFFF
+      int source_value_1 = g_scalar_registers[trace_op.scalar_registers[1]].int_value;
+      int mov_immediate = 0;
+      g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
+        source_value_1 + mov_immediate;
+      SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
     case OP_MOVI_D:
-    {
-
+    { //iffy
+      int mov_immediate = trace_op.int_value;
+      g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
+        source_value_1 + mov_immediate;
+      SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
     case OP_MOVI_F: 
     {
-
+      float mov_immediate = trace_op.float_value;
+      g_scalar_registers[trace_op.scalar_registers[0]].int_value = 
+        FLOAT_TO_FIXED1114(source_value_1 + mov_immediate);
+      SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
     case OP_VMOV:  
@@ -538,12 +556,14 @@ int ExecuteInstruction(const TraceOp &trace_op)
     break;
     case OP_CMP: 
     {
-
+      SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[1]].int_value, 
+        g_scalar_registers[trace_op.scalar_registers[2]].int_value);
     }  
     break;
     case OP_CMPI:
     {
-
+      SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[1]].int_value, 
+        trace_op.int_value);
     }  
     break;
     case OP_VCOMPMOV: 
@@ -856,4 +876,3 @@ int main(int argc, char **argv)
 
   return 0;
 }
-
