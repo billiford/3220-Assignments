@@ -362,12 +362,14 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     case OP_BRN: 
     { //All branch comparisons take same format
       int pc_offset = (instruction & 0x0000FFFF);
+	  if (pc_offset & 0x00008000) pc_offset -= 65536; 
       ret_trace_op.int_value = pc_offset;
     }   
     break; 
     case OP_BRZ:
     {
       int pc_offset = (instruction & 0x0000FFFF);
+	  if (pc_offset & 0x00008000) pc_offset -= 65536; 
       ret_trace_op.int_value = pc_offset;      
     }    
     break;
@@ -381,24 +383,28 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     case OP_BRNZ:
     {
       int pc_offset = (instruction & 0x0000FFFF);
+	  if (pc_offset & 0x00008000) pc_offset -= 65536; 
       ret_trace_op.int_value = pc_offset;      
     }    
     break;
     case OP_BRNP:
     {
       int pc_offset = (instruction & 0x0000FFFF);
+	  if (pc_offset & 0x00008000) pc_offset -= 65536; 
       ret_trace_op.int_value = pc_offset;      
     }    
     break;
     case OP_BRZP:
     {
       int pc_offset = (instruction & 0x0000FFFF);
+	  if (pc_offset & 0x00008000) pc_offset -= 65536; 
       ret_trace_op.int_value = pc_offset;      
     }    
     break;
     case OP_BRNZP:
     {
       int pc_offset = (instruction & 0x0000FFFF);
+	  if (pc_offset & 0x00008000) pc_offset -= 65536; 
       ret_trace_op.int_value = pc_offset;      
     }    
     break;
