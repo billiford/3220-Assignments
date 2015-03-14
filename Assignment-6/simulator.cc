@@ -404,20 +404,22 @@ TraceOp DecodeInstruction(const uint32_t instruction)
     break;
     case OP_JMP:
     {
-      int base_register_idx = (instruction & 0x000F0000) >> 20; //Bits 16-19
-      ret_trace_op.int_value = base_register_idx;      
+      int base_register_idx = (instruction & 0x000F0000) >> 16; //Bits 16-19
+      ret_trace_op.scalar_registers[0] = base_register_idx;      
     }    
     break;
     case OP_JSR: 
     {
       int pc_offset = (instruction & 0x0000FFFF);
       ret_trace_op.int_value = pc_offset;         
+	  g_scalar_registers[7].int_value = g_current_pc;
     }    
     break;
     case OP_JSRR: 
     {
-      int base_register_idx = (instruction & 0x000F0000) >> 20; //Bits 16-19
-      ret_trace_op.int_value = base_register_idx;        
+      int base_register_idx = (instruction & 0x000F0000) >> 16; //Bits 16-19
+      ret_trace_op.scalar_registers[0] = base_register_idx;    
+		g_scalar_registers[7].int_value = g_current_pc;	  
     }    
     break;
     case OP_HALT: 
@@ -594,7 +596,7 @@ int ExecuteInstruction(const TraceOp &trace_op)
 		unsigned char byte = g_memory[base.int_value + offset];
 		dest.int_value = byte;
 		//TODO what to compare to set the conditional code?
-		//SetConditionCodeInt();
+		SetConditionCodeInt(dest.int_value, 0);
     }  
     break;
     case OP_LDW:
@@ -608,7 +610,7 @@ int ExecuteInstruction(const TraceOp &trace_op)
 		int word = (byte2 << 8) | byte1;
 		dest.int_value = word;
 		//TODO what to compare to set the conditional code?
-		//SetConditionCodeInt();
+		SetConditionCodeInt(dest.int_value, 0);
     }  
     break;
     case OP_STB: 
@@ -741,19 +743,19 @@ int ExecuteInstruction(const TraceOp &trace_op)
     {
 		//TODO: debugging
 		ScalarRegister base = g_scalar_registers[trace_op.scalar_registers[0]];
-		ret_next_instruction_idx = base.int_value;
+		ret_next_instruction_idx = base.int_value / 4;
     }  
     break;
     case OP_JSR: 
     {
-		g_scalar_registers[7].int_value = g_current_pc;
+		//g_scalar_registers[7].int_value = g_current_pc;
 		ret_next_instruction_idx = trace_op.int_value;
     }  
     break;
     case OP_JSRR: 
     {
-		g_scalar_registers[7].int_value = g_current_pc;
-		ret_next_instruction_idx = g_scalar_registers[trace_op.scalar_registers[0]].int_value;
+		//g_scalar_registers[7].int_value = g_current_pc;
+		ret_next_instruction_idx = g_scalar_registers[trace_op.scalar_registers[0]].int_value / 4;
     }  
       break; 
       
