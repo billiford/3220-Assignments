@@ -1,0 +1,12 @@
+--------------------------------------------------
+3220X-Instruction Count: 43 C_PC: 24 C_PC_IND: 6, Curr_Opcode: 192 NEXT_PC: 28 NEXT_PC_IND: 7, Next_Opcode: 12336
+3220X-R0:11, R1:0, R2:0, R3:55, R4:0, R5:0, R6:0, R7:0, R8:0, R9:0, R10:0, R11:0, R12:0, R13:0, R14:0, R15:7 CC :N: 0 Z: 0 P: 1   draw: 0 fush: 0 prim_type: 0 
+3220X-V0:Element[0] = 0,Element[1] = 0,Element[2] = 0,Element[3] = 0
+3220X-V1:Element[0] = 0,Element[1] = 0,Element[2] = 0,Element[3] = 0
+3220X-V2:Element[0] = 0,Element[1] = 0,Element[2] = 0,Element[3] = 0
+3220X-V3:Element[0] = 0,Element[1] = 0,Element[2] = 0,Element[3] = 0
+3220X-V4:Element[0] = 0,Element[1] = 0,Element[2] = 0,Element[3] = 0
+3220X-V5:Element[0] = 0,Element[1] = 0,Element[2] = 0,Element[3] = 0
+
+3220X- vertices P1_X: 0 vertices P1_Y: 0 r: 0 g: 0 b: 0 P2_X: 0 P2_Y: 0 r: 0 g: 0 b: 0 P3_X: 0 P3_Y: 0 r: 0 g: 0 b: 0
+--------------------------------------------------
