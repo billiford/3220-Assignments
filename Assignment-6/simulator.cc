@@ -590,27 +590,22 @@ int ExecuteInstruction(const TraceOp &trace_op)
     case OP_LDB: 
     {
 		//Set the destinations int_value to be the unsigned char found in memory
-		ScalarRegister dest = g_scalar_registers[trace_op.scalar_registers[0]];
 		ScalarRegister base = g_scalar_registers[trace_op.scalar_registers[1]];
 		int offset = trace_op.int_value;
-		unsigned char byte = g_memory[base.int_value + offset];
-		dest.int_value = byte;
-		//TODO what to compare to set the conditional code?
-		SetConditionCodeInt(dest.int_value, 0);
+		g_scalar_registers[trace_op.scalar_registers[0]].int_value = g_memory[base.int_value + offset];
+		SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
     case OP_LDW:
     {
 		//Set the destinations int_value to be the unsigned word found in memory
-		ScalarRegister dest = g_scalar_registers[trace_op.scalar_registers[0]];
 		ScalarRegister base = g_scalar_registers[trace_op.scalar_registers[1]];
 		int offset = trace_op.int_value;
-		unsigned char byte2 = g_memory[base.int_value + offset + 1];
 		unsigned char byte1 = g_memory[base.int_value + offset];
-		int word = (byte2 << 8) | byte1;
-		dest.int_value = word;
-		//TODO what to compare to set the conditional code?
-		SetConditionCodeInt(dest.int_value, 0);
+		unsigned char byte2 = g_memory[base.int_value + offset + 1];
+		int word = (byte2 << 8) + byte1;
+		g_scalar_registers[trace_op.scalar_registers[0]].int_value = word;
+		SetConditionCodeInt(g_scalar_registers[trace_op.scalar_registers[0]].int_value, 0);
     }  
     break;
     case OP_STB: 
@@ -628,8 +623,8 @@ int ExecuteInstruction(const TraceOp &trace_op)
 		ScalarRegister src = g_scalar_registers[trace_op.scalar_registers[0]];
 		ScalarRegister base = g_scalar_registers[trace_op.scalar_registers[1]];
 		int offset = trace_op.int_value;
-		g_memory[base.int_value + offset] = src.int_value & 0x00FF;
-		g_memory[base.int_value + offset + 1] = (src.int_value & 0xFF00) >> 8;
+		g_memory[base.int_value + offset] = src.int_value & 0xff;
+		g_memory[base.int_value + offset + 1] = (src.int_value >> 8) & 0xff;
     }  
     break;
     case OP_SETVERTEX:
