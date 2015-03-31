@@ -119,21 +119,21 @@
 # Loading altera_mf_ver.arm_m_cntr
 # Loading altera_mf_ver.arm_n_cntr
 # Loading altera_mf_ver.arm_scale_cntr
-# ** Warning: (vsim-3015) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/decode.v(444): [PCDPC] - Port size (32 or 32) does not match connection size (16) for port 'Out'. The port definition is at: C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/sign_extension.v(3).
+# ** Warning: (vsim-3015) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/decode.v(450): [PCDPC] - Port size (32 or 32) does not match connection size (16) for port 'Out'. The port definition is at: C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/sign_extension.v(3).
 # 
 #         Region: /lg_highlevel/Decode0/SE0
-# ** Warning: (vsim-3017) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(454): [TFMPC] - Too few port connections. Expected 16, found 12.
+# ** Warning: (vsim-3017) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(458): [TFMPC] - Too few port connections. Expected 16, found 12.
 # 
 #         Region: /lg_highlevel/VgaController0
-# ** Warning: (vsim-3722) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(454): [TFMPC] - Missing connection for port 'O_ADDRESS'.
+# ** Warning: (vsim-3722) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(458): [TFMPC] - Missing connection for port 'O_ADDRESS'.
 # 
-# ** Warning: (vsim-3722) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(454): [TFMPC] - Missing connection for port 'O_VGA_SYNC'.
+# ** Warning: (vsim-3722) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(458): [TFMPC] - Missing connection for port 'O_VGA_SYNC'.
 # 
-# ** Warning: (vsim-3722) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(454): [TFMPC] - Missing connection for port 'O_VGA_BLANK'.
+# ** Warning: (vsim-3722) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(458): [TFMPC] - Missing connection for port 'O_VGA_BLANK'.
 # 
-# ** Warning: (vsim-3722) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(454): [TFMPC] - Missing connection for port 'O_VGA_CLOCK'.
+# ** Warning: (vsim-3722) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(458): [TFMPC] - Missing connection for port 'O_VGA_CLOCK'.
 # 
-# ** Warning: (vsim-3017) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(479): [TFMPC] - Too few port connections. Expected 15, found 14.
+# ** Warning: (vsim-3017) C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v(483): [TFMPC] - Too few port connections. Expected 15, found 14.
 # 
 #         Region: /lg_highlevel/Gpu0
 # 
@@ -150,12 +150,17 @@ vlog -reportprogress 300 -work work C:/Users/beer/Downloads/distributed_version/
 # 
 # Top level modules:
 # 	lg_highlevel
-add wave -position end  sim:/lg_highlevel/Decode0/Src1Value
-add wave -position end  sim:/lg_highlevel/Decode0/DestRegIdx
-add wave -position end  sim:/lg_highlevel/Decode0/Imm
+add wave -position end  sim:/lg_highlevel/Fetch0/O_PC
+add wave -position end  sim:/lg_highlevel/Decode0/O_PC
+add wave -position end  sim:/lg_highlevel/Execute0/O_PC
+add wave -position end  sim:/lg_highlevel/Fetch0/O_IR
 add wave -position end  sim:/lg_highlevel/Decode0/O_IR
 add wave -position end  sim:/lg_highlevel/Execute0/O_IR
-add wave -position end  sim:/lg_highlevel/Fetch0/O_IR
+add wave -position end  sim:/lg_highlevel/Decode0/O_Src1Value
+add wave -position end  sim:/lg_highlevel/Decode0/O_Imm
+add wave -position end  sim:/lg_highlevel/Decode0/O_DestRegIdx
+add wave -position end  sim:/lg_highlevel/Execute0/RF
+# Can't move the Now cursor.
 run 9999ns
 #  Note : Cyclone II PLL is enabled
 # Time: 0  Instance: lg_highlevel.pll0.altpll_component.stratixii_pll.pll1

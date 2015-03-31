@@ -232,7 +232,8 @@ Fetch Fetch0 (
 );
 
 Decode Decode0 (
-  .I_CLOCK(pll_c0),
+  //.I_CLOCK(pll_c0), 
+  .I_CLOCK(test_clock), //Is this right for now?
   .I_LOCK(LOCK_FD),
   .I_PC(PC_FD),
   .I_IR(IR_FD),
@@ -279,7 +280,8 @@ Decode Decode0 (
 );
 
 Execute Execute0 (
-  .I_CLOCK(pll_c0),
+  //.I_CLOCK(pll_c0), 
+  .I_CLOCK(test_clock), //Is this right for now?
   .I_LOCK(LOCK_DE),
   .I_PC(PC_DE),
   .I_Opcode(Opcode_DE),
@@ -320,7 +322,8 @@ Execute Execute0 (
 );
 
 Memory Memory0 (
-  .I_CLOCK(pll_c0),
+  //.I_CLOCK(pll_c0), 
+  .I_CLOCK(test_clock), //Is this right for now?
   .I_LOCK(LOCK_EM),
   .I_Opcode(Opcode_EM),
   .I_IR(IR_EM),
@@ -364,7 +367,8 @@ Memory Memory0 (
    
 
 Writeback Writeback0 (
-  .I_CLOCK(pll_c0),
+  //.I_CLOCK(pll_c0), 
+  .I_CLOCK(test_clock), //Is this right for now?
   .I_LOCK(LOCK_MW),
   .I_Opcode(Opcode_MW),
   .I_IR(IR_MW),	

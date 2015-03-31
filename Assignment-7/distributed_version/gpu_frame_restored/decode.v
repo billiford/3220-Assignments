@@ -233,7 +233,7 @@ reg [`VREG_ID_WIDTH-1:0] DestVRegIdx;
 	`OP_ADDI_D:
 	  begin
 		 Src1Value = RF[I_IR[19:16]];
-	     Imm = RF[I_IR[11:8]];
+	     Imm = I_IR[15:0];
 	     DestRegIdx = I_IR[23:20];
 	     
 	     if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
@@ -425,10 +425,12 @@ end // always @(posedge I_CLOCK)
 always @(negedge I_CLOCK)
 begin
   O_LOCK <= I_LOCK;
-   
+  O_PC <= I_PC;
+  O_IR <= I_IR;
    
    if (I_LOCK == 1'b1)
      begin
+       O_DE_Valid <= 0; 
 	/////////////////////////////////////////////
 	// TODO: Complete here 
     /////////////////////////////////////////////
@@ -437,6 +439,10 @@ begin
      end // if (I_LOCK == 1'b1)
    else 
      begin 
+		O_Src1Value <= Src1Value;
+		O_Src2Value <= Src2Value;
+		O_Imm <= Imm;
+		O_DestRegIdx <= DestRegIdx;
      end 
 end // always @(negedge I_CLOCK)
 

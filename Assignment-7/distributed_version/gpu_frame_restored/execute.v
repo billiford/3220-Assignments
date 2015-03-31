@@ -105,8 +105,21 @@ output  O_CCWEn_Signal;
 // WIRE/REGISTER DECLARATION GOES HERE
 /////////////////////////////////////////
 //
+reg [`REG_WIDTH-1:0] Src1Value;
+reg [`REG_WIDTH-1:0] Src2Value;
+reg [`REG_WIDTH-1:0] Imm;
+reg [3:0] DestRegIdx;   
+reg [`REG_WIDTH-1:0] DestValue;
+reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
+reg[7:0] trav;
 
-   
+initial
+begin
+  for (trav = 0; trav < `NUM_RF; trav = trav + 1'b1)
+  begin
+    RF[trav] = 0; 
+  end 
+end
 
 /////////////////////////////////////////
 // ALWAYS STATEMENT GOES HERE
@@ -128,7 +141,9 @@ output  O_CCWEn_Signal;
 		     
 	`OP_ADDI_D:
 	  begin
-
+		DestRegIdx <= I_DestRegIdx;
+		DestValue <= I_Src1Value + I_Imm;
+		RF[DestRegIdx] <= DestValue;
 	  end
 	
 	`OP_ADDI_F:
@@ -287,7 +302,9 @@ output  O_CCWEn_Signal;
 always @(negedge I_CLOCK)
 begin
   O_LOCK <= I_LOCK;
-
+  O_PC <= I_PC;
+  O_IR <= I_IR;
+  
   if (I_LOCK == 1'b1) 
     begin
     /////////////////////////////////////////////

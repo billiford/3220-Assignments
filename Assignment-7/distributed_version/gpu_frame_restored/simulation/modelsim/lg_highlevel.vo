@@ -16,7 +16,7 @@
 // PROGRAM "Quartus II 64-Bit"
 // VERSION "Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition"
 
-// DATE "03/30/2015 21:11:53"
+// DATE "03/30/2015 23:11:48"
 
 // 
 // Device: Altera EP2C20F484C7 Package FBGA484
@@ -8451,7 +8451,7 @@ defparam \HEX0[0]~I .output_sync_reset = "none";
 
 // Location: PIN_J1,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX0[1]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -8487,7 +8487,7 @@ defparam \HEX0[1]~I .output_sync_reset = "none";
 
 // Location: PIN_H2,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX0[2]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -8523,7 +8523,7 @@ defparam \HEX0[2]~I .output_sync_reset = "none";
 
 // Location: PIN_H1,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX0[3]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -8631,7 +8631,7 @@ defparam \HEX0[5]~I .output_sync_reset = "none";
 
 // Location: PIN_E2,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX0[6]~I (
-	.datain(gnd),
+	.datain(vcc),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -8703,7 +8703,7 @@ defparam \HEX1[0]~I .output_sync_reset = "none";
 
 // Location: PIN_H6,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX1[1]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -8739,7 +8739,7 @@ defparam \HEX1[1]~I .output_sync_reset = "none";
 
 // Location: PIN_H5,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX1[2]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -8883,7 +8883,7 @@ defparam \HEX1[5]~I .output_sync_reset = "none";
 
 // Location: PIN_D1,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX1[6]~I (
-	.datain(gnd),
+	.datain(vcc),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -8955,7 +8955,7 @@ defparam \HEX2[0]~I .output_sync_reset = "none";
 
 // Location: PIN_G6,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX2[1]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -8991,7 +8991,7 @@ defparam \HEX2[1]~I .output_sync_reset = "none";
 
 // Location: PIN_C2,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX2[2]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9135,7 +9135,7 @@ defparam \HEX2[5]~I .output_sync_reset = "none";
 
 // Location: PIN_D3,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX2[6]~I (
-	.datain(gnd),
+	.datain(vcc),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9171,7 +9171,7 @@ defparam \HEX2[6]~I .output_sync_reset = "none";
 
 // Location: PIN_F4,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX3[0]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9207,7 +9207,7 @@ defparam \HEX3[0]~I .output_sync_reset = "none";
 
 // Location: PIN_D5,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX3[1]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9387,7 +9387,7 @@ defparam \HEX3[5]~I .output_sync_reset = "none";
 
 // Location: PIN_D4,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \HEX3[6]~I (
-	.datain(gnd),
+	.datain(vcc),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9423,7 +9423,7 @@ defparam \HEX3[6]~I .output_sync_reset = "none";
 
 // Location: PIN_U22,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDG[0]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9459,7 +9459,7 @@ defparam \LEDG[0]~I .output_sync_reset = "none";
 
 // Location: PIN_U21,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDG[1]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9495,7 +9495,7 @@ defparam \LEDG[1]~I .output_sync_reset = "none";
 
 // Location: PIN_V22,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDG[2]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9531,7 +9531,7 @@ defparam \LEDG[2]~I .output_sync_reset = "none";
 
 // Location: PIN_V21,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDG[3]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9567,7 +9567,7 @@ defparam \LEDG[3]~I .output_sync_reset = "none";
 
 // Location: PIN_W22,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDG[4]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9603,7 +9603,7 @@ defparam \LEDG[4]~I .output_sync_reset = "none";
 
 // Location: PIN_W21,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDG[5]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9639,7 +9639,7 @@ defparam \LEDG[5]~I .output_sync_reset = "none";
 
 // Location: PIN_Y22,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDG[6]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9675,7 +9675,7 @@ defparam \LEDG[6]~I .output_sync_reset = "none";
 
 // Location: PIN_Y21,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDG[7]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9711,7 +9711,7 @@ defparam \LEDG[7]~I .output_sync_reset = "none";
 
 // Location: PIN_R20,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDR[0]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9747,7 +9747,7 @@ defparam \LEDR[0]~I .output_sync_reset = "none";
 
 // Location: PIN_R19,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDR[1]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9783,7 +9783,7 @@ defparam \LEDR[1]~I .output_sync_reset = "none";
 
 // Location: PIN_U19,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDR[2]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9819,7 +9819,7 @@ defparam \LEDR[2]~I .output_sync_reset = "none";
 
 // Location: PIN_Y19,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDR[3]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9855,7 +9855,7 @@ defparam \LEDR[3]~I .output_sync_reset = "none";
 
 // Location: PIN_T18,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDR[4]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9891,7 +9891,7 @@ defparam \LEDR[4]~I .output_sync_reset = "none";
 
 // Location: PIN_V19,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDR[5]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9927,7 +9927,7 @@ defparam \LEDR[5]~I .output_sync_reset = "none";
 
 // Location: PIN_Y18,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDR[6]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9963,7 +9963,7 @@ defparam \LEDR[6]~I .output_sync_reset = "none";
 
 // Location: PIN_U18,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDR[7]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -9999,7 +9999,7 @@ defparam \LEDR[7]~I .output_sync_reset = "none";
 
 // Location: PIN_R18,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDR[8]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),
@@ -10035,7 +10035,7 @@ defparam \LEDR[8]~I .output_sync_reset = "none";
 
 // Location: PIN_R17,	 I/O Standard: 3.3-V LVTTL,	 Current Strength: 24mA
 cycloneii_io \LEDR[9]~I (
-	.datain(vcc),
+	.datain(gnd),
 	.oe(vcc),
 	.outclk(gnd),
 	.outclkena(vcc),

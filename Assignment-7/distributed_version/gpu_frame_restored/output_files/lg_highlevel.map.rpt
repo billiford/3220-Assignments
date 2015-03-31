@@ -1,5 +1,5 @@
 Analysis & Synthesis report for lg_highlevel
-Mon Mar 30 21:11:33 2015
+Mon Mar 30 23:11:28 2015
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -52,7 +52,7 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Mar 30 21:11:33 2015           ;
+; Analysis & Synthesis Status        ; Successful - Mon Mar 30 23:11:27 2015           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; lg_highlevel                                    ;
 ; Top-level Entity Name              ; lg_highlevel                                    ;
@@ -185,7 +185,7 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; fetch.v                          ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/fetch.v          ;         ;
 ; pll.v                            ; yes             ; User Wizard-Generated File                  ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/pll.v            ;         ;
 ; data.hex                         ; yes             ; Auto-Found Hexadecimal (Intel-Format) File  ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/data.hex         ;         ;
-; sum.hex                          ; yes             ; Auto-Found Hexadecimal (Intel-Format) File  ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/sum.hex          ;         ;
+; output.hex                       ; yes             ; Auto-Found Hexadecimal (Intel-Format) File  ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/output.hex       ;         ;
 ; altpll.tdf                       ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altpll.tdf                    ;         ;
 ; aglobal130.inc                   ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/aglobal130.inc                ;         ;
 ; stratix_pll.inc                  ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratix_pll.inc               ;         ;
@@ -260,42 +260,25 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Gpu:Gpu0|O_GPU_WRITE                   ; Stuck at VCC due to stuck port data_in ;
 ; Gpu:Gpu0|O_GPU_READ                    ; Stuck at GND due to stuck port data_in ;
 ; Gpu:Gpu0|O_GPU_DATA[0..3,12..15]       ; Stuck at GND due to stuck port data_in ;
-; Fetch:Fetch0|O_LOCK                    ; Stuck at GND due to stuck port clock   ;
-; Decode:Decode0|O_LOCK                  ; Stuck at GND due to stuck port data_in ;
-; Execute:Execute0|O_LOCK                ; Stuck at GND due to stuck port data_in ;
-; Memory:Memory0|LedROut[0]              ; Stuck at VCC due to stuck port data_in ;
-; Memory:Memory0|LedGOut[1..7]           ; Stuck at VCC due to stuck port data_in ;
-; Memory:Memory0|HexOut[0..3]            ; Stuck at VCC due to stuck port data_in ;
-; Memory:Memory0|HexOut[4]               ; Stuck at GND due to stuck port data_in ;
-; Memory:Memory0|HexOut[5..7]            ; Stuck at VCC due to stuck port data_in ;
-; Memory:Memory0|HexOut[8]               ; Stuck at GND due to stuck port data_in ;
-; Memory:Memory0|HexOut[9..13]           ; Stuck at VCC due to stuck port data_in ;
-; Memory:Memory0|HexOut[14]              ; Stuck at GND due to stuck port data_in ;
-; Memory:Memory0|HexOut[15]              ; Stuck at VCC due to stuck port data_in ;
-; Memory:Memory0|LedGOut[0]              ; Stuck at VCC due to stuck port data_in ;
-; Memory:Memory0|LedROut[1..9]           ; Stuck at VCC due to stuck port data_in ;
+; Memory:Memory0|LedGOut[0]              ; Stuck at GND due to stuck port clock   ;
+; Memory:Memory0|LedROut[0..9]           ; Stuck at GND due to stuck port clock   ;
+; Memory:Memory0|LedGOut[1..7]           ; Stuck at GND due to stuck port clock   ;
+; Memory:Memory0|HexOut[0..15]           ; Stuck at GND due to stuck port clock   ;
+; Execute:Execute0|O_LOCK                ; Lost fanout                            ;
+; Decode:Decode0|O_LOCK                  ; Lost fanout                            ;
+; Fetch:Fetch0|O_LOCK                    ; Lost fanout                            ;
 ; Total Number of Removed Registers = 47 ;                                        ;
 +----------------------------------------+----------------------------------------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------+
-; Removed Registers Triggering Further Register Optimizations                                                                      ;
-+---------------------+-------------------------+----------------------------------------------------------------------------------+
-; Register name       ; Reason for Removal      ; Registers Removed due to This Register                                           ;
-+---------------------+-------------------------+----------------------------------------------------------------------------------+
-; Fetch:Fetch0|O_LOCK ; Stuck at GND            ; Decode:Decode0|O_LOCK, Execute:Execute0|O_LOCK, Memory:Memory0|LedROut[0],       ;
-;                     ; due to stuck port clock ; Memory:Memory0|LedGOut[1], Memory:Memory0|LedGOut[2], Memory:Memory0|LedGOut[3], ;
-;                     ;                         ; Memory:Memory0|LedGOut[4], Memory:Memory0|LedGOut[5], Memory:Memory0|LedGOut[6], ;
-;                     ;                         ; Memory:Memory0|LedGOut[7], Memory:Memory0|HexOut[0], Memory:Memory0|HexOut[1],   ;
-;                     ;                         ; Memory:Memory0|HexOut[2], Memory:Memory0|HexOut[3], Memory:Memory0|HexOut[4],    ;
-;                     ;                         ; Memory:Memory0|HexOut[5], Memory:Memory0|HexOut[6], Memory:Memory0|HexOut[7],    ;
-;                     ;                         ; Memory:Memory0|HexOut[8], Memory:Memory0|HexOut[9], Memory:Memory0|HexOut[10],   ;
-;                     ;                         ; Memory:Memory0|HexOut[11], Memory:Memory0|HexOut[12], Memory:Memory0|HexOut[13], ;
-;                     ;                         ; Memory:Memory0|HexOut[14], Memory:Memory0|HexOut[15], Memory:Memory0|LedGOut[0], ;
-;                     ;                         ; Memory:Memory0|LedROut[9], Memory:Memory0|LedROut[8], Memory:Memory0|LedROut[7], ;
-;                     ;                         ; Memory:Memory0|LedROut[6], Memory:Memory0|LedROut[5], Memory:Memory0|LedROut[4], ;
-;                     ;                         ; Memory:Memory0|LedROut[3], Memory:Memory0|LedROut[2], Memory:Memory0|LedROut[1]  ;
-+---------------------+-------------------------+----------------------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------+
+; Removed Registers Triggering Further Register Optimizations                                                               ;
++---------------------------+-------------------------+---------------------------------------------------------------------+
+; Register name             ; Reason for Removal      ; Registers Removed due to This Register                              ;
++---------------------------+-------------------------+---------------------------------------------------------------------+
+; Memory:Memory0|LedGOut[0] ; Stuck at GND            ; Execute:Execute0|O_LOCK, Decode:Decode0|O_LOCK, Fetch:Fetch0|O_LOCK ;
+;                           ; due to stuck port clock ;                                                                     ;
++---------------------------+-------------------------+---------------------------------------------------------------------+
 
 
 +------------------------------------------------------+
@@ -772,7 +755,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:00     ;
+; Top            ; 00:00:01     ;
 +----------------+--------------+
 
 
@@ -782,7 +765,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon Mar 30 21:11:29 2015
+    Info: Processing started: Mon Mar 30 23:11:23 2015
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off lg_highlevel -c lg_highlevel
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Warning (10238): Verilog Module Declaration warning at gpu.v(23): ignored anonymous port(s) indicated by duplicate or dangling comma(s) in the port list for module "Gpu"
@@ -815,9 +798,9 @@ Info (12021): Found 1 design units, including 1 entities, in source file pll.v
     Info (12023): Found entity 1: pll
 Warning (12019): Can't analyze file -- file gpu_test.v is missing
 Warning (10236): Verilog HDL Implicit Net warning at lg_highlevel.v(227): created implicit net for "GPUStallSignal"
-Warning (10236): Verilog HDL Implicit Net warning at lg_highlevel.v(256): created implicit net for "RegWEn_ED"
-Warning (10236): Verilog HDL Implicit Net warning at lg_highlevel.v(258): created implicit net for "VRegWEn_ED"
-Warning (10236): Verilog HDL Implicit Net warning at lg_highlevel.v(260): created implicit net for "CCWEn_ED"
+Warning (10236): Verilog HDL Implicit Net warning at lg_highlevel.v(257): created implicit net for "RegWEn_ED"
+Warning (10236): Verilog HDL Implicit Net warning at lg_highlevel.v(259): created implicit net for "VRegWEn_ED"
+Warning (10236): Verilog HDL Implicit Net warning at lg_highlevel.v(261): created implicit net for "CCWEn_ED"
 Info (12127): Elaborating entity "lg_highlevel" for the top level hierarchy
 Warning (10175): Verilog HDL warning at lg_highlevel.v(78): ignoring unsupported system task
 Warning (10755): Verilog HDL warning at lg_highlevel.v(82): assignments to test_clock create a combinational loop
@@ -880,7 +863,7 @@ Info (12133): Instantiated megafunction "pll:pll0|altpll:altpll_component" with 
     Info (12134): Parameter "port_extclk3" = "PORT_UNUSED"
     Info (12134): Parameter "valid_lock_multiplier" = "1"
 Info (12128): Elaborating entity "Fetch" for hierarchy "Fetch:Fetch0"
-Warning (10850): Verilog HDL warning at fetch.v(52): number of words (9) in memory file does not match the number of elements in the address range [0:255]
+Warning (10850): Verilog HDL warning at fetch.v(52): number of words (7) in memory file does not match the number of elements in the address range [0:255]
 Warning (10230): Verilog HDL assignment warning at fetch.v(97): truncated value with size 32 to match size of target (16)
 Warning (10030): Net "InstMem.data_a" at fetch.v(44) has no driver or initial value, using a default initial value '0'
 Warning (10030): Net "InstMem.waddr_a" at fetch.v(44) has no driver or initial value, using a default initial value '0'
@@ -889,30 +872,80 @@ Info (12128): Elaborating entity "Decode" for hierarchy "Decode:Decode0"
 Warning (10036): Verilog HDL or VHDL warning at decode.v(133): object "VRF" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at decode.v(136): object "RF_VALID" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at decode.v(137): object "VRF_VALID" assigned a value but never read
-Warning (10036): Verilog HDL or VHDL warning at decode.v(182): object "Src1Value" assigned a value but never read
-Warning (10036): Verilog HDL or VHDL warning at decode.v(183): object "Src2Value" assigned a value but never read
-Warning (10036): Verilog HDL or VHDL warning at decode.v(184): object "Imm" assigned a value but never read
-Warning (10036): Verilog HDL or VHDL warning at decode.v(185): object "DestRegIdx" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at decode.v(186): object "dep_stall" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at decode.v(187): object "br_stall" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at decode.v(189): object "CCValue" assigned a value but never read
-Warning (10034): Output port "O_IR" at decode.v(102) has no driver
-Warning (10034): Output port "O_Src1Value" at decode.v(103) has no driver
-Warning (10034): Output port "O_Src2Value" at decode.v(104) has no driver
-Warning (10034): Output port "O_DestRegIdx" at decode.v(105) has no driver
+Warning (10240): Verilog HDL Always Construct warning at decode.v(210): inferring latch(es) for variable "Src1Value", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at decode.v(210): inferring latch(es) for variable "Imm", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at decode.v(210): inferring latch(es) for variable "DestRegIdx", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at decode.v(210): inferring latch(es) for variable "Src2Value", which holds its previous value in one or more paths through the always construct
+Warning (10030): Net "RF.data_a" at decode.v(132) has no driver or initial value, using a default initial value '0'
+Warning (10030): Net "RF.waddr_a" at decode.v(132) has no driver or initial value, using a default initial value '0'
+Warning (10030): Net "RF.we_a" at decode.v(132) has no driver or initial value, using a default initial value '0'
 Warning (10034): Output port "O_DestVRegIdx" at decode.v(106) has no driver
 Warning (10034): Output port "O_Idx" at decode.v(107) has no driver
-Warning (10034): Output port "O_Imm" at decode.v(108) has no driver
 Warning (10034): Output port "O_CCValue" at decode.v(109) has no driver
 Warning (10034): Output port "O_VecSrc1Value" at decode.v(111) has no driver
 Warning (10034): Output port "O_VecSrc2Value" at decode.v(112) has no driver
 Warning (10034): Output port "O_BranchStallSignal" at decode.v(125) has no driver
-Warning (10034): Output port "O_DE_Valid" at decode.v(114) has no driver
+Info (10041): Inferred latch for "Src2Value[0]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[1]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[2]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[3]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[4]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[5]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[6]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[7]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[8]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[9]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[10]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[11]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[12]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[13]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[14]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[15]" at decode.v(210)
+Info (10041): Inferred latch for "DestRegIdx[0]" at decode.v(210)
+Info (10041): Inferred latch for "DestRegIdx[1]" at decode.v(210)
+Info (10041): Inferred latch for "DestRegIdx[2]" at decode.v(210)
+Info (10041): Inferred latch for "DestRegIdx[3]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[0]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[1]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[2]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[3]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[4]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[5]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[6]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[7]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[8]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[9]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[10]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[11]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[12]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[13]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[14]" at decode.v(210)
+Info (10041): Inferred latch for "Imm[15]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[0]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[1]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[2]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[3]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[4]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[5]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[6]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[7]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[8]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[9]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[10]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[11]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[12]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[13]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[14]" at decode.v(210)
+Info (10041): Inferred latch for "Src1Value[15]" at decode.v(210)
 Info (12128): Elaborating entity "SignExtension" for hierarchy "Decode:Decode0|SignExtension:SE0"
 Info (12128): Elaborating entity "Execute" for hierarchy "Execute:Execute0"
+Warning (10036): Verilog HDL or VHDL warning at execute.v(113): object "RF" assigned a value but never read
+Warning (10240): Verilog HDL Always Construct warning at execute.v(131): inferring latch(es) for variable "DestRegIdx", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at execute.v(131): inferring latch(es) for variable "DestValue", which holds its previous value in one or more paths through the always construct
 Warning (10034): Output port "O_Opcode" at execute.v(73) has no driver
-Warning (10034): Output port "O_IR" at execute.v(76) has no driver
-Warning (10034): Output port "O_PC" at execute.v(74) has no driver
 Warning (10034): Output port "O_R15PC" at execute.v(75) has no driver
 Warning (10034): Output port "O_DestRegIdx" at execute.v(77) has no driver
 Warning (10034): Output port "O_DestVRegIdx" at execute.v(78) has no driver
@@ -988,55 +1021,56 @@ Info (13000): Registers with preset signals will power-up high
 Info (13003): DEV_CLRn pin will set, and not reset, register with preset signal due to NOT Gate Push-Back
 Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "HEX0[0]" is stuck at GND
-    Warning (13410): Pin "HEX0[1]" is stuck at VCC
-    Warning (13410): Pin "HEX0[2]" is stuck at VCC
-    Warning (13410): Pin "HEX0[3]" is stuck at VCC
+    Warning (13410): Pin "HEX0[1]" is stuck at GND
+    Warning (13410): Pin "HEX0[2]" is stuck at GND
+    Warning (13410): Pin "HEX0[3]" is stuck at GND
     Warning (13410): Pin "HEX0[4]" is stuck at GND
     Warning (13410): Pin "HEX0[5]" is stuck at GND
-    Warning (13410): Pin "HEX0[6]" is stuck at GND
+    Warning (13410): Pin "HEX0[6]" is stuck at VCC
     Warning (13410): Pin "HEX1[0]" is stuck at GND
-    Warning (13410): Pin "HEX1[1]" is stuck at VCC
-    Warning (13410): Pin "HEX1[2]" is stuck at VCC
+    Warning (13410): Pin "HEX1[1]" is stuck at GND
+    Warning (13410): Pin "HEX1[2]" is stuck at GND
     Warning (13410): Pin "HEX1[3]" is stuck at GND
     Warning (13410): Pin "HEX1[4]" is stuck at GND
     Warning (13410): Pin "HEX1[5]" is stuck at GND
-    Warning (13410): Pin "HEX1[6]" is stuck at GND
+    Warning (13410): Pin "HEX1[6]" is stuck at VCC
     Warning (13410): Pin "HEX2[0]" is stuck at GND
-    Warning (13410): Pin "HEX2[1]" is stuck at VCC
-    Warning (13410): Pin "HEX2[2]" is stuck at VCC
+    Warning (13410): Pin "HEX2[1]" is stuck at GND
+    Warning (13410): Pin "HEX2[2]" is stuck at GND
     Warning (13410): Pin "HEX2[3]" is stuck at GND
     Warning (13410): Pin "HEX2[4]" is stuck at GND
     Warning (13410): Pin "HEX2[5]" is stuck at GND
-    Warning (13410): Pin "HEX2[6]" is stuck at GND
-    Warning (13410): Pin "HEX3[0]" is stuck at VCC
-    Warning (13410): Pin "HEX3[1]" is stuck at VCC
+    Warning (13410): Pin "HEX2[6]" is stuck at VCC
+    Warning (13410): Pin "HEX3[0]" is stuck at GND
+    Warning (13410): Pin "HEX3[1]" is stuck at GND
     Warning (13410): Pin "HEX3[2]" is stuck at GND
     Warning (13410): Pin "HEX3[3]" is stuck at GND
     Warning (13410): Pin "HEX3[4]" is stuck at GND
     Warning (13410): Pin "HEX3[5]" is stuck at GND
-    Warning (13410): Pin "HEX3[6]" is stuck at GND
-    Warning (13410): Pin "LEDG[0]" is stuck at VCC
-    Warning (13410): Pin "LEDG[1]" is stuck at VCC
-    Warning (13410): Pin "LEDG[2]" is stuck at VCC
-    Warning (13410): Pin "LEDG[3]" is stuck at VCC
-    Warning (13410): Pin "LEDG[4]" is stuck at VCC
-    Warning (13410): Pin "LEDG[5]" is stuck at VCC
-    Warning (13410): Pin "LEDG[6]" is stuck at VCC
-    Warning (13410): Pin "LEDG[7]" is stuck at VCC
-    Warning (13410): Pin "LEDR[0]" is stuck at VCC
-    Warning (13410): Pin "LEDR[1]" is stuck at VCC
-    Warning (13410): Pin "LEDR[2]" is stuck at VCC
-    Warning (13410): Pin "LEDR[3]" is stuck at VCC
-    Warning (13410): Pin "LEDR[4]" is stuck at VCC
-    Warning (13410): Pin "LEDR[5]" is stuck at VCC
-    Warning (13410): Pin "LEDR[6]" is stuck at VCC
-    Warning (13410): Pin "LEDR[7]" is stuck at VCC
-    Warning (13410): Pin "LEDR[8]" is stuck at VCC
-    Warning (13410): Pin "LEDR[9]" is stuck at VCC
+    Warning (13410): Pin "HEX3[6]" is stuck at VCC
+    Warning (13410): Pin "LEDG[0]" is stuck at GND
+    Warning (13410): Pin "LEDG[1]" is stuck at GND
+    Warning (13410): Pin "LEDG[2]" is stuck at GND
+    Warning (13410): Pin "LEDG[3]" is stuck at GND
+    Warning (13410): Pin "LEDG[4]" is stuck at GND
+    Warning (13410): Pin "LEDG[5]" is stuck at GND
+    Warning (13410): Pin "LEDG[6]" is stuck at GND
+    Warning (13410): Pin "LEDG[7]" is stuck at GND
+    Warning (13410): Pin "LEDR[0]" is stuck at GND
+    Warning (13410): Pin "LEDR[1]" is stuck at GND
+    Warning (13410): Pin "LEDR[2]" is stuck at GND
+    Warning (13410): Pin "LEDR[3]" is stuck at GND
+    Warning (13410): Pin "LEDR[4]" is stuck at GND
+    Warning (13410): Pin "LEDR[5]" is stuck at GND
+    Warning (13410): Pin "LEDR[6]" is stuck at GND
+    Warning (13410): Pin "LEDR[7]" is stuck at GND
+    Warning (13410): Pin "LEDR[8]" is stuck at GND
+    Warning (13410): Pin "LEDR[9]" is stuck at GND
     Warning (13410): Pin "SRAM_UB_N" is stuck at GND
     Warning (13410): Pin "SRAM_LB_N" is stuck at GND
     Warning (13410): Pin "SRAM_CE_N" is stuck at GND
     Warning (13410): Pin "SRAM_OE_N" is stuck at GND
+Info (17049): 3 registers lost all their fanouts during netlist optimizations.
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 15 input pin(s) that do not drive logic
@@ -1061,9 +1095,9 @@ Info (21057): Implemented 394 device resources after synthesis - the final resou
     Info (21060): Implemented 16 bidirectional pins
     Info (21061): Implemented 277 logic cells
     Info (21065): Implemented 1 PLLs
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 170 warnings
-    Info: Peak virtual memory: 464 megabytes
-    Info: Processing ended: Mon Mar 30 21:11:34 2015
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 168 warnings
+    Info: Peak virtual memory: 456 megabytes
+    Info: Processing ended: Mon Mar 30 23:11:28 2015
     Info: Elapsed time: 00:00:05
     Info: Total CPU time (on all processors): 00:00:04
 
