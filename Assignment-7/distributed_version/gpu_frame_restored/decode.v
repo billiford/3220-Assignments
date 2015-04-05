@@ -205,9 +205,11 @@ reg [`VREG_ID_WIDTH-1:0] DestVRegIdx;
    assign Opcode = I_IR[31:24];
 	
 
-   always @(*) begin
-	
-      case (Opcode)
+always @(*) begin
+// Architectural Registers ~ Copied from above for easy reference
+// reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
+// reg [`VREG_WIDTH-1:0] VRF[0:`NUM_VRF-1]; // Vector Register File
+  case (Opcode)
 	
 	`OP_ADD_D: // Example code for ADD instruction 
 	  begin
@@ -227,7 +229,17 @@ reg [`VREG_ID_WIDTH-1:0] DestVRegIdx;
 
 		`OP_ADD_F:
 	  begin 
-
+	  // Is this how its done??
+	     Src1Value = RF[I_IR[19:16]];
+	     Src2Value = RF[I_IR[11:8]];
+	     DestRegIdx = I_IR[23:20];
+	     
+	     if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) ||
+		  ((I_IR[11:8] == I_EDDestRegIdx)  && I_EDDestWrite) || 
+		  ((I_IR[11:8] == I_MDDestRegIdx)  && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0; 
 	  end
 		     
 	`OP_ADDI_D:
@@ -235,7 +247,7 @@ reg [`VREG_ID_WIDTH-1:0] DestVRegIdx;
 		 Src1Value = RF[I_IR[19:16]];
 	     Imm = I_IR[15:0];
 	     DestRegIdx = I_IR[23:20];
-	     
+		  
 	     if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
 		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
 	       dep_stall = 1;
@@ -244,69 +256,109 @@ reg [`VREG_ID_WIDTH-1:0] DestVRegIdx;
 	
 	`OP_ADDI_F:
 	  begin
-
+		 Src1Value = RF[I_IR[19:16]];
+	     Imm = I_IR[15:0];
+	     DestRegIdx = I_IR[23:20];
+		  
+	     if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0;
 	  end
 	
 	`OP_VADD:
 	  begin 
-
+	  // TODO: Check these indices 2 make sure
+		VecSrc1Value = VRF[I_IR[13:8]];
+		VecSrc2Value = VRF[I_IR[5:0]];
+		VecDestRegIdx = I_IR[21:16];
 	  end
 	`OP_AND_D:
+	// Same as ADD_D
 	  begin
-
+	     Src1Value = RF[I_IR[19:16]];
+	     Src2Value = RF[I_IR[11:8]];
+	     DestRegIdx = I_IR[23:20];
+	     
+	     if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) ||
+		  ((I_IR[11:8] == I_EDDestRegIdx)  && I_EDDestWrite) || 
+		  ((I_IR[11:8] == I_MDDestRegIdx)  && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0; 			
 	  end
 	
 	 `OP_ANDI_D:
 	   begin
-
+		// Same as ANDI_D
+		 Src1Value = RF[I_IR[19:16]];
+	     Imm = I_IR[15:0];
+	     DestRegIdx = I_IR[23:20];
+		  
+	     if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0; 
 	   end
 	`OP_MOV:
 	  begin 
-
+		DestRegIdx = I_IR[19:16];
+		Src1Value = RF[I_IR[11:8]];
 	  end
 	
 	`OP_MOVI_D:
 	  begin 
-
+		DestRegIdx = I_IR[19:16];
+		Imm = I_IR[15:0];
 	  end
 	
 	`OP_MOVI_F:
 	  begin 
-
+		DestRegIdx = I_IR[19:16];
+		Imm = I_IR[15:0]; // TODO: Is there a FP immediate thing?
 	  end
 	
 	`OP_VMOV:
 	  begin 
-
+		VecDestRegIdx = I_IR[21:16];
+		VecSrc1Value = VRF[I_IR[13:8]];
 	  end
 	  
 	`OP_VMOVI:
 	  begin 
-
+		VecDestRegIdx = I_IR[21:16];
+		Imm = I_IR[16:0];
+		
 	  end 
 	 `OP_CMP:
 	   begin
-	      
+			Src1Value = RF[I_IR[19:16]];
+			Src2Value = RF[I_IR[11:8]];
 	   end
 	
 	`OP_CMPI:
 	  begin
-	     
+	     Src1Value = RF[I_IR[19:16]];
+		  Imm = I_IR[7:0]
 	  end
  
 	`OP_VCOMPMOV:
 	  begin
-	     
+	     VDestRegIdx = I_IR[16:11];
+		  VSrc1 = RF[I_IR[8:5]];
+		  Idx = I_IR[22:19]; //Does this need to index into RF?
 	  end 
 	
 	`OP_VCOMPMOVI:
 	  begin
-	     
+			VDestRegIdx = I_IR[16:11];
+			Imm = I_IR[15:0];
+			Idx = I_IR[22:19]; // Does this need to index into RF?
 	  end 
 	
 	`OP_LDB:
 	  begin
-
+			Src1Value = 
 	  end
 	
 	`OP_LDW:
@@ -383,6 +435,7 @@ reg [`VREG_ID_WIDTH-1:0] DestVRegIdx;
       endcase // case (IR[31:24])
 
    end // always @ (*)
+
 
    always @(*) begin
       // branch opcode detection logic is already provided for you. 
