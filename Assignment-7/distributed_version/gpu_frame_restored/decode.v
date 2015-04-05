@@ -344,87 +344,96 @@ always @(*) begin
  
 	`OP_VCOMPMOV:
 	  begin
-	     VDestRegIdx = I_IR[16:11];
+	     DestVRegIdx = I_IR[16:11];
 		  VSrc1 = RF[I_IR[8:5]];
 		  Idx = I_IR[22:19]; //Does this need to index into RF?
 	  end 
 	
 	`OP_VCOMPMOVI:
 	  begin
-			VDestRegIdx = I_IR[16:11];
+			DestVRegIdx = I_IR[16:11];
 			Imm = I_IR[15:0];
 			Idx = I_IR[22:19]; // Does this need to index into RF?
 	  end 
 	
 	`OP_LDB:
 	  begin
-			Src1Value = 
+			Src1Value = RF[I_IR[19:16]];
+			Imm = I_IR[15:0];
+			DestRegIdx = I_IR[23:20];
 	  end
 	
 	`OP_LDW:
 	  begin
-
+			Src1Value = RF[I_IR[19:16]];
+			Imm = I_IR[15:0];
+			DestRegIdx = I_IR[23:20];			
 	  end
 	
 	`OP_STB:
 	  begin
-
+			Src1Value = RF[I_IR[19:16]];
+			Imm = I_IR[15:0];
+			DestRegIdx = I_IR[23:20];
 	  end
 	
 	`OP_STW:
 	  begin
-
+			Src1Value = RF[I_IR[19:16]];
+			Imm = I_IR[15:0];
+			DestRegIdx = I_IR[23:20];
 	  end
 	
 	`OP_BRP:
 	  begin
-	      
+			Imm = I_IR[15:0];
 	  end
 	
 	`OP_BRN:
 	  begin
-
+			Imm = I_IR[15:0];
 	  end 
 
 	`OP_BRZ:
 	  begin
-
+			Imm = I_IR[15:0];
 	  end
 	
 	`OP_BRNP: 
 	  begin
-
+			Imm = I_IR[15:0];
 	  end
 	
 	`OP_BRZP: 
 	  begin
-	  
+			Imm = I_IR[15:0];	  
 	  end 
 	
 		
 	`OP_BRNZ: 
 	  begin
-	     
+			Imm = I_IR[15:0];	     
 	  end 
 
 	`OP_BRNZP: 
 	  begin
-
+			Imm = I_IR[15:0];
 	  end 
 
 	`OP_JMP:
 	  begin
-
+			DestRegIdx = I_IR[19:16];
 	  end
 
 	`OP_JSR:
 	  begin
-
+			RF[7] = I_PC; // Should this be I_PC or O_PC or neither??
 	  end
 
 	`OP_JSRR:
 	  begin
-
+			DestRegIdx = I_IR[19:16];
+			RF[7] = I_PC;
 	  end
 	     
 	
