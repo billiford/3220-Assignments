@@ -257,58 +257,58 @@ end
 	
 	`OP_BRP:
 	  begin
-		if (I_CCValue == CC_P) 
+		if (I_CCValue == `CC_P) 
 		begin
-			O_BranchPC_Signal <= I_Imm;
+			O_PC <= I_Imm;
 		end
 	  end
 	
 	`OP_BRN:
 	  begin
-		if (I_CCValue == CC_N) 
+		if (I_CCValue == `CC_N) 
 		begin
-			O_BranchPC_Signal <= I_Imm;
+			O_PC <= I_Imm;
 		end
 	  end 
 
 	`OP_BRZ:
 	  begin
-		if (I_CCValue == CC_Z) 
+		if (I_CCValue == `CC_Z) 
 		begin
-			O_BranchPC_Signal <= I_Imm;
+			O_PC <= I_Imm;
 		end
 	  end
 	
 	`OP_BRNP: 
 	  begin
-		if (I_CCValue == CC_P && I_CCValue == CC_N) 
+		if (I_CCValue == `CC_P && I_CCValue == `CC_N) 
 		begin
-			O_BranchPC_Signal <= I_Imm;
+			O_PC <= I_Imm;
 		end
 	  end
 	
 	`OP_BRZP: 
 	  begin
-		if (I_CCValue == CC_Z && I_CCValue == CC_P) 
+		if (I_CCValue == `CC_Z && I_CCValue == `CC_P) 
 		begin
-			O_BranchPC_Signal <= I_Imm;
+			O_PC <= I_Imm;
 		end	  
 	  end 
 	
 		
 	`OP_BRNZ: 
 	  begin
-		if (I_CCValue == CC_N && I_CCValue == CC_Z) 
+		if (I_CCValue == `CC_N && I_CCValue == `CC_Z) 
 		begin
-			O_BranchPC_Signal <= I_Imm;
+			O_PC <= I_Imm;
 		end	 	     
 	  end 
 
 	`OP_BRNZP: 
 	  begin
-		if (I_CCValue == CC_N && I_CCValue == CC_Z && I_CCValue == CC_P) 
+		if (I_CCValue == `CC_N && I_CCValue == `CC_Z && I_CCValue == `CC_P) 
 		begin
-			O_BranchPC_Signal <= I_Imm;
+			O_PC <= I_Imm;
 		end	 
 	  end 
 
