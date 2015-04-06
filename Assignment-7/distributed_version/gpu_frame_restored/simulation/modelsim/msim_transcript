@@ -146,16 +146,18 @@
 # "do wave.do"
 add wave -position end  sim:/lg_highlevel/Fetch0/O_PC
 add wave -position end  sim:/lg_highlevel/Fetch0/O_IR
-add wave -position end  sim:/lg_highlevel/Decode0/O_PC
-add wave -position end  sim:/lg_highlevel/Decode0/O_IR
-add wave -position end  sim:/lg_highlevel/Execute0/O_PC
-add wave -position end  sim:/lg_highlevel/Execute0/O_IR
+add wave -position end  sim:/lg_highlevel/Decode0/I_EDDestWrite
+add wave -position end  sim:/lg_highlevel/Decode0/I_MDDestWrite
+add wave -position 1  sim:/lg_highlevel/Decode0/O_PC
+add wave -position 3  sim:/lg_highlevel/Decode0/O_IR
+add wave -position 2  sim:/lg_highlevel/Execute0/O_PC
+add wave -position 5  sim:/lg_highlevel/Execute0/O_IR
 add wave -position end  sim:/lg_highlevel/Execute0/O_RegWEn
-add wave -position end  sim:/lg_highlevel/Execute0/O_RegWEn_Signal
-add wave -position end  sim:/lg_highlevel/Memory0/O_IR
-add wave -position end  sim:/lg_highlevel/Memory0/O_PC
+add wave -position 3  sim:/lg_highlevel/Memory0/O_PC
+add wave -position 7  sim:/lg_highlevel/Memory0/O_IR
 add wave -position end  sim:/lg_highlevel/Memory0/O_RegWEn
-add wave -position end  sim:/lg_highlevel/Writeback0/O_PC
+add wave -position 4  sim:/lg_highlevel/Writeback0/O_PC
+add wave -position end  sim:/lg_highlevel/Writeback0/O_RegWEn
 run 1500ns
 #  Note : Cyclone II PLL is enabled
 # Time: 0  Instance: lg_highlevel.pll0.altpll_component.stratixii_pll.pll1
