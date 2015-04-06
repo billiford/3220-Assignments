@@ -131,12 +131,16 @@ end
       case (I_Opcode)
 	`OP_ADD_D:
 	  begin 
-
+		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
+		DestValue <= I_Src1Value + I_Src2Value;
+		RF[DestRegIdx] <= DestValue;
 	  end
 	
 	`OP_ADD_F:
 	  begin 
-
+		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
+		DestValue <= I_Src1Value + I_Src2Value;
+		RF[DestRegIdx] <= DestValue;
 	  end
 		     
 	`OP_ADDI_D:
@@ -148,7 +152,9 @@ end
 	
 	`OP_ADDI_F:
 	  begin
-
+		DestRegIdx <= I_DestRegIdx;
+		DestValue <= I_Src1Value + I_Imm;
+		RF[DestRegIdx] <= DestValue;
 	  end
 	
 	`OP_VADD:
@@ -157,26 +163,33 @@ end
 	  end
 	`OP_AND_D:
 	  begin
-
+		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
+		DestValue <= I_Src1Value & I_Src2Value; // does this work?
+		RF[DestRegIdx] <= DestValue;		
 	  end
 	
 	 `OP_ANDI_D:
 	   begin
-
+		DestRegIdx <= I_DestRegIdx;
+		DestValue <= I_Src1Value & I_Imm;
+		RF[DestRegIdx] <= DestValue;
 	   end
 	`OP_MOV:
 	  begin 
-
+		DestRegIdx <= I_DestRegIdx;
+		RF[DestRegIdx] <= I_Src1Value;
 	  end
 	
 	`OP_MOVI_D:
 	  begin 
-
+		DestRegIdx <= I_DestRegIdx;
+		RF[DestRegIdx] <= I_Imm;
 	  end
 	
 	`OP_MOVI_F:
 	  begin 
-
+		DestRegIdx <= I_DestRegIdx;
+		RF[DestRegIdx] <= I_Imm;		
 	  end
 	
 	`OP_VMOV:
@@ -323,6 +336,5 @@ begin
 end
 
 endmodule // module Execute
-
 
 
