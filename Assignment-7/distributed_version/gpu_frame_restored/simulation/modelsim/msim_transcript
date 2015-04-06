@@ -144,11 +144,18 @@
 # Cannot open macro file: wave.do
 #     while executing
 # "do wave.do"
-add wave -position end  sim:/lg_highlevel/Execute0/I_Opcode
-add wave -position end  sim:/lg_highlevel/Execute0/O_RegWEn_Signal
-add wave -position end  sim:/lg_highlevel/Execute0/write_dest
-add wave -position end  sim:/lg_highlevel/Execute0/O_IR
+add wave -position end  sim:/lg_highlevel/Fetch0/O_PC
+add wave -position end  sim:/lg_highlevel/Fetch0/O_IR
+add wave -position end  sim:/lg_highlevel/Decode0/O_PC
+add wave -position end  sim:/lg_highlevel/Decode0/O_IR
 add wave -position end  sim:/lg_highlevel/Execute0/O_PC
+add wave -position end  sim:/lg_highlevel/Execute0/O_IR
+add wave -position end  sim:/lg_highlevel/Execute0/O_RegWEn
+add wave -position end  sim:/lg_highlevel/Execute0/O_RegWEn_Signal
+add wave -position end  sim:/lg_highlevel/Memory0/O_IR
+add wave -position end  sim:/lg_highlevel/Memory0/O_PC
+add wave -position end  sim:/lg_highlevel/Memory0/O_RegWEn
+add wave -position end  sim:/lg_highlevel/Writeback0/O_PC
 run 1500ns
 #  Note : Cyclone II PLL is enabled
 # Time: 0  Instance: lg_highlevel.pll0.altpll_component.stratixii_pll.pll1

@@ -20,15 +20,15 @@ n@decode
 !i10b 1
 !s100 `kQDb3?]86H9hgAnf264Q0
 !s85 0
-!s108 1428304222.294000
+!s108 1428306739.437000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/global_def.h|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/decode.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/decode.v|
 !s101 -O0
 vExecute
-IDVTf>R>[U:;Gbl=V>b:;S2
+I;AQfRXi^eJ6jOe?J9^DYK0
 VRSig42VQzZEI^g0EeLzj53
 R1
-w1428303310
+w1428306677
 8C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/execute.v
 FC:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/execute.v
 L0 3
@@ -39,9 +39,9 @@ R3
 R4
 n@execute
 !i10b 1
-!s100 QCZMN^Aal<E@BDW2KWLf63
+!s100 b5648>=]KFJi6z>5olX3X0
 !s85 0
-!s108 1428304222.203000
+!s108 1428306739.303000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/global_def.h|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/execute.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/execute.v|
 !s101 -O0
@@ -62,7 +62,7 @@ n@fetch
 !i10b 1
 !s100 HmXOG=;Ra9o0n[35cKJJe0
 !s85 0
-!s108 1428304222.494000
+!s108 1428306739.696000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/global_def.h|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/fetch.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/fetch.v|
 !s101 -O0
@@ -83,7 +83,7 @@ n@gpu
 !i10b 1
 !s100 F8ZnlGkI36n]8PP[feIUT3
 !s85 0
-!s108 1428304221.895000
+!s108 1428306738.699000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/global_def.h|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/gpu.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/gpu.v|
 !s101 -O0
@@ -101,7 +101,7 @@ R2
 r1
 !s85 0
 31
-!s108 1428304222.584000
+!s108 1428306739.824000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/global_def.h|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/lg_highlevel.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/lg_highlevel.v|
 !s101 -O0
@@ -124,7 +124,7 @@ n@memory
 !i10b 1
 !s100 i:@TTiBS4zS`M6ONd:WmX2
 !s85 0
-!s108 1428304222.120000
+!s108 1428306739.152000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/global_def.h|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/memory.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/memory.v|
 !s101 -O0
@@ -145,7 +145,7 @@ n@multi@sram
 !i10b 1
 !s100 WcTYeV2lFI8k2_>mV5[[;0
 !s85 0
-!s108 1428304221.609000
+!s108 1428306738.157000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/multi_sram.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/multi_sram.v|
 !s101 -O0
@@ -166,7 +166,7 @@ R4
 !i10b 1
 !s100 ]=`TB3hVVcgdhTP?BK:1m1
 !s85 0
-!s108 1428304221.531000
+!s108 1428306738.012000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/pixel_gen.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/pixel_gen.v|
 !s101 -O0
@@ -186,7 +186,7 @@ R4
 !i10b 1
 !s100 UKjP2Ka@kJWjfC@3BD`O:1
 !s85 0
-!s108 1428304221.819000
+!s108 1428306738.549000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/pll.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/pll.v|
 !s101 -O0
@@ -207,7 +207,7 @@ n@seven@seg
 !i10b 1
 !s100 P<NM7W27=3CF=Eob=n=Z;0
 !s85 0
-!s108 1428304221.683000
+!s108 1428306738.298000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/seven_segment.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/seven_segment.v|
 !s101 -O0
@@ -228,7 +228,7 @@ n@sign@extension
 !i10b 1
 !s100 ilgZ;HZaZ@D:J>@WOTXU80
 !s85 0
-!s108 1428304221.753000
+!s108 1428306738.423000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/sign_extension.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/sign_extension.v|
 !s101 -O0
@@ -249,7 +249,7 @@ n@vga@controller
 !i10b 1
 !s100 o8H2a7]Qhz25ai`B`@h`j3
 !s85 0
-!s108 1428304221.966000
+!s108 1428306738.839000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/global_def.h|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/vga_controller.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/vga_controller.v|
 !s101 -O0
@@ -270,7 +270,7 @@ n@writeback
 !i10b 1
 !s100 UajUCje@B5F2zUV6=d^6<0
 !s85 0
-!s108 1428304222.045000
+!s108 1428306738.983000
 !s107 C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/global_def.h|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/writeback.v|
 !s90 -reportprogress|300|-vlog01compat|-work|work|+incdir+C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored|C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/writeback.v|
 !s101 -O0

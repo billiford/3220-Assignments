@@ -97,7 +97,7 @@ output [`PC_WIDTH-1:0] O_BranchPC_Signal;
 output O_BranchAddrSelect_Signal;
 
 // Signals to the DE stage for dependency checking    
-output reg O_RegWEn_Signal;
+output reg O_RegWEn_Signal; //Changed this from output to output reg
 output  O_VRegWEn_Signal;
 output  O_CCWEn_Signal;    
   
@@ -312,6 +312,7 @@ end
       endcase //case (I_OPCDE) 
 	  
 	  O_RegWEn_Signal = write_dest;
+	  O_RegWEn = write_dest;
 
    end // always @ begin
    

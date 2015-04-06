@@ -1960,10 +1960,10 @@ O_BranchPC_Signal[13] <= <GND>
 O_BranchPC_Signal[14] <= <GND>
 O_BranchPC_Signal[15] <= <GND>
 O_BranchAddrSelect_Signal <= <GND>
-O_RegWEn <= <GND>
+O_RegWEn <= O_RegWEn.DB_MAX_OUTPUT_PORT_TYPE
 O_VRegWEn <= O_VRegWEn~reg0.DB_MAX_OUTPUT_PORT_TYPE
 O_CCWEn <= O_CCWEn~reg0.DB_MAX_OUTPUT_PORT_TYPE
-O_RegWEn_Signal <= O_RegWEn_Signal.DB_MAX_OUTPUT_PORT_TYPE
+O_RegWEn_Signal <= O_RegWEn.DB_MAX_OUTPUT_PORT_TYPE
 O_VRegWEn_Signal <= <GND>
 O_CCWEn_Signal <= <GND>
 
