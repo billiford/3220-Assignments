@@ -259,7 +259,7 @@ end
 	  begin
 		if (I_CCValue == `CC_P) 
 		begin
-			O_PC <= I_Imm;
+			O_R15PC <= I_Imm;
 		end
 	  end
 	
@@ -267,7 +267,7 @@ end
 	  begin
 		if (I_CCValue == `CC_N) 
 		begin
-			O_PC <= I_Imm;
+			O_R15PC <= I_Imm;
 		end
 	  end 
 
@@ -275,7 +275,7 @@ end
 	  begin
 		if (I_CCValue == `CC_Z) 
 		begin
-			O_PC <= I_Imm;
+			O_R15PC <= I_Imm;
 		end
 	  end
 	
@@ -283,7 +283,7 @@ end
 	  begin
 		if (I_CCValue == `CC_P && I_CCValue == `CC_N) 
 		begin
-			O_PC <= I_Imm;
+			O_R15PC <= I_Imm;
 		end
 	  end
 	
@@ -291,7 +291,7 @@ end
 	  begin
 		if (I_CCValue == `CC_Z && I_CCValue == `CC_P) 
 		begin
-			O_PC <= I_Imm;
+			O_R15PC <= I_Imm;
 		end	  
 	  end 
 	
@@ -300,7 +300,7 @@ end
 	  begin
 		if (I_CCValue == `CC_N && I_CCValue == `CC_Z) 
 		begin
-			O_PC <= I_Imm;
+			O_R15PC <= I_Imm;
 		end	 	     
 	  end 
 
@@ -308,7 +308,7 @@ end
 	  begin
 		if (I_CCValue == `CC_N && I_CCValue == `CC_Z && I_CCValue == `CC_P) 
 		begin
-			O_PC <= I_Imm;
+			O_R15PC <= I_Imm;
 		end	 
 	  end 
 
