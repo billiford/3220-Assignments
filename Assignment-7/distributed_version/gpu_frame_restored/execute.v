@@ -97,7 +97,7 @@ output [`PC_WIDTH-1:0] O_BranchPC_Signal;
 output O_BranchAddrSelect_Signal;
 
 // Signals to the DE stage for dependency checking    
-output  O_RegWEn_Signal;
+output reg O_RegWEn_Signal;
 output  O_VRegWEn_Signal;
 output  O_CCWEn_Signal;    
   
@@ -112,6 +112,9 @@ reg [3:0] DestRegIdx;
 reg [`REG_WIDTH-1:0] DestValue;
 reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
 reg[7:0] trav;
+reg write_dest;
+
+//assign O_RegWEn_Signal = write_dest;
 
 initial
 begin
@@ -119,6 +122,7 @@ begin
   begin
     RF[trav] = 0; 
   end 
+  O_RegWEn_Signal = 0;
 end
 
 /////////////////////////////////////////
@@ -134,6 +138,7 @@ end
 		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
 		DestValue <= I_Src1Value + I_Src2Value;
 		RF[DestRegIdx] <= DestValue;
+		write_dest = 1;
 	  end
 	
 	`OP_ADD_F:
@@ -141,6 +146,7 @@ end
 		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
 		DestValue <= I_Src1Value + I_Src2Value;
 		RF[DestRegIdx] <= DestValue;
+		write_dest = 1;
 	  end
 		     
 	`OP_ADDI_D:
@@ -148,6 +154,7 @@ end
 		DestRegIdx <= I_DestRegIdx;
 		DestValue <= I_Src1Value + I_Imm;
 		RF[DestRegIdx] <= DestValue;
+		write_dest = 1;
 	  end
 	
 	`OP_ADDI_F:
@@ -155,6 +162,7 @@ end
 		DestRegIdx <= I_DestRegIdx;
 		DestValue <= I_Src1Value + I_Imm;
 		RF[DestRegIdx] <= DestValue;
+		write_dest = 1;
 	  end
 	
 	`OP_VADD:
@@ -165,7 +173,8 @@ end
 	  begin
 		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
 		DestValue <= I_Src1Value & I_Src2Value; // does this work?
-		RF[DestRegIdx] <= DestValue;		
+		RF[DestRegIdx] <= DestValue;	
+		write_dest = 1;
 	  end
 	
 	 `OP_ANDI_D:
@@ -173,23 +182,27 @@ end
 		DestRegIdx <= I_DestRegIdx;
 		DestValue <= I_Src1Value & I_Imm;
 		RF[DestRegIdx] <= DestValue;
+		write_dest = 1;
 	   end
 	`OP_MOV:
 	  begin 
 		DestRegIdx <= I_DestRegIdx;
 		RF[DestRegIdx] <= I_Src1Value;
+		write_dest = 1;
 	  end
 	
 	`OP_MOVI_D:
 	  begin 
 		DestRegIdx <= I_DestRegIdx;
 		RF[DestRegIdx] <= I_Imm;
+		write_dest = 1;
 	  end
 	
 	`OP_MOVI_F:
 	  begin 
 		DestRegIdx <= I_DestRegIdx;
 		RF[DestRegIdx] <= I_Imm;		
+		write_dest = 1;
 	  end
 	
 	`OP_VMOV:
@@ -294,10 +307,11 @@ end
 	     
 	default:
 	  begin 
-
+		write_dest = 0;
 	  end 
       endcase //case (I_OPCDE) 
-      
+	  
+	  O_RegWEn_Signal = write_dest;
 
    end // always @ begin
    
@@ -328,7 +342,7 @@ begin
   else // I_LOCK = 1'b0  
     begin 
        O_EX_Valid <=1'b0;
-       O_RegWEn <= 1'b0;
+       //O_RegWEn <= 1'b0;
        O_VRegWEn <= 1'b0; 
        O_CCWEn <= 1'b0; 
     end 

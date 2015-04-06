@@ -163,8 +163,8 @@ begin
 
   ConditionalCode = 0;
 
-  //O_PC = 0;
-  //O_Opcode = 0;
+  O_PC = 0;
+  O_Opcode = 0;
   O_DepStallSignal = 0;
 end // initial
 
@@ -271,7 +271,7 @@ always @(*) begin
 	  // TODO: Check these indices 2 make sure
 		VecSrc1Value = VRF[I_IR[13:8]];
 		VecSrc2Value = VRF[I_IR[5:0]];
-		//VecDestRegIdx = I_IR[21:16]; //TODO this is not declared
+		VecDestRegIdx = I_IR[21:16];
 	  end
 	`OP_AND_D:
 	// Same as ADD_D
@@ -320,13 +320,13 @@ always @(*) begin
 	
 	`OP_VMOV:
 	  begin 
-		//VecDestRegIdx = I_IR[21:16]; // TODO: this is not declared
+		VecDestRegIdx = I_IR[21:16];
 		VecSrc1Value = VRF[I_IR[13:8]];
 	  end
 	  
 	`OP_VMOVI:
 	  begin 
-		//VecDestRegIdx = I_IR[21:16]; // TODO: this is not declared
+		VecDestRegIdx = I_IR[21:16];
 		Imm = I_IR[16:0];
 		
 	  end 
@@ -339,13 +339,13 @@ always @(*) begin
 	`OP_CMPI:
 	  begin
 	     Src1Value = RF[I_IR[19:16]];
-		  Imm = I_IR[7:0];
+		  Imm = I_IR[7:0]
 	  end
  
 	`OP_VCOMPMOV:
 	  begin
 	     DestVRegIdx = I_IR[16:11];
-		  //VSrc1 = RF[I_IR[8:5]]; // TODO: this is not declared
+		  VSrc1 = RF[I_IR[8:5]];
 		  Idx = I_IR[22:19]; //Does this need to index into RF?
 	  end 
 	
@@ -442,9 +442,6 @@ always @(*) begin
 	     dep_stall = 0;
 	  end
       endcase // case (IR[31:24])
-	  
-	  
-	  O_DepStallSignal = dep_stall;
 
    end // always @ (*)
 
@@ -490,7 +487,8 @@ end // always @(posedge I_CLOCK)
 always @(negedge I_CLOCK)
 begin
   O_LOCK <= I_LOCK;
-
+  O_PC <= I_PC;
+  O_IR <= I_IR;
    
    if (I_LOCK == 1'b1)
      begin
@@ -507,14 +505,6 @@ begin
 		O_Src2Value <= Src2Value;
 		O_Imm <= Imm;
 		O_DestRegIdx <= DestRegIdx;
-		if (dep_stall == 0) begin
-			O_PC <= I_PC;
-			O_IR <= I_IR;
-			O_Opcode <= Opcode;
-		end else begin
-			O_IR <= 32'hFF000000;
-			O_Opcode <= 8'hFF;
-		end
      end 
 end // always @(negedge I_CLOCK)
 

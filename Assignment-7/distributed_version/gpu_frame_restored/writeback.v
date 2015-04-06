@@ -118,7 +118,8 @@ output reg O_GSRValue_Valid;
    
 always @(negedge I_CLOCK)
 begin
-  O_LOCK <= I_LOCK;
+	O_LOCK <= I_LOCK;
+	O_PC <= I_PC;
    
   if (I_LOCK == 1'b1) 
     begin

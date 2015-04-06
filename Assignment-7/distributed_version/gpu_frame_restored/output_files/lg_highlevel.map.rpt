@@ -1,5 +1,5 @@
 Analysis & Synthesis report for lg_highlevel
-Mon Mar 30 23:11:28 2015
+Mon Apr 06 03:09:56 2015
 Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -27,6 +27,7 @@ Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edit
  19. Port Connectivity Checks: "Decode:Decode0|SignExtension:SE0"
  20. Elapsed Time Per Partition
  21. Analysis & Synthesis Messages
+ 22. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -52,7 +53,7 @@ applicable agreement for further details.
 +--------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                         ;
 +------------------------------------+-------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Mar 30 23:11:27 2015           ;
+; Analysis & Synthesis Status        ; Successful - Mon Apr 06 03:09:56 2015           ;
 ; Quartus II 64-Bit Version          ; 13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition ;
 ; Revision Name                      ; lg_highlevel                                    ;
 ; Top-level Entity Name              ; lg_highlevel                                    ;
@@ -165,33 +166,33 @@ Parallel compilation was disabled, but you have multiple processors available. E
 +----------------------------+--------+
 
 
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                                       ;
-+----------------------------------+-----------------+---------------------------------------------+---------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type                                   ; File Name with Absolute Path                                                    ; Library ;
-+----------------------------------+-----------------+---------------------------------------------+---------------------------------------------------------------------------------+---------+
-; gpu.v                            ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/gpu.v            ;         ;
-; vga_controller.v                 ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/vga_controller.v ;         ;
-; pixel_gen.v                      ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/pixel_gen.v      ;         ;
-; multi_sram.v                     ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/multi_sram.v     ;         ;
-; seven_segment.v                  ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/seven_segment.v  ;         ;
-; writeback.v                      ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/writeback.v      ;         ;
-; memory.v                         ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/memory.v         ;         ;
-; execute.v                        ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/execute.v        ;         ;
-; sign_extension.v                 ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/sign_extension.v ;         ;
-; decode.v                         ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/decode.v         ;         ;
-; lg_highlevel.v                   ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/lg_highlevel.v   ;         ;
-; global_def.h                     ; yes             ; User Unspecified File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/global_def.h     ;         ;
-; fetch.v                          ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/fetch.v          ;         ;
-; pll.v                            ; yes             ; User Wizard-Generated File                  ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/pll.v            ;         ;
-; data.hex                         ; yes             ; Auto-Found Hexadecimal (Intel-Format) File  ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/data.hex         ;         ;
-; output.hex                       ; yes             ; Auto-Found Hexadecimal (Intel-Format) File  ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/output.hex       ;         ;
-; altpll.tdf                       ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altpll.tdf                    ;         ;
-; aglobal130.inc                   ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/aglobal130.inc                ;         ;
-; stratix_pll.inc                  ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratix_pll.inc               ;         ;
-; stratixii_pll.inc                ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratixii_pll.inc             ;         ;
-; cycloneii_pll.inc                ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/cycloneii_pll.inc             ;         ;
-+----------------------------------+-----------------+---------------------------------------------+---------------------------------------------------------------------------------+---------+
++----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                                                                     ;
++----------------------------------+-----------------+---------------------------------------------+---------------------------------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type                                   ; File Name with Absolute Path                                                                                  ; Library ;
++----------------------------------+-----------------+---------------------------------------------+---------------------------------------------------------------------------------------------------------------+---------+
+; gpu.v                            ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/gpu.v            ;         ;
+; vga_controller.v                 ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/vga_controller.v ;         ;
+; pixel_gen.v                      ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/pixel_gen.v      ;         ;
+; multi_sram.v                     ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/multi_sram.v     ;         ;
+; seven_segment.v                  ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/seven_segment.v  ;         ;
+; writeback.v                      ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/writeback.v      ;         ;
+; memory.v                         ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/memory.v         ;         ;
+; execute.v                        ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/execute.v        ;         ;
+; sign_extension.v                 ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/sign_extension.v ;         ;
+; decode.v                         ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/decode.v         ;         ;
+; lg_highlevel.v                   ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/lg_highlevel.v   ;         ;
+; global_def.h                     ; yes             ; User Unspecified File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/global_def.h     ;         ;
+; fetch.v                          ; yes             ; User Verilog HDL File                       ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/fetch.v          ;         ;
+; pll.v                            ; yes             ; User Wizard-Generated File                  ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/pll.v            ;         ;
+; data.hex                         ; yes             ; Auto-Found Hexadecimal (Intel-Format) File  ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/data.hex         ;         ;
+; test0.hex                        ; yes             ; Auto-Found Hexadecimal (Intel-Format) File  ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/test0.hex        ;         ;
+; altpll.tdf                       ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/altpll.tdf                                                  ;         ;
+; aglobal130.inc                   ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/aglobal130.inc                                              ;         ;
+; stratix_pll.inc                  ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratix_pll.inc                                             ;         ;
+; stratixii_pll.inc                ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/stratixii_pll.inc                                           ;         ;
+; cycloneii_pll.inc                ; yes             ; Megafunction                                ; c:/altera/13.0sp1/quartus/libraries/megafunctions/cycloneii_pll.inc                                           ;         ;
++----------------------------------+-----------------+---------------------------------------------+---------------------------------------------------------------------------------------------------------------+---------+
 
 
 +--------------------------------------------------------------------------------------+
@@ -243,13 +244,13 @@ Parallel compilation was disabled, but you have multiple processors available. E
 Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
 
 
-+---------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis IP Cores Summary                                                                                                                         ;
-+--------+--------------+---------+--------------+--------------+------------------------+----------------------------------------------------------------------+
-; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance        ; IP Include File                                                      ;
-+--------+--------------+---------+--------------+--------------+------------------------+----------------------------------------------------------------------+
-; Altera ; ALTPLL       ; 12.1    ; N/A          ; N/A          ; |lg_highlevel|pll:pll0 ; C:/Users/beer/Downloads/distributed_version/gpu_frame_restored/pll.v ;
-+--------+--------------+---------+--------------+--------------+------------------------+----------------------------------------------------------------------+
++---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis IP Cores Summary                                                                                                                                                       ;
++--------+--------------+---------+--------------+--------------+------------------------+----------------------------------------------------------------------------------------------------+
+; Vendor ; IP Core Name ; Version ; Release Date ; License Type ; Entity Instance        ; IP Include File                                                                                    ;
++--------+--------------+---------+--------------+--------------+------------------------+----------------------------------------------------------------------------------------------------+
+; Altera ; ALTPLL       ; 12.1    ; N/A          ; N/A          ; |lg_highlevel|pll:pll0 ; C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/pll.v ;
++--------+--------------+---------+--------------+--------------+------------------------+----------------------------------------------------------------------------------------------------+
 
 
 +---------------------------------------------------------------------------------+
@@ -260,9 +261,8 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Gpu:Gpu0|O_GPU_WRITE                   ; Stuck at VCC due to stuck port data_in ;
 ; Gpu:Gpu0|O_GPU_READ                    ; Stuck at GND due to stuck port data_in ;
 ; Gpu:Gpu0|O_GPU_DATA[0..3,12..15]       ; Stuck at GND due to stuck port data_in ;
-; Memory:Memory0|LedGOut[0]              ; Stuck at GND due to stuck port clock   ;
 ; Memory:Memory0|LedROut[0..9]           ; Stuck at GND due to stuck port clock   ;
-; Memory:Memory0|LedGOut[1..7]           ; Stuck at GND due to stuck port clock   ;
+; Memory:Memory0|LedGOut[0..7]           ; Stuck at GND due to stuck port clock   ;
 ; Memory:Memory0|HexOut[0..15]           ; Stuck at GND due to stuck port clock   ;
 ; Execute:Execute0|O_LOCK                ; Lost fanout                            ;
 ; Decode:Decode0|O_LOCK                  ; Lost fanout                            ;
@@ -276,7 +276,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +---------------------------+-------------------------+---------------------------------------------------------------------+
 ; Register name             ; Reason for Removal      ; Registers Removed due to This Register                              ;
 +---------------------------+-------------------------+---------------------------------------------------------------------+
-; Memory:Memory0|LedGOut[0] ; Stuck at GND            ; Execute:Execute0|O_LOCK, Decode:Decode0|O_LOCK, Fetch:Fetch0|O_LOCK ;
+; Memory:Memory0|LedROut[0] ; Stuck at GND            ; Execute:Execute0|O_LOCK, Decode:Decode0|O_LOCK, Fetch:Fetch0|O_LOCK ;
 ;                           ; due to stuck port clock ;                                                                     ;
 +---------------------------+-------------------------+---------------------------------------------------------------------+
 
@@ -755,7 +755,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:01     ;
+; Top            ; 00:00:00     ;
 +----------------+--------------+
 
 
@@ -765,7 +765,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus II 64-Bit Analysis & Synthesis
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Mon Mar 30 23:11:23 2015
+    Info: Processing started: Mon Apr 06 03:09:51 2015
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off lg_highlevel -c lg_highlevel
 Warning (20028): Parallel compilation is not licensed and has been disabled
 Warning (10238): Verilog Module Declaration warning at gpu.v(23): ignored anonymous port(s) indicated by duplicate or dangling comma(s) in the port list for module "Gpu"
@@ -869,82 +869,102 @@ Warning (10030): Net "InstMem.data_a" at fetch.v(44) has no driver or initial va
 Warning (10030): Net "InstMem.waddr_a" at fetch.v(44) has no driver or initial value, using a default initial value '0'
 Warning (10030): Net "InstMem.we_a" at fetch.v(44) has no driver or initial value, using a default initial value '0'
 Info (12128): Elaborating entity "Decode" for hierarchy "Decode:Decode0"
-Warning (10036): Verilog HDL or VHDL warning at decode.v(133): object "VRF" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at decode.v(136): object "RF_VALID" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at decode.v(137): object "VRF_VALID" assigned a value but never read
-Warning (10036): Verilog HDL or VHDL warning at decode.v(186): object "dep_stall" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at decode.v(187): object "br_stall" assigned a value but never read
 Warning (10036): Verilog HDL or VHDL warning at decode.v(189): object "CCValue" assigned a value but never read
-Warning (10240): Verilog HDL Always Construct warning at decode.v(210): inferring latch(es) for variable "Src1Value", which holds its previous value in one or more paths through the always construct
-Warning (10240): Verilog HDL Always Construct warning at decode.v(210): inferring latch(es) for variable "Imm", which holds its previous value in one or more paths through the always construct
-Warning (10240): Verilog HDL Always Construct warning at decode.v(210): inferring latch(es) for variable "DestRegIdx", which holds its previous value in one or more paths through the always construct
-Warning (10240): Verilog HDL Always Construct warning at decode.v(210): inferring latch(es) for variable "Src2Value", which holds its previous value in one or more paths through the always construct
-Warning (10030): Net "RF.data_a" at decode.v(132) has no driver or initial value, using a default initial value '0'
-Warning (10030): Net "RF.waddr_a" at decode.v(132) has no driver or initial value, using a default initial value '0'
-Warning (10030): Net "RF.we_a" at decode.v(132) has no driver or initial value, using a default initial value '0'
+Warning (10036): Verilog HDL or VHDL warning at decode.v(193): object "Idx" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at decode.v(194): object "VecSrc1Value" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at decode.v(195): object "VecSrc2Value" assigned a value but never read
+Warning (10036): Verilog HDL or VHDL warning at decode.v(199): object "DestVRegIdx" assigned a value but never read
+Warning (10230): Verilog HDL assignment warning at decode.v(330): truncated value with size 17 to match size of target (16)
+Warning (10230): Verilog HDL assignment warning at decode.v(349): truncated value with size 4 to match size of target (2)
+Warning (10230): Verilog HDL assignment warning at decode.v(356): truncated value with size 4 to match size of target (2)
+Warning (10240): Verilog HDL Always Construct warning at decode.v(212): inferring latch(es) for variable "dep_stall", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at decode.v(212): inferring latch(es) for variable "DestRegIdx", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at decode.v(212): inferring latch(es) for variable "Imm", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at decode.v(212): inferring latch(es) for variable "Src1Value", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at decode.v(212): inferring latch(es) for variable "Src2Value", which holds its previous value in one or more paths through the always construct
 Warning (10034): Output port "O_DestVRegIdx" at decode.v(106) has no driver
 Warning (10034): Output port "O_Idx" at decode.v(107) has no driver
 Warning (10034): Output port "O_CCValue" at decode.v(109) has no driver
 Warning (10034): Output port "O_VecSrc1Value" at decode.v(111) has no driver
 Warning (10034): Output port "O_VecSrc2Value" at decode.v(112) has no driver
 Warning (10034): Output port "O_BranchStallSignal" at decode.v(125) has no driver
-Info (10041): Inferred latch for "Src2Value[0]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[1]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[2]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[3]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[4]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[5]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[6]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[7]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[8]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[9]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[10]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[11]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[12]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[13]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[14]" at decode.v(210)
-Info (10041): Inferred latch for "Src2Value[15]" at decode.v(210)
-Info (10041): Inferred latch for "DestRegIdx[0]" at decode.v(210)
-Info (10041): Inferred latch for "DestRegIdx[1]" at decode.v(210)
-Info (10041): Inferred latch for "DestRegIdx[2]" at decode.v(210)
-Info (10041): Inferred latch for "DestRegIdx[3]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[0]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[1]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[2]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[3]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[4]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[5]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[6]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[7]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[8]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[9]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[10]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[11]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[12]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[13]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[14]" at decode.v(210)
-Info (10041): Inferred latch for "Imm[15]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[0]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[1]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[2]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[3]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[4]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[5]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[6]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[7]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[8]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[9]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[10]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[11]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[12]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[13]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[14]" at decode.v(210)
-Info (10041): Inferred latch for "Src1Value[15]" at decode.v(210)
+Info (10041): Inferred latch for "Src2Value[0]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[1]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[2]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[3]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[4]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[5]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[6]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[7]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[8]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[9]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[10]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[11]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[12]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[13]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[14]" at decode.v(212)
+Info (10041): Inferred latch for "Src2Value[15]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[0]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[1]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[2]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[3]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[4]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[5]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[6]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[7]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[8]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[9]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[10]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[11]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[12]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[13]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[14]" at decode.v(212)
+Info (10041): Inferred latch for "Src1Value[15]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[0]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[1]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[2]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[3]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[4]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[5]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[6]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[7]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[8]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[9]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[10]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[11]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[12]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[13]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[14]" at decode.v(212)
+Info (10041): Inferred latch for "Imm[15]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][0]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][1]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][2]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][3]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][4]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][5]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][6]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][7]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][8]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][9]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][10]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][11]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][12]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][13]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][14]" at decode.v(212)
+Info (10041): Inferred latch for "RF[7][15]" at decode.v(212)
+Info (10041): Inferred latch for "DestRegIdx[0]" at decode.v(212)
+Info (10041): Inferred latch for "DestRegIdx[1]" at decode.v(212)
+Info (10041): Inferred latch for "DestRegIdx[2]" at decode.v(212)
+Info (10041): Inferred latch for "DestRegIdx[3]" at decode.v(212)
 Info (12128): Elaborating entity "SignExtension" for hierarchy "Decode:Decode0|SignExtension:SE0"
 Info (12128): Elaborating entity "Execute" for hierarchy "Execute:Execute0"
 Warning (10036): Verilog HDL or VHDL warning at execute.v(113): object "RF" assigned a value but never read
-Warning (10240): Verilog HDL Always Construct warning at execute.v(131): inferring latch(es) for variable "DestRegIdx", which holds its previous value in one or more paths through the always construct
-Warning (10240): Verilog HDL Always Construct warning at execute.v(131): inferring latch(es) for variable "DestValue", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at execute.v(135): inferring latch(es) for variable "write_dest", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at execute.v(135): inferring latch(es) for variable "DestRegIdx", which holds its previous value in one or more paths through the always construct
+Warning (10240): Verilog HDL Always Construct warning at execute.v(135): inferring latch(es) for variable "DestValue", which holds its previous value in one or more paths through the always construct
 Warning (10034): Output port "O_Opcode" at execute.v(73) has no driver
 Warning (10034): Output port "O_R15PC" at execute.v(75) has no driver
 Warning (10034): Output port "O_DestRegIdx" at execute.v(77) has no driver
@@ -957,18 +977,16 @@ Warning (10034): Output port "O_MARValue" at execute.v(86) has no driver
 Warning (10034): Output port "O_MDRValue" at execute.v(87) has no driver
 Warning (10034): Output port "O_BranchPC_Signal" at execute.v(96) has no driver
 Warning (10034): Output port "O_BranchAddrSelect_Signal" at execute.v(97) has no driver
-Warning (10034): Output port "O_RegWEn_Signal" at execute.v(100) has no driver
+Warning (10034): Output port "O_RegWEn" at execute.v(90) has no driver
 Warning (10034): Output port "O_VRegWEn_Signal" at execute.v(101) has no driver
 Warning (10034): Output port "O_CCWEn_Signal" at execute.v(102) has no driver
 Info (12128): Elaborating entity "Memory" for hierarchy "Memory:Memory0"
 Warning (10036): Verilog HDL or VHDL warning at memory.v(168): object "dst_value" assigned a value but never read
 Warning (10850): Verilog HDL warning at memory.v(117): number of words (38) in memory file does not match the number of elements in the address range [0:255]
 Warning (10230): Verilog HDL assignment warning at memory.v(170): truncated value with size 16 to match size of target (6)
-Warning (10230): Verilog HDL assignment warning at memory.v(211): truncated value with size 16 to match size of target (10)
-Warning (10230): Verilog HDL assignment warning at memory.v(213): truncated value with size 16 to match size of target (8)
+Warning (10230): Verilog HDL assignment warning at memory.v(213): truncated value with size 16 to match size of target (10)
+Warning (10230): Verilog HDL assignment warning at memory.v(215): truncated value with size 16 to match size of target (8)
 Warning (10034): Output port "O_Opcode" at memory.v(82) has no driver
-Warning (10034): Output port "O_IR" at memory.v(83) has no driver
-Warning (10034): Output port "O_PC" at memory.v(84) has no driver
 Warning (10034): Output port "O_R15PC" at memory.v(85) has no driver
 Warning (10034): Output port "O_DestRegIdx" at memory.v(86) has no driver
 Warning (10034): Output port "O_DestVRegIdx" at memory.v(87) has no driver
@@ -982,7 +1000,6 @@ Warning (10036): Verilog HDL or VHDL warning at writeback.v(85): object "vertex_
 Warning (10034): Output port "O_WriteBackRegIdx" at writeback.v(67) has no driver
 Warning (10034): Output port "O_WriteBackVRegIdx" at writeback.v(68) has no driver
 Warning (10034): Output port "O_WriteBackData" at writeback.v(69) has no driver
-Warning (10034): Output port "O_PC" at writeback.v(75) has no driver
 Warning (10034): Output port "O_CCValue" at writeback.v(71) has no driver
 Warning (10034): Output port "O_VecDestValue" at writeback.v(70) has no driver
 Warning (10034): Output port "O_RegWEn" at writeback.v(72) has no driver
@@ -1071,6 +1088,7 @@ Warning (13024): Output pins are stuck at VCC or GND
     Warning (13410): Pin "SRAM_CE_N" is stuck at GND
     Warning (13410): Pin "SRAM_OE_N" is stuck at GND
 Info (17049): 3 registers lost all their fanouts during netlist optimizations.
+Info (144001): Generated suppressed messages file C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/output_files/lg_highlevel.map.smsg
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 1 node(s), including 0 DDIO, 1 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 15 input pin(s) that do not drive logic
@@ -1095,10 +1113,16 @@ Info (21057): Implemented 394 device resources after synthesis - the final resou
     Info (21060): Implemented 16 bidirectional pins
     Info (21061): Implemented 277 logic cells
     Info (21065): Implemented 1 PLLs
-Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 168 warnings
-    Info: Peak virtual memory: 456 megabytes
-    Info: Processing ended: Mon Mar 30 23:11:28 2015
+Info: Quartus II 64-Bit Analysis & Synthesis was successful. 0 errors, 169 warnings
+    Info: Peak virtual memory: 460 megabytes
+    Info: Processing ended: Mon Apr 06 03:09:56 2015
     Info: Elapsed time: 00:00:05
     Info: Total CPU time (on all processors): 00:00:04
+
+
++------------------------------------------+
+; Analysis & Synthesis Suppressed Messages ;
++------------------------------------------+
+The suppressed messages can be found in C:/Users/beer/Documents/3220-Assignments/Assignment-7/distributed_version/gpu_frame_restored/output_files/lg_highlevel.map.smsg.
 
 

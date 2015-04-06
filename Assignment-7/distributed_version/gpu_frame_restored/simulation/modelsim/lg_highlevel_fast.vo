@@ -16,7 +16,7 @@
 // PROGRAM "Quartus II 64-Bit"
 // VERSION "Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition"
 
-// DATE "03/30/2015 23:11:48"
+// DATE "04/06/2015 03:10:10"
 
 // 
 // Device: Altera EP2C20F484C7 Package FBGA484
@@ -616,22 +616,22 @@ wire \PixelGen0|O_NEXT_ADDR~28_combout ;
 wire \MultiSram0|O_SRAM_ADDR[17]~17_combout ;
 wire [3:0] \KEY~combout ;
 wire [1:0] \CLOCK_27~combout ;
+wire [3:0] \PixelGen0|O_BLUE ;
+wire [15:0] \Gpu0|O_GPU_DATA ;
+wire [3:0] \VgaController0|CursorColor_R ;
+wire [9:0] \Gpu0|rowInd ;
+wire [9:0] \Gpu0|colInd ;
+wire [3:0] \PixelGen0|O_GREEN ;
+wire [17:0] \PixelGen0|O_NEXT_ADDR ;
+wire [3:0] \PixelGen0|O_RED ;
+wire [9:0] \VgaController0|H_Counter ;
+wire [17:0] \Gpu0|O_GPU_ADDR ;
+wire [3:0] \VgaController0|CursorColor_B ;
 wire [9:0] \VgaController0|O_COORD_Y ;
 wire [3:0] \VgaController0|CursorColor_G ;
-wire [15:0] \Gpu0|O_GPU_DATA ;
-wire [9:0] \VgaController0|O_COORD_X ;
-wire [3:0] \VgaController0|CursorColor_B ;
-wire [9:0] \VgaController0|V_Counter ;
-wire [3:0] \PixelGen0|O_BLUE ;
-wire [17:0] \Gpu0|O_GPU_ADDR ;
-wire [9:0] \Gpu0|rowInd ;
-wire [3:0] \PixelGen0|O_RED ;
-wire [3:0] \VgaController0|CursorColor_R ;
-wire [9:0] \Gpu0|colInd ;
 wire [23:0] \Gpu0|count ;
-wire [17:0] \PixelGen0|O_NEXT_ADDR ;
-wire [9:0] \VgaController0|H_Counter ;
-wire [3:0] \PixelGen0|O_GREEN ;
+wire [9:0] \VgaController0|V_Counter ;
+wire [9:0] \VgaController0|O_COORD_X ;
 
 wire [2:0] \pll0|altpll_component|pll_CLK_bus ;
 

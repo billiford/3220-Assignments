@@ -192,10 +192,12 @@ begin
     HexOut <= 16'hBEEF;
     LedGOut <= 8'b11111111;
     LedROut <= 10'b1111111111;
-     O_MEM_Valid <= 1'b0;
-     O_RegWEn <= 1'b0;
-     O_VRegWEn <= 1'b0;
-     O_CCWEn <= 1'b0; 
+	O_MEM_Valid <= 1'b0;
+	O_RegWEn <= 1'b0;
+	O_VRegWEn <= 1'b0;
+	O_CCWEn <= 1'b0; 
+	O_PC <= I_PC;
+	O_IR <= I_IR;
      
   end else begin // if (I_LOCK == 0) begin
 

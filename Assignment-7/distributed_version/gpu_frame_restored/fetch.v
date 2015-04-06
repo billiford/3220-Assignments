@@ -49,7 +49,7 @@ reg[`INST_WIDTH-1:0] InstMem[0:`INST_MEM_SIZE-1];
 //
 initial 
 begin
-  $readmemh("output.hex", InstMem);
+  $readmemh("test0.hex", InstMem);
 
   O_LOCK = 1'b0;
   O_PC = 16'h0;
@@ -72,7 +72,7 @@ end
 
    assign IR_out = InstMem[PC_line];
 	
-	assign latch_keep  = I_DepStallSignal; 
+	assign latch_keep = I_DepStallSignal; 
    
 /////////////////////////////////////////
 // ## Note ##
