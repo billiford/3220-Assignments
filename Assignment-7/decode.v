@@ -443,8 +443,7 @@ always @(*) begin
 	  end
       endcase // case (IR[31:24])
 	  
-	  
-	  O_DepStallSignal = dep_stall;
+	O_DepStallSignal = dep_stall;
 
    end // always @ (*)
 
@@ -455,9 +454,9 @@ always @(*) begin
 	   (I_IR[31:24] == `OP_JMP) ||
 	   (I_IR[31:24] == `OP_JSR) ||
 	   (I_IR[31:24] == `OP_JSRR))
-	br_stall = 1;
+			br_stall = 1;
       else
-	br_stall = 0;
+			br_stall = 0;
       
    end
    
@@ -476,8 +475,6 @@ begin
     // TODO: Complete here 
     /////////////////////////////////////////////
      // register write should come here 
-
-     
   end // if (I_LOCK == 1'b1)
 end // always @(posedge I_CLOCK)
 
@@ -489,8 +486,7 @@ end // always @(posedge I_CLOCK)
 /////////////////////////////////////////
 always @(negedge I_CLOCK)
 begin
-  O_LOCK <= I_LOCK;
-
+   O_LOCK <= I_LOCK;
    
    if (I_LOCK == 1'b1)
      begin
@@ -498,8 +494,6 @@ begin
 	/////////////////////////////////////////////
 	// TODO: Complete here 
     /////////////////////////////////////////////
-	
-	
      end // if (I_LOCK == 1'b1)
    else 
      begin 
@@ -507,6 +501,7 @@ begin
 		O_Src2Value <= Src2Value;
 		O_Imm <= Imm;
 		O_DestRegIdx <= DestRegIdx;
+		O_DE_Valid <= I_FE_Valid;
 		if (dep_stall == 0) begin
 			O_PC <= I_PC;
 			O_IR <= I_IR;
@@ -518,7 +513,5 @@ begin
      end 
 end // always @(negedge I_CLOCK)
 
-
 SignExtension SE0(.In(I_IR[15:0]), .Out(Imm32));
-
 endmodule // module Decode

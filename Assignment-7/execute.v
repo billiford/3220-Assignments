@@ -87,9 +87,9 @@ output reg[`REG_WIDTH-1:0] O_MARValue;
 output reg[`REG_WIDTH-1:0] O_MDRValue;
     
 
-output reg 	   O_RegWEn;
-output reg         O_VRegWEn;
-output reg         O_CCWEn;
+output reg O_RegWEn;
+output reg O_VRegWEn;
+output reg O_CCWEn;
  		    
 
  // Signals to the front-end  (Note: suffix Signal means the output signal is not from reg) 
@@ -113,6 +113,7 @@ reg [`REG_WIDTH-1:0] DestValue;
 reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
 reg[7:0] trav;
 reg write_dest;
+reg [1:0] nop_count;
 
 //assign O_RegWEn_Signal = write_dest;
 
@@ -123,6 +124,7 @@ begin
     RF[trav] = 0; 
   end 
   O_RegWEn_Signal = 0;
+  nop_count = 0;
 end
 
 /////////////////////////////////////////
@@ -332,10 +334,8 @@ end
 		write_dest = 0;
 	  end 
       endcase //case (I_OPCDE) 
-	  
 	  O_RegWEn_Signal = write_dest;
-	  O_RegWEn = write_dest;
-
+	  //O_RegWEn = write_dest;
    end // always @ begin
    
  	 
@@ -360,18 +360,15 @@ begin
     /////////////////////////////////////////////
     // TODO: Complete here 
     /////////////////////////////////////////////
-	 
     end
   else // I_LOCK = 1'b0  
     begin 
-       O_EX_Valid <=1'b0;
-       //O_RegWEn <= 1'b0;
-       O_VRegWEn <= 1'b0; 
-       O_CCWEn <= 1'b0; 
+		O_DestRegIdx <= I_DestRegIdx;
+        O_EX_Valid <= I_DE_Valid;
+        O_RegWEn <= ~I_DE_Valid;
+        //O_VRegWEn <= 1'b0; 
+        //O_CCWEn <= 1'b0; 
     end 
-
 end
 
 endmodule // module Execute
-
-

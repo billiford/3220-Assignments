@@ -112,17 +112,14 @@ output reg O_GSRValue_Valid;
    reg [29:0] vertex_v2_t;
    reg [29:0] vertex_v3_t;
 
-always @(*) begin
-	O_RegWEn = I_RegWEn;
-end   
-   
+
 
    
 always @(negedge I_CLOCK)
 begin
 	O_LOCK <= I_LOCK;
 	O_PC <= I_PC;
-	//O_RegWEn = I_RegWEn;
+	O_RegWEn <= I_RegWEn;
    
   if (I_LOCK == 1'b1) 
     begin

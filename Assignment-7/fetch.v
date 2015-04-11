@@ -54,6 +54,7 @@ begin
   O_LOCK = 1'b0;
   O_PC = 16'h0;
   O_IR = 32'hFF000000;
+  O_FE_Valid = 1;
 
 end
 
@@ -94,9 +95,9 @@ begin
     /////////////////////////////////////////////
     // TODO: Complete here
     /////////////////////////////////////////////
-     O_PC <= (latch_keep) ? O_PC: O_PC + 4;
-     O_IR <= (latch_keep) ? O_IR: IR_out; 
-     
+    O_PC <= (latch_keep) ? O_PC: O_PC + 4;
+    O_IR <= (latch_keep) ? O_IR: IR_out; 
+	O_FE_Valid <= (latch_keep) ? 0 : 1;
   end // if (I_LOCK == 0)
 end // always @(negedge I_CLOCK)
 

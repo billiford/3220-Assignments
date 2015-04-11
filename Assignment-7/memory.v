@@ -174,7 +174,7 @@ assign mar_line_addr = (I_MARValue >> 1) ; // data is stored with word address
 // How to access data memory is shown. you have to complete the following always
    
  always @(*) begin
-	O_RegWEn = I_RegWEn;
+	//O_RegWEn = I_RegWEn;
     
       if (I_EX_Valid) begin
 	 if (I_Opcode == `OP_LDW) begin
@@ -202,20 +202,21 @@ begin
      
   end else begin // if (I_LOCK == 0) begin
 
-     //O_RegWEn = I_RegWEn;
+     O_RegWEn <= I_RegWEn;
 	 O_PC <= I_PC;
 	 O_IR <= I_IR;
+	 O_MEM_Valid <= I_EX_Valid;
      // You need to add more conditions to perform store operations. (Hints: check valid bits) 
      if (I_Opcode == `OP_STW) begin
 	// memory mapped IO operations 
 	// HexOut <= I_MDRValue;
 	
 	if ( I_MARValue[9:0] == `ADDRHEX)
-	  HexOut <= I_MDRValue;
+		HexOut <= I_MDRValue;
 	else if (I_MARValue[9:0] == `ADDRLEDR)
-	  LedROut <= I_MDRValue;
+		LedROut <= I_MDRValue;
 	else if (I_MARValue[9:0] == `ADDRLEDG)
-	  LedGOut <= I_MDRValue;
+		LedGOut <= I_MDRValue;
 	else
 	  
 	  // data memory write 
