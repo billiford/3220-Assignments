@@ -365,7 +365,7 @@ begin
     begin 
 		O_DestRegIdx <= I_DestRegIdx;
         O_EX_Valid <= I_DE_Valid;
-        O_RegWEn <= ~I_DE_Valid;
+        O_RegWEn <= O_RegWEn_Signal;
         //O_VRegWEn <= 1'b0; 
         //O_CCWEn <= 1'b0; 
     end 

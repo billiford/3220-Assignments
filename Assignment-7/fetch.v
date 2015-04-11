@@ -97,7 +97,10 @@ begin
     /////////////////////////////////////////////
     O_PC <= (latch_keep) ? O_PC: O_PC + 4;
     O_IR <= (latch_keep) ? O_IR: IR_out; 
-	O_FE_Valid <= (latch_keep) ? 0 : 1;
+	if (I_BranchStallSignal == 1)
+		O_FE_Valid = 0;
+	else 
+		O_FE_Valid <= O_FE_Valid;
   end // if (I_LOCK == 0)
 end // always @(negedge I_CLOCK)
 
