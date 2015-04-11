@@ -474,7 +474,9 @@ begin
     /////////////////////////////////////////////
     // TODO: Complete here 
     /////////////////////////////////////////////
-     // register write should come here 
+    // register write should come here 
+	 
+	
   end // if (I_LOCK == 1'b1)
 end // always @(posedge I_CLOCK)
 

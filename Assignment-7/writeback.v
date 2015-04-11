@@ -133,12 +133,14 @@ begin
     end // if (I_LOCK == 1'b1)
    
   else begin
-     vertex_point_status <= 0;
-     O_VertexV1 <= 0;
-     O_VertexV2 <= 0;
-     O_VertexV3 <= 0;
-     O_GSRValue <= 0;
-     O_GSRValue_Valid <=0; 
+		O_WriteBackRegIdx <= I_DestRegIdx;
+		O_WriteBackData <= I_DestValue;
+		vertex_point_status <= 0;
+		O_VertexV1 <= 0;
+		O_VertexV2 <= 0;
+		O_VertexV3 <= 0;
+		O_GSRValue <= 0;
+		O_GSRValue_Valid <=0; 
      
   end // else: !if(I_LOCK == 1'b1)
    

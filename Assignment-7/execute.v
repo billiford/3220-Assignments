@@ -110,7 +110,7 @@ reg [`REG_WIDTH-1:0] Src2Value;
 reg [`REG_WIDTH-1:0] Imm;
 reg [3:0] DestRegIdx;   
 reg [`REG_WIDTH-1:0] DestValue;
-reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
+//reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
 reg[7:0] trav;
 reg write_dest;
 reg [1:0] nop_count;
@@ -119,12 +119,11 @@ reg [1:0] nop_count;
 
 initial
 begin
-  for (trav = 0; trav < `NUM_RF; trav = trav + 1'b1)
+  /* for (trav = 0; trav < `NUM_RF; trav = trav + 1'b1)
   begin
     RF[trav] = 0; 
-  end 
+  end*/ 
   O_RegWEn_Signal = 0;
-  nop_count = 0;
 end
 
 /////////////////////////////////////////
@@ -139,7 +138,7 @@ end
 	  begin 
 		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
 		DestValue <= I_Src1Value + I_Src2Value;
-		RF[DestRegIdx] <= DestValue;
+		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 	  end
 	
@@ -147,7 +146,7 @@ end
 	  begin 
 		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
 		DestValue <= I_Src1Value + I_Src2Value;
-		RF[DestRegIdx] <= DestValue;
+		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 	  end
 		     
@@ -155,7 +154,7 @@ end
 	  begin
 		DestRegIdx <= I_DestRegIdx;
 		DestValue <= I_Src1Value + I_Imm;
-		RF[DestRegIdx] <= DestValue;
+		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 	  end
 	
@@ -163,7 +162,7 @@ end
 	  begin
 		DestRegIdx <= I_DestRegIdx;
 		DestValue <= I_Src1Value + I_Imm;
-		RF[DestRegIdx] <= DestValue;
+		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 	  end
 	
@@ -175,7 +174,7 @@ end
 	  begin
 		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
 		DestValue <= I_Src1Value & I_Src2Value; // does this work?
-		RF[DestRegIdx] <= DestValue;	
+		//RF[DestRegIdx] <= DestValue;	
 		write_dest = 1;
 	  end
 	
@@ -183,27 +182,27 @@ end
 	   begin
 		DestRegIdx <= I_DestRegIdx;
 		DestValue <= I_Src1Value & I_Imm;
-		RF[DestRegIdx] <= DestValue;
+		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 	   end
 	`OP_MOV:
 	  begin 
 		DestRegIdx <= I_DestRegIdx;
-		RF[DestRegIdx] <= I_Src1Value;
+		//RF[DestRegIdx] <= I_Src1Value;
 		write_dest = 1;
 	  end
 	
 	`OP_MOVI_D:
 	  begin 
 		DestRegIdx <= I_DestRegIdx;
-		RF[DestRegIdx] <= I_Imm;
+		//RF[DestRegIdx] <= I_Imm;
 		write_dest = 1;
 	  end
 	
 	`OP_MOVI_F:
 	  begin 
 		DestRegIdx <= I_DestRegIdx;
-		RF[DestRegIdx] <= I_Imm;		
+		//RF[DestRegIdx] <= I_Imm;		
 		write_dest = 1;
 	  end
 	
@@ -254,7 +253,7 @@ end
 	`OP_STW:
 	  begin
 		//BR and STW
-		RF[DestRegIdx] <= I_Imm;		
+		//RF[DestRegIdx] <= I_Imm;		
 	  end
 	
 	`OP_BRP:
@@ -335,7 +334,6 @@ end
 	  end 
       endcase //case (I_OPCDE) 
 	  O_RegWEn_Signal = write_dest;
-	  //O_RegWEn = write_dest;
    end // always @ begin
    
  	 
@@ -354,20 +352,20 @@ begin
   O_LOCK <= I_LOCK;
   O_PC <= I_PC;
   O_IR <= I_IR;
+  O_Opcode <= I_Opcode;
   
   if (I_LOCK == 1'b1) 
     begin
-    /////////////////////////////////////////////
     // TODO: Complete here 
-    /////////////////////////////////////////////
     end
   else // I_LOCK = 1'b0  
     begin 
-		O_DestRegIdx <= I_DestRegIdx;
+		O_DestRegIdx <= DestRegIdx;
+		O_DestValue <= DestValue;
         O_EX_Valid <= I_DE_Valid;
         O_RegWEn <= O_RegWEn_Signal;
-        //O_VRegWEn <= 1'b0; 
-        //O_CCWEn <= 1'b0; 
+        O_VRegWEn <= 1'b0; 
+        O_CCWEn <= 1'b0; 
     end 
 end
 

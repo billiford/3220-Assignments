@@ -174,15 +174,13 @@ assign mar_line_addr = (I_MARValue >> 1) ; // data is stored with word address
 // How to access data memory is shown. you have to complete the following always
    
  always @(*) begin
-	//O_RegWEn = I_RegWEn;
-    
-      if (I_EX_Valid) begin
-	 if (I_Opcode == `OP_LDW) begin
-	    dst_value = (DataMem[mar_line_addr]);
-	 end
-	else 
-	  dst_value = I_DestValue;
-      end // if (I_EX_Valid)
+    if (I_EX_Valid) begin
+		if (I_Opcode == `OP_LDW) begin
+			dst_value = (DataMem[mar_line_addr]);
+		end
+		else 
+			dst_value = I_DestValue;
+	end // if (I_EX_Valid)
  end // always @ (*)
    
 
@@ -201,27 +199,26 @@ begin
 	O_IR <= I_IR;
      
   end else begin // if (I_LOCK == 0) begin
-
-     O_RegWEn <= I_RegWEn;
-	 O_PC <= I_PC;
-	 O_IR <= I_IR;
-	 O_MEM_Valid <= I_EX_Valid;
-     // You need to add more conditions to perform store operations. (Hints: check valid bits) 
-     if (I_Opcode == `OP_STW) begin
-	// memory mapped IO operations 
-	// HexOut <= I_MDRValue;
-	
-	if ( I_MARValue[9:0] == `ADDRHEX)
-		HexOut <= I_MDRValue;
-	else if (I_MARValue[9:0] == `ADDRLEDR)
-		LedROut <= I_MDRValue;
-	else if (I_MARValue[9:0] == `ADDRLEDG)
-		LedGOut <= I_MDRValue;
-	else
-	  
-	  // data memory write 
-	  DataMem[mar_line_addr] <= I_MDRValue;
-     end // if (I_Opcode == `OP_STW)
+    O_RegWEn <= I_RegWEn;
+	O_PC <= I_PC;
+	O_IR <= I_IR;
+	O_MEM_Valid <= I_EX_Valid;
+	O_DestRegIdx <= I_DestRegIdx;
+	O_DestValue <= I_DestValue;
+    // You need to add more conditions to perform store operations. (Hints: check valid bits) 
+    if (I_Opcode == `OP_STW) begin
+		// memory mapped IO operations 
+		// HexOut <= I_MDRValue;
+		if ( I_MARValue[9:0] == `ADDRHEX)
+			HexOut <= I_MDRValue;
+		else if (I_MARValue[9:0] == `ADDRLEDR)
+			LedROut <= I_MDRValue;
+		else if (I_MARValue[9:0] == `ADDRLEDG)
+			LedGOut <= I_MDRValue;
+		else
+		// data memory write 
+		DataMem[mar_line_addr] <= I_MDRValue;
+    end // if (I_Opcode == `OP_STW)
 	
 
   end // else: !if(I_LOCK == 0)
