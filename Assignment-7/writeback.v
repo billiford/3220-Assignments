@@ -135,6 +135,8 @@ begin
   else begin
 		O_WriteBackRegIdx <= I_DestRegIdx;
 		O_WriteBackData <= I_DestValue;
+		O_CCValue <= I_CCValue;
+		O_CCWEn <= I_CCWEn;
 		vertex_point_status <= 0;
 		O_VertexV1 <= 0;
 		O_VertexV2 <= 0;

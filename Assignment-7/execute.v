@@ -99,7 +99,7 @@ output O_BranchAddrSelect_Signal;
 // Signals to the DE stage for dependency checking    
 output reg O_RegWEn_Signal; //Changed this from output to output reg
 output  O_VRegWEn_Signal;
-output  O_CCWEn_Signal;    
+output reg O_CCWEn_Signal;   //Changed this from output to output reg 
   
 /////////////////////////////////////////
 // WIRE/REGISTER DECLARATION GOES HERE
@@ -113,6 +113,8 @@ reg [`REG_WIDTH-1:0] DestValue;
 //reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
 reg[7:0] trav;
 reg write_dest;
+reg cc_write;
+reg [2:0] cc;
 reg [1:0] nop_count;
 
 //assign O_RegWEn_Signal = write_dest;
@@ -222,7 +224,19 @@ end
 	
 	`OP_CMPI:
 	  begin
-	     
+		if (I_Src1Value < I_Imm)
+			cc = cc | `CC_N;
+		else 
+			cc = cc & 6;
+		if (I_Src1Value == I_Imm)
+			cc = cc | `CC_Z;
+		else
+			cc = cc & 5;
+		if (I_Src1Value > I_Imm)
+			cc = cc | `CC_P;
+		else
+			cc = cc & 3;
+		cc_write = 1;
 	  end
  
 	`OP_VCOMPMOV:
@@ -299,7 +313,7 @@ end
 		
 	`OP_BRNZ: 
 	  begin
-		if (I_CCValue == `CC_N && I_CCValue == `CC_Z) 
+		if (I_CCValue == `CC_N || I_CCValue == `CC_Z) 
 		begin
 			O_R15PC <= I_Imm;
 		end	 	     
@@ -334,6 +348,7 @@ end
 	  end 
       endcase //case (I_OPCDE) 
 	  O_RegWEn_Signal = write_dest;
+	  O_CCWEn_Signal = cc_write;
    end // always @ begin
    
  	 
@@ -365,7 +380,8 @@ begin
         O_EX_Valid <= I_DE_Valid;
         O_RegWEn <= O_RegWEn_Signal;
         O_VRegWEn <= 1'b0; 
-        O_CCWEn <= 1'b0; 
+        O_CCWEn <= O_CCWEn_Signal;
+		O_CCValue <= cc;
     end 
 end
 

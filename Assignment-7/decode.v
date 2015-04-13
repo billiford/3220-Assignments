@@ -185,6 +185,7 @@ reg [`REG_WIDTH-1:0] Imm;
 reg [3:0] DestRegIdx;   
 reg dep_stall;
 reg br_stall; 
+reg branch_stall;
    
 wire [2:0] CCValue;
 
@@ -222,7 +223,9 @@ always @(*) begin
 		  ((I_IR[11:8] == I_EDDestRegIdx)  && I_EDDestWrite) || 
 		  ((I_IR[11:8] == I_MDDestRegIdx)  && I_MDDestWrite) )
 	       dep_stall = 1;
-	     else dep_stall = 0; 	
+	     else dep_stall = 0; 
+
+		branch_stall = 0;
 	  end
 
 	// complete other opcodes 
@@ -240,6 +243,7 @@ always @(*) begin
 		  ((I_IR[11:8] == I_MDDestRegIdx)  && I_MDDestWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0; 
+		 branch_stall = 0;
 	  end
 		     
 	`OP_ADDI_D:
@@ -252,6 +256,7 @@ always @(*) begin
 		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0; 
+		 branch_stall = 0;
 	  end
 	
 	`OP_ADDI_F:
@@ -264,6 +269,7 @@ always @(*) begin
 		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0;
+		 branch_stall = 0;
 	  end
 	
 	`OP_VADD:
@@ -272,6 +278,7 @@ always @(*) begin
 		VecSrc1Value = VRF[I_IR[13:8]];
 		VecSrc2Value = VRF[I_IR[5:0]];
 		//VecDestRegIdx = I_IR[21:16]; //TODO this is not declared
+		branch_stall = 0;
 	  end
 	`OP_AND_D:
 	// Same as ADD_D
@@ -285,7 +292,8 @@ always @(*) begin
 		  ((I_IR[11:8] == I_EDDestRegIdx)  && I_EDDestWrite) || 
 		  ((I_IR[11:8] == I_MDDestRegIdx)  && I_MDDestWrite) )
 	       dep_stall = 1;
-	     else dep_stall = 0; 			
+	     else dep_stall = 0; 		
+		branch_stall = 0;		 
 	  end
 	
 	 `OP_ANDI_D:
@@ -299,47 +307,54 @@ always @(*) begin
 		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0; 
+		 branch_stall = 0;
 	   end
 	`OP_MOV:
 	  begin 
 		DestRegIdx = I_IR[19:16];
 		Src1Value = RF[I_IR[11:8]];
+		branch_stall = 0;
 	  end
 	
 	`OP_MOVI_D:
 	  begin 
 		DestRegIdx = I_IR[19:16];
 		Imm = I_IR[15:0];
+		branch_stall = 0;
 	  end
 	
 	`OP_MOVI_F:
 	  begin 
 		DestRegIdx = I_IR[19:16];
 		Imm = I_IR[15:0]; // TODO: Is there a FP immediate thing?
+		branch_stall = 0;
 	  end
 	
 	`OP_VMOV:
 	  begin 
 		//VecDestRegIdx = I_IR[21:16]; // TODO: this is not declared
 		VecSrc1Value = VRF[I_IR[13:8]];
+		branch_stall = 0;
 	  end
 	  
 	`OP_VMOVI:
 	  begin 
 		//VecDestRegIdx = I_IR[21:16]; // TODO: this is not declared
 		Imm = I_IR[16:0];
-		
+		branch_stall = 0;
 	  end 
 	 `OP_CMP:
 	   begin
 			Src1Value = RF[I_IR[19:16]];
 			Src2Value = RF[I_IR[11:8]];
+			branch_stall = 0;
 	   end
 	
 	`OP_CMPI:
 	  begin
 	     Src1Value = RF[I_IR[19:16]];
-		  Imm = I_IR[7:0];
+		  Imm = I_IR[15:0];
+		  branch_stall = 0;
 	  end
  
 	`OP_VCOMPMOV:
@@ -347,6 +362,7 @@ always @(*) begin
 	     DestVRegIdx = I_IR[16:11];
 		  //VSrc1 = RF[I_IR[8:5]]; // TODO: this is not declared
 		  Idx = I_IR[22:19]; //Does this need to index into RF?
+		  branch_stall = 0;
 	  end 
 	
 	`OP_VCOMPMOVI:
@@ -354,6 +370,7 @@ always @(*) begin
 			DestVRegIdx = I_IR[16:11];
 			Imm = I_IR[15:0];
 			Idx = I_IR[22:19]; // Does this need to index into RF?
+			branch_stall = 0;
 	  end 
 	
 	`OP_LDB:
@@ -361,13 +378,15 @@ always @(*) begin
 			Src1Value = RF[I_IR[19:16]];
 			Imm = I_IR[15:0];
 			DestRegIdx = I_IR[23:20];
+			branch_stall = 0;
 	  end
 	
 	`OP_LDW:
 	  begin
 			Src1Value = RF[I_IR[19:16]];
 			Imm = I_IR[15:0];
-			DestRegIdx = I_IR[23:20];			
+			DestRegIdx = I_IR[23:20];		
+		branch_stall = 0;			
 	  end
 	
 	`OP_STB:
@@ -375,6 +394,7 @@ always @(*) begin
 			Src1Value = RF[I_IR[19:16]];
 			Imm = I_IR[15:0];
 			DestRegIdx = I_IR[23:20];
+			branch_stall = 0;
 	  end
 	
 	`OP_STW:
@@ -382,47 +402,56 @@ always @(*) begin
 			Src1Value = RF[I_IR[19:16]];
 			Imm = I_IR[15:0];
 			DestRegIdx = I_IR[23:20];
+			branch_stall = 0;
 	  end
 	
 	`OP_BRP:
 	  begin
 			Imm = I_IR[15:0];
+			branch_stall = 1;
 	  end
 	
 	`OP_BRN:
 	  begin
 			Imm = I_IR[15:0];
+			branch_stall = 1;
 	  end 
 
 	`OP_BRZ:
 	  begin
 			Imm = I_IR[15:0];
+			branch_stall = 1;
 	  end
 	
 	`OP_BRNP: 
 	  begin
 			Imm = I_IR[15:0];
+			branch_stall = 1;
 	  end
 	
 	`OP_BRZP: 
 	  begin
-			Imm = I_IR[15:0];	  
+			Imm = I_IR[15:0];
+			branch_stall = 1;			
 	  end 
 	
 		
 	`OP_BRNZ: 
 	  begin
-			Imm = I_IR[15:0];	     
+			Imm = I_IR[15:0];	
+			branch_stall = 1;
 	  end 
 
 	`OP_BRNZP: 
 	  begin
 			Imm = I_IR[15:0];
+			branch_stall = 1;
 	  end 
 
 	`OP_JMP:
 	  begin
 			DestRegIdx = I_IR[19:16];
+			branch_stall = 0;
 	  end
 
 	`OP_JSR:
@@ -444,7 +473,7 @@ always @(*) begin
       endcase // case (IR[31:24])
 	  
 	O_DepStallSignal = dep_stall;
-
+	O_BranchStallSignal = branch_stall;
    end // always @ (*)
 
 
@@ -505,7 +534,8 @@ begin
 		O_Imm <= Imm;
 		O_DestRegIdx <= DestRegIdx;
 		O_DE_Valid <= I_FE_Valid;
-		if (dep_stall == 0) begin
+		O_CCValue <= I_CCValue;
+		if (dep_stall == 0 && I_FE_Valid) begin
 			O_PC <= I_PC;
 			O_IR <= I_IR;
 			O_Opcode <= Opcode;
