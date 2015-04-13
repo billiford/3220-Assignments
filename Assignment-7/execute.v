@@ -267,7 +267,13 @@ end
 	`OP_STW:
 	  begin
 		//BR and STW
-		//RF[DestRegIdx] <= I_Imm;		
+		//RF[DestRegIdx] <= I_Imm;	
+		//MDR value is the actual value
+		//MAR value is the address value
+		//Need some trial and error to check to see if this is correct?
+		//https://piazza.com/class/i4mxk414x2b6sf?cid=51
+		O_MARValue <= I_Imm + RF[I_DestRegisterIdx];
+		O_MDRValue <= I_Src1Value;
 	  end
 	
 	`OP_BRP:
