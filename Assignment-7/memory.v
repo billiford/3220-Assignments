@@ -181,6 +181,8 @@ assign mar_line_addr = (I_MARValue >> 1) ; // data is stored with word address
 		else 
 			dst_value = I_DestValue;
 	end // if (I_EX_Valid)
+	O_DestRegIdx = I_DestRegIdx;
+	O_DestValue = I_DestValue;
  end // always @ (*)
    
 
@@ -203,15 +205,14 @@ begin
 	O_PC <= I_PC;
 	O_IR <= I_IR;
 	O_MEM_Valid <= I_EX_Valid;
-	O_DestRegIdx <= I_DestRegIdx;
-	O_DestValue <= I_DestValue;
+	
 	O_CCValue <= I_CCValue;
 	O_CCWEn <= I_CCWEn;
     // You need to add more conditions to perform store operations. (Hints: check valid bits) 
     if (I_Opcode == `OP_STW) begin
 		// memory mapped IO operations 
 		// HexOut <= I_MDRValue;
-		if ( I_MARValue[9:0] == `ADDRHEX)
+		if (I_MARValue[9:0] == `ADDRHEX)
 			HexOut <= I_MDRValue;
 		else if (I_MARValue[9:0] == `ADDRLEDR)
 			LedROut <= I_MDRValue;

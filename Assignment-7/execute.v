@@ -197,6 +197,7 @@ end
 	`OP_MOVI_D:
 	  begin 
 		DestRegIdx = I_DestRegIdx;
+		DestValue = I_Imm;
 		//RF[DestRegIdx] <= I_Imm;
 		write_dest = 1;
 	  end
@@ -272,8 +273,8 @@ end
 		//MAR value is the address value
 		//Need some trial and error to check to see if this is correct?
 		//https://piazza.com/class/i4mxk414x2b6sf?cid=51
-		O_MARValue <= I_Imm + RF[I_DestRegisterIdx];
-		O_MDRValue <= I_Src1Value;
+		O_MDRValue <= I_Src2Value;
+		O_MARValue <= I_Imm + I_Src1Value;
 	  end
 	
 	`OP_BRP:
@@ -362,6 +363,9 @@ end
 	  if (O_BranchAddrSelect_Signal) begin
 			O_BranchPC_Signal = O_R15PC;
 		end
+		
+	O_DestRegIdx = DestRegIdx;
+		O_DestValue = DestValue;
    end // always @ begin
    
  	 
@@ -388,8 +392,7 @@ begin
     end
   else // I_LOCK = 1'b0  
     begin 
-		O_DestRegIdx <= DestRegIdx;
-		O_DestValue <= DestValue;
+		
         O_EX_Valid <= I_DE_Valid;
         O_RegWEn <= O_RegWEn_Signal;
         O_VRegWEn <= 1'b0; 

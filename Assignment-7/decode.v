@@ -321,6 +321,10 @@ always @(*) begin
 		DestRegIdx = I_IR[19:16];
 		Imm = I_IR[15:0];
 		//branch_stall = 0;
+		if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0; 
 	  end
 	
 	`OP_MOVI_F:
@@ -400,7 +404,13 @@ always @(*) begin
 	  begin
 			Src1Value = RF[I_IR[19:16]]; //base register src[1]
 			Imm = I_IR[15:0]; //offset imm (int_value)
-			DestRegIdx = I_IR[23:20]; //srcregisteridx src[0]
+			Src2Value = RF[I_IR[23:20]]; //srcregisteridx src[0]
+			if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+			  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) ||
+			  ((I_IR[23:20] == I_EDDestRegIdx)  && I_EDDestWrite) || 
+			  ((I_IR[23:20] == I_MDDestRegIdx)  && I_MDDestWrite) )
+			   dep_stall = 1;
+			 else dep_stall = 0; 
 	  end
 	
 	`OP_BRP:
