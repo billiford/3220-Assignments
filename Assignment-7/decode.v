@@ -427,13 +427,13 @@ always @(*) begin
 
 	`OP_JSR:
 	  begin
-			RF[7] = I_PC; // Should this be I_PC or O_PC or neither??
+			//RF[7] = I_PC; // Should this be I_PC or O_PC or neither??
 	  end
 
 	`OP_JSRR:
 	  begin
 			DestRegIdx = I_IR[19:16];
-			RF[7] = I_PC;
+			//RF[7] = I_PC;
 	  end
 	     
 	
@@ -469,13 +469,14 @@ always @(*) begin
 /////////////////////////////////////////
 always @(posedge I_CLOCK)
 begin
-  if (I_LOCK == 1'b1)
+  if (I_LOCK == 1'b0)
   begin
     /////////////////////////////////////////////
     // TODO: Complete here 
     /////////////////////////////////////////////
     // register write should come here 
-	 
+	//if (I_WriteBackRegIdx && I_WriteBackData)
+		RF[I_WriteBackRegIdx] = I_WriteBackData;
 	
   end // if (I_LOCK == 1'b1)
 end // always @(posedge I_CLOCK)

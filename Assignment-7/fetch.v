@@ -49,7 +49,7 @@ reg[`INST_WIDTH-1:0] InstMem[0:`INST_MEM_SIZE-1];
 //
 initial 
 begin
-  $readmemh("test0.hex", InstMem);
+  $readmemh("sum.hex", InstMem);
 
   O_LOCK = 1'b0;
   O_PC = 16'h0;
@@ -89,7 +89,6 @@ begin
        O_PC <= 0;
        O_IR <= IR_out;
        O_FE_Valid <= 0; 
-     
   end else // if (I_LOCK == 0)
   begin
     /////////////////////////////////////////////
