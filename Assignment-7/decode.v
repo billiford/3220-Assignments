@@ -386,8 +386,7 @@ always @(*) begin
 	  begin
 			Src1Value = RF[I_IR[19:16]];
 			Imm = I_IR[15:0];
-			DestRegIdx = I_IR[23:20];		
-		branch_stall = 0;			
+			DestRegIdx = I_IR[23:20];			
 	  end
 	
 	`OP_STB:
@@ -395,7 +394,6 @@ always @(*) begin
 			Src1Value = RF[I_IR[19:16]];
 			Imm = I_IR[15:0];
 			DestRegIdx = I_IR[23:20];
-			branch_stall = 0;
 	  end
 	
 	`OP_STW:
@@ -403,37 +401,56 @@ always @(*) begin
 			Src1Value = RF[I_IR[19:16]]; //base register src[1]
 			Imm = I_IR[15:0]; //offset imm (int_value)
 			DestRegIdx = I_IR[23:20]; //srcregisteridx src[0]
-			branch_stall = 0;
 	  end
 	
 	`OP_BRP:
 	  begin
 			Imm = I_IR[15:0];
-			branch_stall = 1;
+			if (I_CCWEn || I_EDCCWEn || I_MDCCWEn)
+				dep_stall = 1;
+			else begin
+				dep_stall = 0;
+			end
 	  end
 	
 	`OP_BRN:
 	  begin
 			Imm = I_IR[15:0];
-			branch_stall = 1;
+			if (I_CCWEn || I_EDCCWEn || I_MDCCWEn)
+				dep_stall = 1;
+			else begin
+				dep_stall = 0;
+			end
 	  end 
 
 	`OP_BRZ:
 	  begin
 			Imm = I_IR[15:0];
-			branch_stall = 1;
+			if (I_CCWEn || I_EDCCWEn || I_MDCCWEn)
+				dep_stall = 1;
+			else begin
+				dep_stall = 0;
+			end
 	  end
 	
 	`OP_BRNP: 
 	  begin
 			Imm = I_IR[15:0];
-			dep_stall = 1;
+			if (I_CCWEn || I_EDCCWEn || I_MDCCWEn)
+				dep_stall = 1;
+			else begin
+				dep_stall = 0;
+			end
 	  end
 	
 	`OP_BRZP: 
 	  begin
-			Imm = I_IR[15:0];
-			branch_stall = 1;			
+			Imm = I_IR[15:0];	
+			if (I_CCWEn || I_EDCCWEn || I_MDCCWEn)
+				dep_stall = 1;
+			else begin
+				dep_stall = 0;
+			end			
 	  end 
 	
 		
@@ -450,6 +467,11 @@ always @(*) begin
 	`OP_BRNZP: 
 	  begin
 			Imm = I_IR[15:0];
+			if (I_CCWEn || I_EDCCWEn || I_MDCCWEn)
+				dep_stall = 1;
+			else begin
+				dep_stall = 0;
+			end
 	  end 
 
 	`OP_JMP:
