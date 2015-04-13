@@ -126,6 +126,7 @@ end
 // ## Note ##
 // 1. Do the appropriate memory operations.
 /////////////////////////////////////////
+
 always @(negedge I_CLOCK)
 begin
   O_LOCK <= I_LOCK;
@@ -157,12 +158,14 @@ SevenSeg sseg0(.OUT(O_HEX3), .IN(HexOut[15:12]));
 SevenSeg sseg1(.OUT(O_HEX2), .IN(HexOut[11:8]));
 SevenSeg sseg2(.OUT(O_HEX1), .IN(HexOut[7:4]));
 SevenSeg sseg3(.OUT(O_HEX0), .IN(HexOut[3:0]));
-
+//assign O_HEX3 = 7'b0000111;
+//assign O_HEX2 = 7'b0000111;
+//assign O_HEX1 = 7'b0000111;
+//assign O_HEX0 = 7'b0000111;
 
 // Create and connect LEDR, LEDG registers 
 reg [9:0] LedROut;
 reg [7:0] LedGOut;
-
 
 wire [`DATA_MEM_ADDR_SIZE-1:0] mar_line_addr;
 reg [`DATA_WIDTH-1:0]      dst_value;
@@ -184,8 +187,6 @@ assign mar_line_addr = (I_MARValue >> 1) ; // data is stored with word address
 	O_DestRegIdx = I_DestRegIdx;
 	O_DestValue = I_DestValue;
  end // always @ (*)
-   
-
    
 always @(negedge I_CLOCK)
 begin
