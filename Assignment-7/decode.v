@@ -347,14 +347,15 @@ always @(*) begin
 	   begin
 			Src1Value = RF[I_IR[19:16]];
 			Src2Value = RF[I_IR[11:8]];
-			branch_stall = 0;
+			//branch_stall = 0;
 	   end
 	
 	`OP_CMPI:
 	  begin
 	     Src1Value = RF[I_IR[19:16]];
 		  Imm = I_IR[15:0];
-		  branch_stall = 0;
+		  dep_stall = 0;
+		  //branch_stall = 0;
 	  end
  
 	`OP_VCOMPMOV:
@@ -426,7 +427,7 @@ always @(*) begin
 	`OP_BRNP: 
 	  begin
 			Imm = I_IR[15:0];
-			branch_stall = 1;
+			dep_stall = 1;
 	  end
 	
 	`OP_BRZP: 
@@ -439,19 +440,21 @@ always @(*) begin
 	`OP_BRNZ: 
 	  begin
 			Imm = I_IR[15:0];	
-			branch_stall = 1;
+			if (I_CCWEn || I_EDCCWEn || I_MDCCWEn)
+				dep_stall = 1;
+			else begin
+				dep_stall = 0;
+			end
 	  end 
 
 	`OP_BRNZP: 
 	  begin
 			Imm = I_IR[15:0];
-			branch_stall = 1;
 	  end 
 
 	`OP_JMP:
 	  begin
 			DestRegIdx = I_IR[19:16];
-			branch_stall = 0;
 	  end
 
 	`OP_JSR:

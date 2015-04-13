@@ -99,10 +99,16 @@ begin
 		O_FE_Valid <= 0;
 	else 
 		O_FE_Valid <= O_FE_Valid;*/
-	if (I_BranchStallSignal) begin
+	if (I_BranchAddrSelect) begin
+		O_PC <= O_PC + I_BranchPC - 4; //hacky solution
+		O_IR <= 32'hFF000000;
+		O_FE_Valid <= 1;
+	end else if (I_BranchStallSignal) begin
 		O_FE_Valid <= 0;
-		O_PC <= O_PC;
-		O_IR <= 32'hFF000000; 
+		O_PC <= (latch_keep) ? O_PC: O_PC + 4;
+		O_IR <= (latch_keep) ? O_IR: IR_out; 
+		/*O_PC <= (latch_keep) ? O_PC: O_PC + 4;
+		O_IR <= (latch_keep) ? O_IR: IR_out; */
 	end else begin
 		O_PC <= (latch_keep) ? O_PC: O_PC + 4;
 		O_IR <= (latch_keep) ? O_IR: IR_out; 

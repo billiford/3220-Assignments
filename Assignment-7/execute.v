@@ -93,8 +93,8 @@ output reg O_CCWEn;
  		    
 
  // Signals to the front-end  (Note: suffix Signal means the output signal is not from reg) 
-output [`PC_WIDTH-1:0] O_BranchPC_Signal;
-output O_BranchAddrSelect_Signal;
+output reg [`PC_WIDTH-1:0] O_BranchPC_Signal; //changed to reg
+output reg O_BranchAddrSelect_Signal; //changed to reg
 
 // Signals to the DE stage for dependency checking    
 output reg O_RegWEn_Signal; //Changed this from output to output reg
@@ -138,32 +138,32 @@ end
       case (I_Opcode)
 	`OP_ADD_D:
 	  begin 
-		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
-		DestValue <= I_Src1Value + I_Src2Value;
+		DestRegIdx = I_DestRegIdx; // why are these "<=" and not just "=" ?
+		DestValue = I_Src1Value + I_Src2Value;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 	  end
 	
 	`OP_ADD_F:
 	  begin 
-		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
-		DestValue <= I_Src1Value + I_Src2Value;
+		DestRegIdx = I_DestRegIdx; // why are these "<=" and not just "=" ?
+		DestValue = I_Src1Value + I_Src2Value;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 	  end
 		     
 	`OP_ADDI_D:
 	  begin
-		DestRegIdx <= I_DestRegIdx;
-		DestValue <= I_Src1Value + I_Imm;
+		DestRegIdx = I_DestRegIdx;
+		DestValue = I_Src1Value + I_Imm;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 	  end
 	
 	`OP_ADDI_F:
 	  begin
-		DestRegIdx <= I_DestRegIdx;
-		DestValue <= I_Src1Value + I_Imm;
+		DestRegIdx = I_DestRegIdx;
+		DestValue = I_Src1Value + I_Imm;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 	  end
@@ -174,36 +174,36 @@ end
 	  end
 	`OP_AND_D:
 	  begin
-		DestRegIdx <= I_DestRegIdx; // why are these "<=" and not just "=" ?
-		DestValue <= I_Src1Value & I_Src2Value; // does this work?
+		DestRegIdx = I_DestRegIdx; // why are these "<=" and not just "=" ?
+		DestValue = I_Src1Value & I_Src2Value; // does this work?
 		//RF[DestRegIdx] <= DestValue;	
 		write_dest = 1;
 	  end
 	
 	 `OP_ANDI_D:
 	   begin
-		DestRegIdx <= I_DestRegIdx;
-		DestValue <= I_Src1Value & I_Imm;
+		DestRegIdx = I_DestRegIdx;
+		DestValue = I_Src1Value & I_Imm;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 	   end
 	`OP_MOV:
 	  begin 
-		DestRegIdx <= I_DestRegIdx;
+		DestRegIdx = I_DestRegIdx;
 		//RF[DestRegIdx] <= I_Src1Value;
 		write_dest = 1;
 	  end
 	
 	`OP_MOVI_D:
 	  begin 
-		DestRegIdx <= I_DestRegIdx;
+		DestRegIdx = I_DestRegIdx;
 		//RF[DestRegIdx] <= I_Imm;
 		write_dest = 1;
 	  end
 	
 	`OP_MOVI_F:
 	  begin 
-		DestRegIdx <= I_DestRegIdx;
+		DestRegIdx = I_DestRegIdx;
 		//RF[DestRegIdx] <= I_Imm;		
 		write_dest = 1;
 	  end
@@ -274,7 +274,7 @@ end
 	  begin
 		if (I_CCValue == `CC_P) 
 		begin
-			O_R15PC <= I_Imm;
+			O_R15PC = I_Imm;
 		end
 	  end
 	
@@ -282,7 +282,7 @@ end
 	  begin
 		if (I_CCValue == `CC_N) 
 		begin
-			O_R15PC <= I_Imm;
+			O_R15PC = I_Imm;
 		end
 	  end 
 
@@ -290,7 +290,7 @@ end
 	  begin
 		if (I_CCValue == `CC_Z) 
 		begin
-			O_R15PC <= I_Imm;
+			O_R15PC = I_Imm;
 		end
 	  end
 	
@@ -298,7 +298,7 @@ end
 	  begin
 		if (I_CCValue == `CC_P && I_CCValue == `CC_N) 
 		begin
-			O_R15PC <= I_Imm;
+			O_R15PC = I_Imm;
 		end
 	  end
 	
@@ -306,7 +306,7 @@ end
 	  begin
 		if (I_CCValue == `CC_Z && I_CCValue == `CC_P) 
 		begin
-			O_R15PC <= I_Imm;
+			O_R15PC = I_Imm;
 		end	  
 	  end 
 	
@@ -315,15 +315,17 @@ end
 	  begin
 		if (I_CCValue == `CC_N || I_CCValue == `CC_Z) 
 		begin
-			O_R15PC <= I_Imm;
-		end	 	     
+			O_R15PC = I_Imm;
+			O_BranchAddrSelect_Signal = 1;
+		end	else
+			O_BranchAddrSelect_Signal = 0;
 	  end 
 
 	`OP_BRNZP: 
 	  begin
 		if (I_CCValue == `CC_N && I_CCValue == `CC_Z && I_CCValue == `CC_P) 
 		begin
-			O_R15PC <= I_Imm;
+			O_R15PC = I_Imm;
 		end	 
 	  end 
 
@@ -345,10 +347,15 @@ end
 	default:
 	  begin 
 		write_dest = 0;
+		cc_write = 0;
+		O_BranchAddrSelect_Signal = 0;
 	  end 
       endcase //case (I_OPCDE) 
 	  O_RegWEn_Signal = write_dest;
 	  O_CCWEn_Signal = cc_write;
+	  if (O_BranchAddrSelect_Signal) begin
+			O_BranchPC_Signal = O_R15PC;
+		end
    end // always @ begin
    
  	 
