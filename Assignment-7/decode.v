@@ -399,9 +399,9 @@ always @(*) begin
 	
 	`OP_STW:
 	  begin
-			Src1Value = RF[I_IR[19:16]];
-			Imm = I_IR[15:0];
-			DestRegIdx = I_IR[23:20];
+			Src1Value = RF[I_IR[19:16]]; //base register src[1]
+			Imm = I_IR[15:0]; //offset imm (int_value)
+			DestRegIdx = I_IR[23:20]; //srcregisteridx src[0]
 			branch_stall = 0;
 	  end
 	
