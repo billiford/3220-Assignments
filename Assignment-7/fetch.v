@@ -74,6 +74,7 @@ end
    assign IR_out = InstMem[PC_line];
 	
 	assign latch_keep = I_DepStallSignal; 
+	//assign O_FE_Valid = I_BranchStallSignal ? 0 : 1;
    
 /////////////////////////////////////////
 // ## Note ##
@@ -94,12 +95,20 @@ begin
     /////////////////////////////////////////////
     // TODO: Complete here
     /////////////////////////////////////////////
-    O_PC <= (latch_keep) ? O_PC: O_PC + 4;
-    O_IR <= (latch_keep) ? O_IR: IR_out; 
-	if (I_BranchStallSignal == 1)
+	/*if (I_BranchStallSignal == 1)
 		O_FE_Valid <= 0;
 	else 
+		O_FE_Valid <= O_FE_Valid;*/
+	if (I_BranchStallSignal) begin
+		O_FE_Valid <= 0;
+		O_PC <= O_PC;
+		O_IR <= 32'hFF000000; 
+	end else begin
+		O_PC <= (latch_keep) ? O_PC: O_PC + 4;
+		O_IR <= (latch_keep) ? O_IR: IR_out; 
 		O_FE_Valid <= O_FE_Valid;
+	end
+
   end // if (I_LOCK == 0)
 end // always @(negedge I_CLOCK)
 

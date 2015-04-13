@@ -225,7 +225,7 @@ always @(*) begin
 	       dep_stall = 1;
 	     else dep_stall = 0; 
 
-		branch_stall = 0;
+		//branch_stall = 0;
 	  end
 
 	// complete other opcodes 
@@ -243,7 +243,7 @@ always @(*) begin
 		  ((I_IR[11:8] == I_MDDestRegIdx)  && I_MDDestWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0; 
-		 branch_stall = 0;
+		 //branch_stall = 0;
 	  end
 		     
 	`OP_ADDI_D:
@@ -256,7 +256,7 @@ always @(*) begin
 		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0; 
-		 branch_stall = 0;
+		 //branch_stall = 0;
 	  end
 	
 	`OP_ADDI_F:
@@ -269,7 +269,7 @@ always @(*) begin
 		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0;
-		 branch_stall = 0;
+		 //branch_stall = 0;
 	  end
 	
 	`OP_VADD:
@@ -278,7 +278,7 @@ always @(*) begin
 		VecSrc1Value = VRF[I_IR[13:8]];
 		VecSrc2Value = VRF[I_IR[5:0]];
 		//VecDestRegIdx = I_IR[21:16]; //TODO this is not declared
-		branch_stall = 0;
+		//branch_stall = 0;
 	  end
 	`OP_AND_D:
 	// Same as ADD_D
@@ -293,7 +293,7 @@ always @(*) begin
 		  ((I_IR[11:8] == I_MDDestRegIdx)  && I_MDDestWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0; 		
-		branch_stall = 0;		 
+		//branch_stall = 0;		 
 	  end
 	
 	 `OP_ANDI_D:
@@ -307,27 +307,27 @@ always @(*) begin
 		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0; 
-		 branch_stall = 0;
+		 //branch_stall = 0;
 	   end
 	`OP_MOV:
 	  begin 
 		DestRegIdx = I_IR[19:16];
 		Src1Value = RF[I_IR[11:8]];
-		branch_stall = 0;
+		//branch_stall = 0;
 	  end
 	
 	`OP_MOVI_D:
 	  begin 
 		DestRegIdx = I_IR[19:16];
 		Imm = I_IR[15:0];
-		branch_stall = 0;
+		//branch_stall = 0;
 	  end
 	
 	`OP_MOVI_F:
 	  begin 
 		DestRegIdx = I_IR[19:16];
 		Imm = I_IR[15:0]; // TODO: Is there a FP immediate thing?
-		branch_stall = 0;
+		//branch_stall = 0;
 	  end
 	
 	`OP_VMOV:
@@ -473,7 +473,7 @@ always @(*) begin
       endcase // case (IR[31:24])
 	  
 	O_DepStallSignal = dep_stall;
-	O_BranchStallSignal = branch_stall;
+	O_BranchStallSignal = br_stall;
    end // always @ (*)
 
 
@@ -535,7 +535,7 @@ begin
 		O_DestRegIdx <= DestRegIdx;
 		O_DE_Valid <= I_FE_Valid;
 		O_CCValue <= I_CCValue;
-		if (dep_stall == 0 && I_FE_Valid) begin
+		if (dep_stall == 0) begin
 			O_PC <= I_PC;
 			O_IR <= I_IR;
 			O_Opcode <= Opcode;
