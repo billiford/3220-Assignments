@@ -190,12 +190,12 @@ assign mar_line_addr = (I_MARValue >> 1) ; // data is stored with word address
    
 always @(negedge I_CLOCK)
 begin
-  if (I_LOCK == 1) begin
-    HexOut <= 16'hBEEF;
+  if (I_LOCK == 1'b0) begin
+    HexOut <= 16'hBFFF;
     LedGOut <= 8'b11111111;
     LedROut <= 10'b1111111111;
 	O_MEM_Valid <= 1'b0;
-	//O_RegWEn <= 1'b0;
+	O_RegWEn <= 1'b0;
 	O_VRegWEn <= 1'b0;
 	O_CCWEn <= 1'b0; 
 	O_PC <= I_PC;
@@ -209,10 +209,11 @@ begin
 	
 	O_CCValue <= I_CCValue;
 	O_CCWEn <= I_CCWEn;
+	//HexOut <= I_MDRValue;
     // You need to add more conditions to perform store operations. (Hints: check valid bits) 
     if (I_Opcode == `OP_STW) begin
 		// memory mapped IO operations 
-		// HexOut <= I_MDRValue;
+		//HexOut <= I_MARValue;
 		if (I_MARValue[9:0] == `ADDRHEX)
 			HexOut <= I_MDRValue;
 		else if (I_MARValue[9:0] == `ADDRLEDR)

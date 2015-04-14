@@ -533,7 +533,7 @@ always @(*) begin
 /////////////////////////////////////////
 always @(posedge I_CLOCK)
 begin
-  if (I_LOCK == 1'b0)
+  if (I_LOCK == 1'b1)
   begin
     /////////////////////////////////////////////
     // TODO: Complete here 
@@ -555,7 +555,7 @@ always @(negedge I_CLOCK)
 begin
    O_LOCK <= I_LOCK;
    
-   if (I_LOCK == 1'b1)
+   if (I_LOCK == 1'b0)
      begin
        O_DE_Valid <= 0; 
 	/////////////////////////////////////////////

@@ -49,7 +49,7 @@ reg[`INST_WIDTH-1:0] InstMem[0:`INST_MEM_SIZE-1];
 //
 initial 
 begin
-  $readmemh("davidsum.hex", InstMem);
+  $readmemh("sum2.hex", InstMem);
 
   O_LOCK = 1'b0;
   O_PC = 16'h0;
@@ -85,7 +85,7 @@ always @(negedge I_CLOCK)
 begin      
   O_LOCK <= I_LOCK;
 
-  if (I_LOCK == 1)
+  if (I_LOCK == 0)
     begin
        O_PC <= 0;
        O_IR <= IR_out;
@@ -99,8 +99,8 @@ begin
 		O_FE_Valid <= 0;
 	else 
 		O_FE_Valid <= O_FE_Valid;*/
-	if (I_BranchAddrSelect) begin
-		O_PC <= O_PC + I_BranchPC - 4; //hacky solution
+	if (I_BranchAddrSelect && !O_FE_Valid) begin
+		O_PC <= O_PC + (I_BranchPC * 4) - 4; //hacky solution
 		O_IR <= 32'hFF000000;
 		O_FE_Valid <= 1;
 	end else if (I_BranchStallSignal) begin

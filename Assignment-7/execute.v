@@ -85,6 +85,11 @@ output reg O_EX_Valid;
     
 output reg[`REG_WIDTH-1:0] O_MARValue;
 output reg[`REG_WIDTH-1:0] O_MDRValue;
+
+reg[`REG_WIDTH-1:0] MARValue;
+reg[`REG_WIDTH-1:0] MDRValue;
+
+reg [`PC_WIDTH-1:0] R15PC;
     
 
 output reg O_RegWEn;
@@ -114,6 +119,7 @@ reg [`REG_WIDTH-1:0] DestValue;
 reg[7:0] trav;
 reg write_dest;
 reg cc_write;
+reg br_addr_sig;
 reg [2:0] cc;
 reg [1:0] nop_count;
 
@@ -273,15 +279,15 @@ end
 		//MAR value is the address value
 		//Need some trial and error to check to see if this is correct?
 		//https://piazza.com/class/i4mxk414x2b6sf?cid=51
-		O_MDRValue <= I_Src2Value;
-		O_MARValue <= I_Imm + I_Src1Value;
+		MDRValue = I_Src2Value;
+		MARValue = I_Imm + I_Src1Value;
 	  end
 	
 	`OP_BRP:
 	  begin
 		if (I_CCValue == `CC_P) 
 		begin
-			O_R15PC = I_Imm;
+			R15PC = I_Imm;
 		end
 	  end
 	
@@ -289,7 +295,7 @@ end
 	  begin
 		if (I_CCValue == `CC_N) 
 		begin
-			O_R15PC = I_Imm;
+			R15PC = I_Imm;
 		end
 	  end 
 
@@ -297,7 +303,7 @@ end
 	  begin
 		if (I_CCValue == `CC_Z) 
 		begin
-			O_R15PC = I_Imm;
+			R15PC = I_Imm;
 		end
 	  end
 	
@@ -305,7 +311,7 @@ end
 	  begin
 		if (I_CCValue == `CC_P && I_CCValue == `CC_N) 
 		begin
-			O_R15PC = I_Imm;
+			R15PC = I_Imm;
 		end
 	  end
 	
@@ -313,7 +319,7 @@ end
 	  begin
 		if (I_CCValue == `CC_Z && I_CCValue == `CC_P) 
 		begin
-			O_R15PC = I_Imm;
+			R15PC = I_Imm;
 		end	  
 	  end 
 	
@@ -322,17 +328,17 @@ end
 	  begin
 		if (I_CCValue == `CC_N || I_CCValue == `CC_Z) 
 		begin
-			O_R15PC = I_Imm;
-			O_BranchAddrSelect_Signal = 1;
+			R15PC = I_Imm;
+			br_addr_sig = 1;
 		end	else
-			O_BranchAddrSelect_Signal = 0;
+			br_addr_sig = 0;
 	  end 
 
 	`OP_BRNZP: 
 	  begin
 		if (I_CCValue == `CC_N && I_CCValue == `CC_Z && I_CCValue == `CC_P) 
 		begin
-			O_R15PC = I_Imm;
+			R15PC = I_Imm;
 		end	 
 	  end 
 
@@ -355,17 +361,18 @@ end
 	  begin 
 		write_dest = 0;
 		cc_write = 0;
-		O_BranchAddrSelect_Signal = 0;
+		br_addr_sig = 0;
 	  end 
       endcase //case (I_OPCDE) 
 	  O_RegWEn_Signal = write_dest;
 	  O_CCWEn_Signal = cc_write;
-	  if (O_BranchAddrSelect_Signal) begin
-			O_BranchPC_Signal = O_R15PC;
+	  O_BranchAddrSelect_Signal = br_addr_sig;
+	  if (br_addr_sig) begin
+			O_BranchPC_Signal = R15PC;
 		end
 		
 	O_DestRegIdx = DestRegIdx;
-		O_DestValue = DestValue;
+	O_DestValue = DestValue;
    end // always @ begin
    
  	 
@@ -386,12 +393,15 @@ begin
   O_IR <= I_IR;
   O_Opcode <= I_Opcode;
   
-  if (I_LOCK == 1'b1) 
+  if (I_LOCK == 1'b0) 
     begin
     // TODO: Complete here 
     end
   else // I_LOCK = 1'b0  
     begin 
+		O_MDRValue <= MDRValue;
+		O_MARValue <= MARValue;
+		O_R15PC <= R15PC;
 		
         O_EX_Valid <= I_DE_Valid;
         O_RegWEn <= O_RegWEn_Signal;
