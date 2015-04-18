@@ -277,7 +277,7 @@ always @(*) begin
 	  // TODO: Check these indices 2 make sure
 		VecSrc1Value = VRF[I_IR[13:8]];
 		VecSrc2Value = VRF[I_IR[5:0]];
-		//VecDestRegIdx = I_IR[21:16]; //TODO this is not declared
+		//DestVRegIdx = I_IR[21:16]; //TODO this is not declared
 		//branch_stall = 0;
 	  end
 	`OP_AND_D:
@@ -342,16 +342,16 @@ always @(*) begin
 	     else dep_stall = 0; 
 	  end
 	
-	`OP_VMOV:
+	`OP_VMOV: //TODO COMPLETEME
 	  begin 
-		//VecDestRegIdx = I_IR[21:16]; // TODO: this is not declared
+		DestVRegIdx = I_IR[21:16];
 		VecSrc1Value = VRF[I_IR[13:8]];
 		branch_stall = 0;
 	  end
 	  
-	`OP_VMOVI:
+	`OP_VMOVI: //TODO COMPLETEME
 	  begin 
-		//VecDestRegIdx = I_IR[21:16]; // TODO: this is not declared
+		DestVRegIdx = I_IR[21:16];
 		Imm = I_IR[16:0];
 		branch_stall = 0;
 	  end 
@@ -371,15 +371,15 @@ always @(*) begin
 		  //branch_stall = 0;
 	  end
  
-	`OP_VCOMPMOV:
+	`OP_VCOMPMOV: //TODO COMPLETEME
 	  begin
 	     DestVRegIdx = I_IR[16:11];
-		  //VSrc1 = RF[I_IR[8:5]]; // TODO: this is not declared
+		  VecSrc1Value = RF[I_IR[8:5]];
 		  Idx = I_IR[22:19]; //Does this need to index into RF?
 		  branch_stall = 0;
 	  end 
 	
-	`OP_VCOMPMOVI:
+	`OP_VCOMPMOVI: //TODO COMPLETEME
 	  begin
 			DestVRegIdx = I_IR[16:11];
 			Imm = I_IR[15:0];
@@ -387,7 +387,7 @@ always @(*) begin
 			branch_stall = 0;
 	  end 
 	
-	`OP_LDB:
+	`OP_LDB: //TODO: COMPLETEME ?
 	  begin
 			Src1Value = RF[I_IR[19:16]];
 			Imm = I_IR[15:0];
@@ -395,7 +395,7 @@ always @(*) begin
 			branch_stall = 0;
 	  end
 	
-	`OP_LDW:
+	`OP_LDW: //TODO: COMPLETEME
 	  begin
 			Src1Value = RF[I_IR[19:16]];
 			Imm = I_IR[15:0];
@@ -499,20 +499,19 @@ always @(*) begin
 			end
 	  end 
 
-	`OP_JMP:
+	`OP_JMP: //TODO: COMPLETEME
 	  begin
-			DestRegIdx = I_IR[19:16];
+			DestRegIdx = I_IR[19:16]; //19-16 is jump offset register index
 	  end
 
-	`OP_JSR:
+	`OP_JSR: //TODO: COMPLETEME
 	  begin
-			//RF[7] = I_PC; // Should this be I_PC or O_PC or neither??
+			Imm = I_IR[15:0]; //lower 15 are jump offset
 	  end
 
-	`OP_JSRR:
+	`OP_JSRR: //TODO: COMPLETEME
 	  begin
-			DestRegIdx = I_IR[19:16];
-			//RF[7] = I_PC;
+			DestRegIdx = I_IR[19:16]; //same as JMP
 	  end
 	     
 	
