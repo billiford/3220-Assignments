@@ -277,7 +277,7 @@ always @(*) begin
 	  // TODO: Check these indices 2 make sure
 		VecSrc1Value = VRF[I_IR[13:8]];
 		VecSrc2Value = VRF[I_IR[5:0]];
-		//DestVRegIdx = I_IR[21:16]; //TODO this is not declared
+		DestVRegIdx = I_IR[21:16];
 		//branch_stall = 0;
 	  end
 	`OP_AND_D:
@@ -371,11 +371,12 @@ always @(*) begin
 		  //branch_stall = 0;
 	  end
  
-	`OP_VCOMPMOV: //TODO COMPLETEME
+	`OP_VCOMPMOV: //TODO COMPLETEME 
+	// vector reg dest[idx] <- scalar src register
 	  begin
 	     DestVRegIdx = I_IR[16:11];
-		  VecSrc1Value = RF[I_IR[8:5]];
-		  Idx = I_IR[22:19]; //Does this need to index into RF?
+		  Src1Value = RF[I_IR[8:5]];
+		  Idx = I_IR[22:19];
 		  branch_stall = 0;
 	  end 
 	
@@ -383,7 +384,7 @@ always @(*) begin
 	  begin
 			DestVRegIdx = I_IR[16:11];
 			Imm = I_IR[15:0];
-			Idx = I_IR[22:19]; // Does this need to index into RF?
+			Idx = I_IR[22:19];
 			branch_stall = 0;
 	  end 
 	
@@ -513,7 +514,6 @@ always @(*) begin
 	  begin
 			DestRegIdx = I_IR[19:16]; //same as JMP
 	  end
-	     
 	
 	default:
 	  begin
