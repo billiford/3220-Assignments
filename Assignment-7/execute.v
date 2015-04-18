@@ -110,6 +110,8 @@ reg [`REG_WIDTH-1:0] Src2Value;
 reg [`REG_WIDTH-1:0] Imm;
 reg [3:0] DestRegIdx;   
 reg [`REG_WIDTH-1:0] DestValue;
+reg[`VREG_WIDTH-1:0] VecDestValue;
+reg [`VREG_ID_WIDTH-1:0] DestVRegIdx;
 //reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
 reg[7:0] trav;
 reg write_dest;
@@ -132,8 +134,6 @@ end
 // ALWAYS STATEMENT GOES HERE
 /////////////////////////////////////////
 //
-
-
    always @(*) begin  
       case (I_Opcode)
 	`OP_ADD_D:
@@ -168,9 +168,14 @@ end
 		write_dest = 1;
 	  end
 	
-	`OP_VADD:
+	`OP_VADD: //TODO Completeme, done-ish
 	  begin 
-
+	  integer i;
+	  DestVRegIdx = I_DestVRegIdx;
+		for (i = 0; i<`VREG_WIDTH; i=i+1) begin 
+			VecDestValue[i] = I_VecSrc1Value[i] + I_VecSrc2Value[i]; //is this how indexing works?
+		end
+		write_dest = 1;
 	  end
 	`OP_AND_D:
 	  begin
@@ -211,14 +216,24 @@ end
 		write_dest = 1;
 	  end
 	
-	`OP_VMOV:
+	`OP_VMOV: //TODO COMPLETEME, possibly done
 	  begin 
-
+	  integer i;
+	  DestVRegIdx = I_DestVRegIdx;
+		for (i = 0; i<`VREG_WIDTH; i=i+1) begin 
+			VecDestValue[i] = I_VecSrc1Value[i]; //is this how indexing works?
+		end
+		write_dest = 1;
 	  end
 	  
-	`OP_VMOVI:
+	`OP_VMOVI: //TODO COMPLETEME, possibly done
 	  begin 
-
+	  integer i;
+	  DestVRegIdx = I_DestVRegIdx;
+		for (i = 0; i<`VREG_WIDTH; i=i+1) begin 
+			VecDestValue[i] = I_Imm; //is this how indexing works?
+		end
+		write_dest = 1;
 	  end 
 	 `OP_CMP:
 	   begin
@@ -254,27 +269,29 @@ end
 		cc_write = 1;
 	  end
  
-	`OP_VCOMPMOV:
+	`OP_VCOMPMOV: //TODO COMPLETEME
 	  begin
-	     
+		DestVRegIdx = I_DestVRegIdx;
+		VecDestValue[I_Idx] = I_Src1Value;		
 	  end 
 	
-	`OP_VCOMPMOVI:
+	`OP_VCOMPMOVI: //TODO COMPLETEME
 	  begin
-	     
+		DestVRegIdx = I_DestVRegIdx;
+		VecDestValue[I_Idx] = I_Imm;
 	  end 
 	
-	`OP_LDB:
+	`OP_LDB: //TODO COMPLETEME
 	  begin
 
 	  end
 	
-	`OP_LDW:
+	`OP_LDW: //TODO COMPLETEME
 	  begin
 
 	  end
 	
-	`OP_STB:
+	`OP_STB: //TODO COMPLETEME
 	  begin
 
 	  end
@@ -362,17 +379,17 @@ end
 			O_BranchAddrSelect_Signal = 0;
 	  end
 
-	`OP_JMP:
+	`OP_JMP: //TODO COMPLETEME
 	  begin
 
 	  end
 
-	`OP_JSR:
+	`OP_JSR: //TODO COMPLETEME
 	  begin
 
 	  end
 
-	`OP_JSRR:
+	`OP_JSRR: //TODO COMPLETEME
 	  begin
 
 	  end
@@ -392,6 +409,8 @@ end
 		
 	O_DestRegIdx = DestRegIdx;
 		O_DestValue = DestValue;
+	O_VecDestValue = VecDestValue;
+		O_DestVRegIdx = DestVRegIdx;
    end // always @ begin
    
  	 
