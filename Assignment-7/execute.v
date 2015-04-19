@@ -134,6 +134,9 @@ end
 // ALWAYS STATEMENT GOES HERE
 /////////////////////////////////////////
 //
+integer i;
+integer j;
+integer k;
    always @(*) begin  
       case (I_Opcode)
 	`OP_ADD_D:
@@ -169,11 +172,10 @@ end
 	  end
 	
 	`OP_VADD: //TODO Completeme, done-ish
-	  begin 
-	  integer i;
+	  begin
 	  DestVRegIdx = I_DestVRegIdx;
-		for (i = 0; i<`VREG_WIDTH; i=i+1) begin 
-			VecDestValue[i] = I_VecSrc1Value[i] + I_VecSrc2Value[i]; //is this how indexing works?
+		for (k = 0; k<`VREG_WIDTH; k=k+1) begin 
+			VecDestValue[k] = I_VecSrc1Value[k] + I_VecSrc2Value[k]; //is this how indexing works?
 		end
 		write_dest = 1;
 	  end
@@ -218,7 +220,6 @@ end
 	
 	`OP_VMOV: //TODO COMPLETEME, possibly done
 	  begin 
-	  integer i;
 	  DestVRegIdx = I_DestVRegIdx;
 		for (i = 0; i<`VREG_WIDTH; i=i+1) begin 
 			VecDestValue[i] = I_VecSrc1Value[i]; //is this how indexing works?
@@ -228,10 +229,9 @@ end
 	  
 	`OP_VMOVI: //TODO COMPLETEME, possibly done
 	  begin 
-	  integer i;
 	  DestVRegIdx = I_DestVRegIdx;
-		for (i = 0; i<`VREG_WIDTH; i=i+1) begin 
-			VecDestValue[i] = I_Imm; //is this how indexing works?
+		for (j = 0; j<`VREG_WIDTH; j=j+1) begin 
+			VecDestValue[j] = I_Imm; //is this how indexing works?
 		end
 		write_dest = 1;
 	  end 
