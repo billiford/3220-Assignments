@@ -154,6 +154,13 @@ integer k;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 		br_addr_signal = 0;
+		if (I_Src1Value + I_Src2Value > 16'h8000)
+			cc = `CC_N;
+		else if (I_Src1Value + I_Src2Value == 16'h0000)
+			cc = `CC_Z;
+		else
+			cc = `CC_P;
+		cc_write = 1;	
 	  end
 	
 	`OP_ADD_F:
@@ -163,6 +170,13 @@ integer k;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 		br_addr_signal = 0;
+		if (I_Src1Value + I_Src2Value > 16'h8000)
+			cc = `CC_N;
+		else if (I_Src1Value + I_Src2Value == 16'h0000)
+			cc = `CC_Z;
+		else
+			cc = `CC_P;
+		cc_write = 1;
 	  end
 		     
 	`OP_ADDI_D:
@@ -188,6 +202,13 @@ integer k;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 		br_addr_signal = 0;
+		if (I_Src1Value + I_Imm > 16'h8000)
+			cc = `CC_N;
+		else if (I_Src1Value + I_Imm == 16'h0000)
+			cc = `CC_Z;
+		else
+			cc = `CC_P;
+		cc_write = 1;
 	  end
 	
 	`OP_VADD: //TODO Completeme, done-ish
@@ -206,6 +227,13 @@ integer k;
 		//RF[DestRegIdx] <= DestValue;	
 		write_dest = 1;
 		br_addr_signal = 0;
+		if (I_Src1Value & I_Src2Value > 16'h8000)
+			cc = `CC_N;
+		else if (I_Src1Value & I_Src2Value == 16'h0000)
+			cc = `CC_Z;
+		else
+			cc = `CC_P;
+		cc_write = 1;	
 	  end
 	
 	 `OP_ANDI_D:
@@ -215,6 +243,13 @@ integer k;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
 		br_addr_signal = 0;
+		if (I_Src1Value & I_Imm > 16'h8000)
+			cc = `CC_N;
+		else if (I_Src1Value & I_Imm == 16'h0000)
+			cc = `CC_Z;
+		else
+			cc = `CC_P;
+		cc_write = 1;	
 	   end
 	`OP_MOV:
 	  begin 
@@ -223,6 +258,13 @@ integer k;
 		//RF[DestRegIdx] <= I_Src1Value;
 		write_dest = 1;
 		br_addr_signal = 0;
+		if (I_Src1Value  > 16'h8000)
+			cc = `CC_N;
+		else if (I_Src1Value == 16'h0000)
+			cc = `CC_Z;
+		else
+			cc = `CC_P;
+		cc_write = 1;	
 	  end
 	
 	`OP_MOVI_D:
@@ -230,6 +272,13 @@ integer k;
 		DestRegIdx = I_DestRegIdx;
 		DestValue = I_Imm;
 		//RF[DestRegIdx] <= I_Imm;
+		if (I_Imm > 16'h8000)
+			cc = `CC_N;
+		else if (I_Imm == 16'h0000)
+			cc = `CC_Z;
+		else
+			cc = `CC_P;
+		cc_write = 1;	
 		write_dest = 1;
 		br_addr_signal = 0;
 	  end
@@ -239,6 +288,13 @@ integer k;
 		DestRegIdx = I_DestRegIdx;
 		DestValue = I_Imm;
 		//RF[DestRegIdx] <= I_Imm;
+		if (I_Imm > 16'h8000)
+			cc = `CC_N;
+		else if (I_Imm == 16'h0000)
+			cc = `CC_Z;
+		else
+			cc = `CC_P;
+		cc_write = 1;	
 		write_dest = 1;
 		br_addr_signal = 0;
 	  end
@@ -304,7 +360,7 @@ integer k;
 		br_addr_signal = 0;
 	  end 
 	
-	`OP_LDB: //TODO COMPLETEME? 
+	`OP_LDB: 
 	  begin
 
 	  end
@@ -318,7 +374,7 @@ integer k;
 		br_addr_signal = 0;
 	  end
 	
-	`OP_STB: //TODO COMPLETEME?
+	`OP_STB: 
 	  begin
 
 	  end
