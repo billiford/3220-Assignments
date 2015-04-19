@@ -154,10 +154,14 @@ end // always @(negedge I_CLOCK)
 // Create and connect HEX register 
 reg [15:0] HexOut;
 
-SevenSeg sseg0(.OUT(O_HEX3), .IN(HexOut[15:12]));
+/*SevenSeg sseg0(.OUT(O_HEX3), .IN(HexOut[15:12]));
 SevenSeg sseg1(.OUT(O_HEX2), .IN(HexOut[11:8]));
 SevenSeg sseg2(.OUT(O_HEX1), .IN(HexOut[7:4]));
-SevenSeg sseg3(.OUT(O_HEX0), .IN(HexOut[3:0]));
+SevenSeg sseg3(.OUT(O_HEX0), .IN(HexOut[3:0]));*/
+SevenSeg sseg0(.IN(HexOut[15:12]), .OUT(O_HEX3));
+SevenSeg sseg1(.IN(HexOut[11:8]), .OUT(O_HEX2));
+SevenSeg sseg2(.IN(HexOut[7:4]), .OUT(O_HEX1));
+SevenSeg sseg3(.IN(HexOut[3:0]), .OUT(O_HEX0));
 //assign O_HEX3 = 7'b0000111;
 //assign O_HEX2 = 7'b0000111;
 //assign O_HEX1 = 7'b0000111;
