@@ -160,6 +160,13 @@ integer k;
 		DestRegIdx = I_DestRegIdx;
 		DestValue = I_Src1Value + I_Imm;
 		//RF[DestRegIdx] <= DestValue;
+		if (I_Src1Value + I_Imm > 16'h8000)
+			cc = `CC_N;
+		else if (I_Src1Value + I_Imm == 16'h0000)
+			cc = `CC_Z;
+		else
+			cc = `CC_P;
+		cc_write = 1;	 
 		write_dest = 1;
 	  end
 	
@@ -237,35 +244,27 @@ integer k;
 	  end 
 	 `OP_CMP:
 	   begin
-		if (I_Src1Value < I_Src2Value)
-			cc = cc | `CC_N;
-		else 
-			cc = cc & 6;
-		if (I_Src1Value == I_Src2Value)
-			cc = cc | `CC_Z;
+		if (I_Src1Value < I_Src2Value ||
+			(I_Src1Value > 16'h8000 &&
+			I_Src1Value > I_Src2Value))
+			cc = `CC_N;
+		else if (I_Src1Value == I_Src2Value)
+			cc = `CC_Z;
 		else
-			cc = cc & 5;
-		if (I_Src1Value > I_Src2Value)
-			cc = cc | `CC_P;
-		else
-			cc = cc & 3;
+			cc = `CC_P;
 		cc_write = 1;	      
 	   end
 	
 	`OP_CMPI:
 	  begin
-		if (I_Src1Value < I_Imm)
-			cc = cc | `CC_N;
-		else 
-			cc = cc & 6;
-		if (I_Src1Value == I_Imm)
-			cc = cc | `CC_Z;
+		if (I_Src1Value < I_Imm ||
+			(I_Src1Value > 16'h8000 &&
+			I_Src1Value > I_Imm))
+			cc = `CC_N;
+		else if (I_Src1Value == I_Imm)
+			cc = `CC_Z;
 		else
-			cc = cc & 5;
-		if (I_Src1Value > I_Imm)
-			cc = cc | `CC_P;
-		else
-			cc = cc & 3;
+			cc = `CC_P;
 		cc_write = 1;
 	  end
  

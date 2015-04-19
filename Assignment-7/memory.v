@@ -212,6 +212,7 @@ begin
 	//HexOut <= I_MDRValue;
     // You need to add more conditions to perform store operations. (Hints: check valid bits) 
     if (I_Opcode == `OP_STW) begin
+	HexOut <= I_MDRValue;
 		// memory mapped IO operations 
 		//HexOut <= I_MARValue;
 		if (I_MARValue[9:0] == `ADDRHEX)
