@@ -319,8 +319,8 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 		DestRegIdx = I_IR[19:16];
 		Src1Value = RF[I_IR[11:8]];
 		//branch_stall = 0;
-		if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
-		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
+		if ( ((I_IR[11:8] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[11:8] == I_MDDestRegIdx) && I_MDDestWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0;  
 	  end
