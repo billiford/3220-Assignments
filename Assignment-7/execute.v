@@ -281,17 +281,20 @@ end
 		VecDestValue[I_Idx] = I_Imm;
 	  end 
 	
-	`OP_LDB: //TODO COMPLETEME
+	`OP_LDB: //TODO COMPLETEME? 
 	  begin
 
 	  end
 	
 	`OP_LDW: //TODO COMPLETEME
+	// ldw dest base offset
+	// where is this getting assigned in memory??
 	  begin
-
+		O_DestRegIdx = I_DestRegIdx;
+		O_MARValue = I_Imm + I_Src1Value;
 	  end
 	
-	`OP_STB: //TODO COMPLETEME
+	`OP_STB: //TODO COMPLETEME?
 	  begin
 
 	  end
@@ -304,8 +307,8 @@ end
 		//MAR value is the address value
 		//Need some trial and error to check to see if this is correct?
 		//https://piazza.com/class/i4mxk414x2b6sf?cid=51
-		O_MDRValue <= I_Src2Value;
-		O_MARValue <= I_Imm + I_Src1Value;
+		O_MDRValue = I_Src2Value;
+		O_MARValue = I_Imm + I_Src1Value;
 	  end
 	
 	`OP_BRP:
