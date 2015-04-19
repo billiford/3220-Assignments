@@ -274,11 +274,16 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 	
 	`OP_VADD:
 	  begin 
-	  // TODO: Check these indices 2 make sure
+	  // TODO: Is the dependency for this correct?
 		VecSrc1Value = VRF[I_IR[13:8]];
 		VecSrc2Value = VRF[I_IR[5:0]];
 		DestVRegIdx = I_IR[21:16];
-		//branch_stall = 0;
+	     if ( ((I_IR[13:8] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[13:8] == I_MDDestRegIdx) && I_MDDestWrite) ||
+		  ((I_IR[5:0] == I_EDDestRegIdx)  && I_EDDestWrite) || 
+		  ((I_IR[5:0] == I_MDDestRegIdx)  && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0; 
 	  end
 	`OP_AND_D:
 	// Same as ADD_D
@@ -346,21 +351,30 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 	  begin 
 		DestVRegIdx = I_IR[21:16];
 		VecSrc1Value = VRF[I_IR[13:8]];
-		branch_stall = 0;
+		if ( ((I_IR[21:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[21:16] == I_MDDestRegIdx) && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0; 
 	  end
 	  
 	`OP_VMOVI: //TODO COMPLETEME
 	  begin 
 		DestVRegIdx = I_IR[21:16];
 		Imm = I_IR[16:0];
-		branch_stall = 0;
+		if ( ((I_IR[21:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[21:16] == I_MDDestRegIdx) && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0;  
 	  end 
+	  
 	 `OP_CMP:
 	   begin
 			Src1Value = RF[I_IR[19:16]];
 			Src2Value = RF[I_IR[11:8]];
-			dep_stall = 0;
-			//branch_stall = 0;
+		  if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0;
 	   end
 	
 	`OP_CMPI:
@@ -379,7 +393,10 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 	     DestVRegIdx = I_IR[16:11];
 		  Src1Value = RF[I_IR[8:5]];
 		  Idx = I_IR[22:19];
-		  branch_stall = 0;
+		  if ( ((I_IR[16:11] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[16:11] == I_MDDestRegIdx) && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0;
 	  end 
 	
 	`OP_VCOMPMOVI: //TODO COMPLETEME
@@ -387,7 +404,10 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 			DestVRegIdx = I_IR[16:11];
 			Imm = I_IR[15:0];
 			Idx = I_IR[22:19];
-			branch_stall = 0;
+		  if ( ((I_IR[16:11] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[16:11] == I_MDDestRegIdx) && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0;
 	  end 
 	
 	`OP_LDB: //TODO: COMPLETEME ?
