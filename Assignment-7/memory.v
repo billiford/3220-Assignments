@@ -170,6 +170,7 @@ SevenSeg sseg3(.IN(HexOut[3:0]), .OUT(O_HEX0));
 // Create and connect LEDR, LEDG registers 
 reg [9:0] LedROut;
 reg [7:0] LedGOut;
+reg [15:0] count;
 
 wire [`DATA_MEM_ADDR_SIZE-1:0] mar_line_addr;
 reg [`DATA_WIDTH-1:0]      dst_value;
@@ -202,6 +203,7 @@ begin
 	O_RegWEn <= 1'b0;
 	O_VRegWEn <= 1'b0;
 	O_CCWEn <= 1'b0; 
+	count <= 0;
 	O_PC <= I_PC;
 	O_IR <= I_IR;
      
@@ -210,6 +212,7 @@ begin
 	O_PC <= I_PC;
 	O_IR <= I_IR;
 	O_MEM_Valid <= I_EX_Valid;
+	//count <= count + 1;
 	
 	O_CCValue <= I_CCValue;
 	O_CCWEn <= I_CCWEn;
