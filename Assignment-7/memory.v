@@ -170,7 +170,7 @@ SevenSeg sseg3(.IN(HexOut[3:0]), .OUT(O_HEX0));
 // Create and connect LEDR, LEDG registers 
 reg [9:0] LedROut;
 reg [7:0] LedGOut;
-
+reg LoadSignal;
 wire [`DATA_MEM_ADDR_SIZE-1:0] mar_line_addr;
 reg [`DATA_WIDTH-1:0]      dst_value;
 	 
@@ -184,6 +184,7 @@ assign mar_line_addr = (I_MARValue >> 1) ; // data is stored with word address
     if (I_EX_Valid) begin
 		if (I_Opcode == `OP_LDW) begin
 			dst_value = (DataMem[mar_line_addr]);
+			LoadSignal = 1;
 		end
 		else 
 			dst_value = I_DestValue;
@@ -210,8 +211,17 @@ begin
 	O_PC <= I_PC;
 	O_IR <= I_IR;
 	O_MEM_Valid <= I_EX_Valid;
-	
-	O_CCValue <= I_CCValue;
+	if (LoadSignal == 1) begin //LDW CC code setting
+		if (dst_value > 16'h8000)
+			cc = `CC_N;
+		else if (dst_value == 16'h0000)
+			cc = `CC_Z;
+		else
+			cc = `CC_P;
+		cc_write = 1;	
+	end else begin
+		O_CCValue <= I_CCValue;
+	end
 	O_CCWEn <= I_CCWEn;
 	//HexOut <= I_MDRValue;
     // You need to add more conditions to perform store operations. (Hints: check valid bits) 
