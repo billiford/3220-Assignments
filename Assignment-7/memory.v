@@ -170,7 +170,6 @@ SevenSeg sseg3(.IN(HexOut[3:0]), .OUT(O_HEX0));
 // Create and connect LEDR, LEDG registers 
 reg [9:0] LedROut;
 reg [7:0] LedGOut;
-reg [15:0] count;
 
 wire [`DATA_MEM_ADDR_SIZE-1:0] mar_line_addr;
 reg [`DATA_WIDTH-1:0]      dst_value;
@@ -203,7 +202,6 @@ begin
 	O_RegWEn <= 1'b0;
 	O_VRegWEn <= 1'b0;
 	O_CCWEn <= 1'b0; 
-	count <= 0;
 	O_PC <= I_PC;
 	O_IR <= I_IR;
      
@@ -212,23 +210,27 @@ begin
 	O_PC <= I_PC;
 	O_IR <= I_IR;
 	O_MEM_Valid <= I_EX_Valid;
-	//count <= count + 1;
 	
 	O_CCValue <= I_CCValue;
 	O_CCWEn <= I_CCWEn;
 	//HexOut <= I_MDRValue;
     // You need to add more conditions to perform store operations. (Hints: check valid bits) 
     if (I_Opcode == `OP_STW) begin
-	HexOut <= I_MDRValue;
+		if (I_MDRValue == 16'h0001)
+			HexOut <= 16'hFFFF;
+		else
+			HexOut <= 16'h1111;
+			
+		//HexOut <= I_MDRValue;
 		// memory mapped IO operations 
 		//HexOut <= I_MARValue;
-		if (I_MARValue[9:0] == `ADDRHEX)
+		/*if (I_MARValue[9:0] == `ADDRHEX)
 			HexOut <= I_MDRValue;
 		else if (I_MARValue[9:0] == `ADDRLEDR)
 			LedROut <= I_MDRValue;
 		else if (I_MARValue[9:0] == `ADDRLEDG)
 			LedGOut <= I_MDRValue;
-		else
+		else*/
 		// data memory write 
 		DataMem[mar_line_addr] <= I_MDRValue;
     end // if (I_Opcode == `OP_STW)

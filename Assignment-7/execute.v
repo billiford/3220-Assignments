@@ -82,9 +82,14 @@ output reg [`VREG_WIDTH-1:0] O_VecSrc1Value;
 output reg [`VREG_WIDTH-1:0] O_VecDestValue;
 output reg O_EX_Valid;
 
+reg [`PC_WIDTH-1:0] R15PC;
+
     
 output reg[`REG_WIDTH-1:0] O_MARValue;
 output reg[`REG_WIDTH-1:0] O_MDRValue;
+
+reg[`REG_WIDTH-1:0] MARValue;
+reg[`REG_WIDTH-1:0] MDRValue;
     
 
 output reg O_RegWEn;
@@ -93,13 +98,13 @@ output reg O_CCWEn;
  		    
 
  // Signals to the front-end  (Note: suffix Signal means the output signal is not from reg) 
-output reg [`PC_WIDTH-1:0] O_BranchPC_Signal; //changed to reg
-output reg O_BranchAddrSelect_Signal; //changed to reg
+output [`PC_WIDTH-1:0] O_BranchPC_Signal; //changed to reg
+output O_BranchAddrSelect_Signal; //changed to reg
 
 // Signals to the DE stage for dependency checking    
-output reg O_RegWEn_Signal; //Changed this from output to output reg
-output  O_VRegWEn_Signal;
-output reg O_CCWEn_Signal;   //Changed this from output to output reg 
+output O_RegWEn_Signal; //Changed this from output to output reg
+output O_VRegWEn_Signal;
+output O_CCWEn_Signal;   //Changed this from output to output reg 
   
 /////////////////////////////////////////
 // WIRE/REGISTER DECLARATION GOES HERE
@@ -115,6 +120,8 @@ reg [`VREG_ID_WIDTH-1:0] DestVRegIdx;
 //reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
 reg[7:0] trav;
 reg write_dest;
+reg br_addr_signal;
+reg br_pc_signal;
 reg cc_write;
 reg [2:0] cc;
 reg [1:0] nop_count;
@@ -127,7 +134,7 @@ begin
   begin
     RF[trav] = 0; 
   end*/ 
-  O_RegWEn_Signal = 0;
+  //O_RegWEn_Signal = 0;
 end
 
 /////////////////////////////////////////
@@ -289,8 +296,8 @@ integer k;
 	// ldw dest base offset
 	// where is this getting assigned in memory??
 	  begin
-		O_DestRegIdx = I_DestRegIdx;
-		O_MARValue = I_Imm + I_Src1Value;
+		DestRegIdx = I_DestRegIdx;
+		MARValue = I_Imm + I_Src1Value;
 	  end
 	
 	`OP_STB: //TODO COMPLETEME?
@@ -306,58 +313,58 @@ integer k;
 		//MAR value is the address value
 		//Need some trial and error to check to see if this is correct?
 		//https://piazza.com/class/i4mxk414x2b6sf?cid=51
-		O_MDRValue = I_Src2Value;
-		O_MARValue = I_Imm + I_Src1Value;
+		MDRValue = I_Src2Value;
+		MARValue = I_Imm + I_Src1Value;
 	  end
 	
 	`OP_BRP:
 	  begin
 		if (I_CCValue == `CC_P) 
 		begin
-			O_R15PC = I_Imm;
-			O_BranchAddrSelect_Signal = 1;
+			R15PC = I_Imm;
+			br_addr_signal = 1;
 		end else
-			O_BranchAddrSelect_Signal = 0;
+			br_addr_signal = 0;
 	  end
 	
 	`OP_BRN:
 	  begin
 		if (I_CCValue == `CC_N) 
 		begin
-			O_R15PC = I_Imm;
-			O_BranchAddrSelect_Signal = 1;
+			R15PC = I_Imm;
+			br_addr_signal = 1;
 		end else
-			O_BranchAddrSelect_Signal = 0;
+			br_addr_signal = 0;
 	  end 
 
 	`OP_BRZ:
 	  begin
 		if (I_CCValue == `CC_Z)
 		begin
-			O_R15PC = I_Imm;
-			O_BranchAddrSelect_Signal = 1;
+			R15PC = I_Imm;
+			br_addr_signal = 1;
 		end else
-			O_BranchAddrSelect_Signal = 0;
+			br_addr_signal = 0;
 	  end
 	
 	`OP_BRNP: 
 	  begin
 		if (I_CCValue == `CC_P || I_CCValue == `CC_N) 
 		begin
-			O_R15PC = I_Imm;
-			O_BranchAddrSelect_Signal = 1;
+			R15PC = I_Imm;
+			br_addr_signal = 1;
 		end else
-			O_BranchAddrSelect_Signal = 0;
+			br_addr_signal = 0;
 	  end
 	
 	`OP_BRZP: 
 	  begin
 		if (I_CCValue == `CC_Z || I_CCValue == `CC_P) 
 		begin
-			O_R15PC = I_Imm;
-			O_BranchAddrSelect_Signal = 1;
+			R15PC = I_Imm;
+			br_addr_signal = 1;
 		end else
-			O_BranchAddrSelect_Signal = 0;	  
+			br_addr_signal = 0;	  
 	  end 
 	
 		
@@ -365,20 +372,20 @@ integer k;
 	  begin
 		if (I_CCValue == `CC_N || I_CCValue == `CC_Z) 
 		begin
-			O_R15PC = I_Imm;
-			O_BranchAddrSelect_Signal = 1;
+			R15PC = I_Imm;
+			br_addr_signal = 1;
 		end else
-			O_BranchAddrSelect_Signal = 0;
+			br_addr_signal = 0;
 	  end 
 
 	`OP_BRNZP: 
 	  begin
 		if (I_CCValue == `CC_N || I_CCValue == `CC_Z || I_CCValue == `CC_P) 
 		begin
-			O_R15PC = I_Imm;
-			O_BranchAddrSelect_Signal = 1;
+			R15PC = I_Imm;
+			br_addr_signal = 1;
 		end else
-			O_BranchAddrSelect_Signal = 0;
+			br_addr_signal = 0;
 	  end
 
 	`OP_JMP: //TODO COMPLETEME
@@ -400,20 +407,28 @@ integer k;
 	  begin 
 		write_dest = 0;
 		cc_write = 0;
-		O_BranchAddrSelect_Signal = 0;
+		br_addr_signal = 0;
 	  end 
       endcase //case (I_OPCDE) 
-	  O_RegWEn_Signal = write_dest;
+	  /*O_RegWEn_Signal = write_dest;
 	  O_CCWEn_Signal = cc_write;
 	  if (O_BranchAddrSelect_Signal) begin
 			O_BranchPC_Signal = O_R15PC;
-		end
+		end*/
 		
 	O_DestRegIdx = DestRegIdx;
-		O_DestValue = DestValue;
+	O_DestValue = DestValue;
 	O_VecDestValue = VecDestValue;
-		O_DestVRegIdx = DestVRegIdx;
+	O_DestVRegIdx = DestVRegIdx;
+	O_R15PC = R15PC;
+   
    end // always @ begin
+   
+   assign O_RegWEn_Signal = write_dest;
+   assign O_CCWEn_Signal = cc_write;
+   assign O_BranchPC_Signal = R15PC;
+   assign O_BranchAddrSelect_Signal = br_addr_signal;
+
    
  	 
 
@@ -444,6 +459,8 @@ begin
         O_VRegWEn <= 1'b0; 
         O_CCWEn <= O_CCWEn_Signal;
 		O_CCValue <= cc;
+		O_MDRValue <= MDRValue;
+		O_MARValue <= MARValue;
     end 
 end
 

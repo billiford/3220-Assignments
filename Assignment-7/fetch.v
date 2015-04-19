@@ -99,7 +99,7 @@ begin
 		O_FE_Valid <= 0;
 	else 
 		O_FE_Valid <= O_FE_Valid;*/
-	if (I_BranchAddrSelect && !O_FE_Valid) begin
+	if (I_BranchAddrSelect && !O_FE_Valid && !latch_keep) begin
 		O_PC <= O_PC + (I_BranchPC * 4) - 4; //hacky solution
 		O_IR <= 32'hFF000000;
 		O_FE_Valid <= 1;

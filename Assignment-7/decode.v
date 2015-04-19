@@ -367,8 +367,10 @@ always @(*) begin
 	  begin
 	     Src1Value = RF[I_IR[19:16]];
 		  Imm = I_IR[15:0];
-		  dep_stall = 0;
-		  //branch_stall = 0;
+		  if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+		  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite) )
+	       dep_stall = 1;
+	     else dep_stall = 0; 
 	  end
  
 	`OP_VCOMPMOV: //TODO COMPLETEME 
