@@ -49,7 +49,7 @@ reg[`INST_WIDTH-1:0] InstMem[0:`INST_MEM_SIZE-1];
 //
 initial 
 begin
-  $readmemh("sum2.hex", InstMem);
+  $readmemh("test11.hex", InstMem);
 
   O_LOCK = 1'b0;
   O_PC = 16'h0;
@@ -75,6 +75,9 @@ end
 	
 	assign latch_keep = I_DepStallSignal; 
 	//assign O_FE_Valid = I_BranchStallSignal ? 0 : 1;
+	
+	assign FE_valid_out = !I_BranchStallSignal && !I_BranchAddrSelect;
+	//assign O_FE_Valid = FE_valid_out;
    
 /////////////////////////////////////////
 // ## Note ##
@@ -99,20 +102,20 @@ begin
 		O_FE_Valid <= 0;
 	else 
 		O_FE_Valid <= O_FE_Valid;*/
-	if (I_BranchAddrSelect && !O_FE_Valid && !latch_keep) begin
-		O_PC <= O_PC + (I_BranchPC * 4) - 4; //hacky solution
-		O_IR <= 32'hFF000000;
-		O_FE_Valid <= 1;
-	end else if (I_BranchStallSignal) begin
-		O_FE_Valid <= 0;
-		O_PC <= (latch_keep) ? O_PC: O_PC + 4;
-		O_IR <= (latch_keep) ? O_IR: IR_out; 
+	if (I_BranchStallSignal) begin
+		//O_FE_Valid = FE_valid_out;
+		O_PC = (latch_keep) ? O_PC: O_PC;
+		O_IR = (latch_keep) ? O_IR: 32'hFF000000; 
 		/*O_PC <= (latch_keep) ? O_PC: O_PC + 4;
 		O_IR <= (latch_keep) ? O_IR: IR_out; */
+	end else if (I_BranchAddrSelect) begin
+		O_PC = O_PC + (I_BranchPC * 4); //hacky solution
+		O_IR = 32'hFF000000;
+		O_FE_Valid <= FE_valid_out;
 	end else begin
-		O_PC <= (latch_keep) ? O_PC: O_PC + 4;
-		O_IR <= (latch_keep) ? O_IR: IR_out; 
-		O_FE_Valid <= O_FE_Valid;
+		O_PC = (latch_keep) ? O_PC: O_PC + 4;
+		O_IR = (latch_keep) ? O_IR: IR_out; 
+		O_FE_Valid <= FE_valid_out;
 	end
 
   end // if (I_LOCK == 0)

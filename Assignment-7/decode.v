@@ -210,8 +210,8 @@ always @(*) begin
 // Architectural Registers ~ Copied from above for easy reference
 // reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
 // reg [`VREG_WIDTH-1:0] VRF[0:`NUM_VRF-1]; // Vector Register File
+if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
   case (Opcode)
-	
 	`OP_ADD_D: // Example code for ADD instruction 
 	  begin
 	     Src1Value = RF[I_IR[19:16]];
@@ -522,6 +522,7 @@ always @(*) begin
 	     dep_stall = 0;
 	  end
       endcase // case (IR[31:24])
+	end // if fe valid
 	  
 	O_DepStallSignal = dep_stall;
 	O_BranchStallSignal = br_stall;
@@ -551,6 +552,8 @@ always @(posedge I_CLOCK)
 begin
   if (I_LOCK == 1'b1)
   begin
+	if (Opcode == `OP_JSR)
+		RF[7] = I_PC;
     /////////////////////////////////////////////
     // TODO: Complete here 
     /////////////////////////////////////////////

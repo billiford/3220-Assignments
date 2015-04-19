@@ -145,6 +145,7 @@ integer i;
 integer j;
 integer k;
    always @(*) begin  
+   if (I_DE_Valid || I_IR[31:27] == 5'b11011) begin
       case (I_Opcode)
 	`OP_ADD_D:
 	  begin 
@@ -152,6 +153,7 @@ integer k;
 		DestValue = I_Src1Value + I_Src2Value;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end
 	
 	`OP_ADD_F:
@@ -160,6 +162,7 @@ integer k;
 		DestValue = I_Src1Value + I_Src2Value;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end
 		     
 	`OP_ADDI_D:
@@ -175,6 +178,7 @@ integer k;
 			cc = `CC_P;
 		cc_write = 1;	 
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end
 	
 	`OP_ADDI_F:
@@ -183,6 +187,7 @@ integer k;
 		DestValue = I_Src1Value + I_Imm;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end
 	
 	`OP_VADD: //TODO Completeme, done-ish
@@ -192,6 +197,7 @@ integer k;
 			VecDestValue[k] = I_VecSrc1Value[k] + I_VecSrc2Value[k]; //is this how indexing works?
 		end
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end
 	`OP_AND_D:
 	  begin
@@ -199,6 +205,7 @@ integer k;
 		DestValue = I_Src1Value & I_Src2Value; // does this work?
 		//RF[DestRegIdx] <= DestValue;	
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end
 	
 	 `OP_ANDI_D:
@@ -207,6 +214,7 @@ integer k;
 		DestValue = I_Src1Value & I_Imm;
 		//RF[DestRegIdx] <= DestValue;
 		write_dest = 1;
+		br_addr_signal = 0;
 	   end
 	`OP_MOV:
 	  begin 
@@ -214,6 +222,7 @@ integer k;
 		DestValue = I_Src1Value;
 		//RF[DestRegIdx] <= I_Src1Value;
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end
 	
 	`OP_MOVI_D:
@@ -222,6 +231,7 @@ integer k;
 		DestValue = I_Imm;
 		//RF[DestRegIdx] <= I_Imm;
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end
 	
 	`OP_MOVI_F:
@@ -230,6 +240,7 @@ integer k;
 		DestValue = I_Imm;
 		//RF[DestRegIdx] <= I_Imm;
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end
 	
 	`OP_VMOV: //TODO COMPLETEME, possibly done
@@ -239,6 +250,7 @@ integer k;
 			VecDestValue[i] = I_VecSrc1Value[i]; //is this how indexing works?
 		end
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end
 	  
 	`OP_VMOVI: //TODO COMPLETEME, possibly done
@@ -248,6 +260,7 @@ integer k;
 			VecDestValue[j] = I_Imm; //is this how indexing works?
 		end
 		write_dest = 1;
+		br_addr_signal = 0;
 	  end 
 	 `OP_CMP:
 	   begin
@@ -259,7 +272,8 @@ integer k;
 			cc = `CC_Z;
 		else
 			cc = `CC_P;
-		cc_write = 1;	      
+		cc_write = 1;	
+		br_addr_signal = 0;		
 	   end
 	
 	`OP_CMPI:
@@ -273,18 +287,21 @@ integer k;
 		else
 			cc = `CC_P;
 		cc_write = 1;
+		br_addr_signal = 0;
 	  end
  
 	`OP_VCOMPMOV: //TODO COMPLETEME
 	  begin
 		DestVRegIdx = I_DestVRegIdx;
 		VecDestValue[I_Idx] = I_Src1Value;		
+		br_addr_signal = 0;
 	  end 
 	
 	`OP_VCOMPMOVI: //TODO COMPLETEME
 	  begin
 		DestVRegIdx = I_DestVRegIdx;
 		VecDestValue[I_Idx] = I_Imm;
+		br_addr_signal = 0;
 	  end 
 	
 	`OP_LDB: //TODO COMPLETEME? 
@@ -298,6 +315,7 @@ integer k;
 	  begin
 		DestRegIdx = I_DestRegIdx;
 		MARValue = I_Imm + I_Src1Value;
+		br_addr_signal = 0;
 	  end
 	
 	`OP_STB: //TODO COMPLETEME?
@@ -315,6 +333,7 @@ integer k;
 		//https://piazza.com/class/i4mxk414x2b6sf?cid=51
 		MDRValue = I_Src2Value;
 		MARValue = I_Imm + I_Src1Value;
+		br_addr_signal = 0;
 	  end
 	
 	`OP_BRP:
@@ -395,7 +414,8 @@ integer k;
 
 	`OP_JSR: //TODO COMPLETEME
 	  begin
-
+		R15PC = I_Imm;
+		br_addr_signal = 1;
 	  end
 
 	`OP_JSRR: //TODO COMPLETEME
@@ -415,12 +435,14 @@ integer k;
 	  if (O_BranchAddrSelect_Signal) begin
 			O_BranchPC_Signal = O_R15PC;
 		end*/
-		
+	end else //If de valid
+		br_addr_signal = 0;
 	O_DestRegIdx = DestRegIdx;
 	O_DestValue = DestValue;
 	O_VecDestValue = VecDestValue;
 	O_DestVRegIdx = DestVRegIdx;
 	O_R15PC = R15PC;
+	O_MDRValue = MDRValue;
    
    end // always @ begin
    
@@ -459,7 +481,7 @@ begin
         O_VRegWEn <= 1'b0; 
         O_CCWEn <= O_CCWEn_Signal;
 		O_CCValue <= cc;
-		O_MDRValue <= MDRValue;
+		//O_MDRValue <= MDRValue;
 		O_MARValue <= MARValue;
     end 
 end
