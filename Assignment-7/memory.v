@@ -213,12 +213,11 @@ begin
 	O_MEM_Valid <= I_EX_Valid;
 	if (LoadSignal == 1) begin //LDW CC code setting
 		if (dst_value > 16'h8000)
-			cc = `CC_N;
+			O_CCValue = `CC_N;
 		else if (dst_value == 16'h0000)
-			cc = `CC_Z;
+			O_CCValue = `CC_Z;
 		else
-			cc = `CC_P;
-		cc_write = 1;	
+			O_CCValue = `CC_P;
 	end else begin
 		O_CCValue <= I_CCValue;
 	end
