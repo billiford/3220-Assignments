@@ -190,7 +190,10 @@ assign mar_line_addr = (I_MARValue >> 1) ; // data is stored with word address
 			dst_value = I_DestValue;
 	end // if (I_EX_Valid)
 	O_DestRegIdx = I_DestRegIdx;
+	O_DestVRegIdx = I_DestVRegIdx;
 	O_DestValue = I_DestValue;
+	O_VecDestValue = I_VecDestValue;
+	O_VecSrc1Value = I_VecSrc1Value;
  end // always @ (*)
    
 always @(negedge I_CLOCK)
@@ -208,6 +211,7 @@ begin
      
   end else begin // if (I_LOCK == 0) begin
     O_RegWEn <= I_RegWEn;
+	O_VRegWEn <= I_VRegWEn;
 	O_PC <= I_PC;
 	O_IR <= I_IR;
 	O_MEM_Valid <= I_EX_Valid;

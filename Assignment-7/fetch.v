@@ -49,7 +49,7 @@ reg[`INST_WIDTH-1:0] InstMem[0:`INST_MEM_SIZE-1];
 //
 initial 
 begin
-  $readmemh("test11.hex", InstMem);
+  $readmemh("test5.hex", InstMem);
 
   O_LOCK = 1'b0;
   O_PC = 16'h0;
@@ -109,7 +109,7 @@ begin
 		/*O_PC <= (latch_keep) ? O_PC: O_PC + 4;
 		O_IR <= (latch_keep) ? O_IR: IR_out; */
 	end else if (I_BranchAddrSelect) begin
-		O_PC = O_PC + (I_BranchPC * 4); //hacky solution
+		O_PC = O_PC + (I_BranchPC * 4);
 		O_IR = 32'hFF000000;
 		O_FE_Valid <= FE_valid_out;
 	end else begin

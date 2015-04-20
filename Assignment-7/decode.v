@@ -278,10 +278,10 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 		VecSrc1Value = VRF[I_IR[13:8]];
 		VecSrc2Value = VRF[I_IR[5:0]];
 		DestVRegIdx = I_IR[21:16];
-	     if ( ((I_IR[13:8] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
-		  ((I_IR[13:8] == I_MDDestRegIdx) && I_MDDestWrite) ||
-		  ((I_IR[5:0] == I_EDDestRegIdx)  && I_EDDestWrite) || 
-		  ((I_IR[5:0] == I_MDDestRegIdx)  && I_MDDestWrite) )
+	     if ( ((I_IR[13:8] == I_EDDestVRegIdx) && I_EDDestVWrite  )  || 
+		  ((I_IR[13:8] == I_MDDestVRegIdx) && I_MDDestVWrite) ||
+		  ((I_IR[5:0] == I_EDDestVRegIdx)  && I_EDDestVWrite) || 
+		  ((I_IR[5:0] == I_MDDestVRegIdx)  && I_MDDestVWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0; 
 	  end
@@ -351,8 +351,8 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 	  begin 
 		DestVRegIdx = I_IR[21:16];
 		VecSrc1Value = VRF[I_IR[13:8]];
-		if ( ((I_IR[21:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
-		  ((I_IR[21:16] == I_MDDestRegIdx) && I_MDDestWrite) )
+		if ( ((I_IR[21:16] == I_EDDestVRegIdx) && I_EDDestVWrite  )  || 
+		  ((I_IR[21:16] == I_MDDestVRegIdx) && I_MDDestVWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0; 
 	  end
@@ -361,8 +361,8 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 	  begin 
 		DestVRegIdx = I_IR[21:16];
 		Imm = I_IR[16:0];
-		if ( ((I_IR[21:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
-		  ((I_IR[21:16] == I_MDDestRegIdx) && I_MDDestWrite) )
+		if ( ((I_IR[21:16] == I_EDDestVRegIdx) && I_EDDestVWrite  )  || 
+		  ((I_IR[21:16] == I_MDDestVRegIdx) && I_MDDestVWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0;  
 	  end 
@@ -393,8 +393,8 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 	     DestVRegIdx = I_IR[16:11];
 		  Src1Value = RF[I_IR[8:5]];
 		  Idx = I_IR[22:19];
-		  if ( ((I_IR[16:11] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
-		  ((I_IR[16:11] == I_MDDestRegIdx) && I_MDDestWrite) )
+		  if ( ((I_IR[16:11] == I_EDDestVRegIdx) && I_EDDestVWrite  )  || 
+		  ((I_IR[16:11] == I_MDDestVRegIdx) && I_MDDestVWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0;
 	  end 
@@ -404,8 +404,8 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 			DestVRegIdx = I_IR[16:11];
 			Imm = I_IR[15:0];
 			Idx = I_IR[22:19];
-		  if ( ((I_IR[16:11] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
-		  ((I_IR[16:11] == I_MDDestRegIdx) && I_MDDestWrite) )
+		  if ( ((I_IR[16:11] == I_EDDestVRegIdx) && I_EDDestVWrite  )  || 
+		  ((I_IR[16:11] == I_MDDestVRegIdx) && I_MDDestVWrite) )
 	       dep_stall = 1;
 	     else dep_stall = 0;
 	  end 
@@ -524,7 +524,12 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 
 	`OP_JMP: //TODO: COMPLETEME
 	  begin
-			DestRegIdx = I_IR[19:16]; //19-16 is jump offset register index
+			Imm = RF[I_IR[19:16]]; //19-16 is jump offset register index
+			if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+			  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite))
+			  dep_stall = 1;
+			else
+				dep_stall = 0;
 	  end
 
 	`OP_JSR: //TODO: COMPLETEME
@@ -534,7 +539,12 @@ if (I_FE_Valid || I_IR[31:27] == 5'b11011) begin
 
 	`OP_JSRR: //TODO: COMPLETEME
 	  begin
-			DestRegIdx = I_IR[19:16]; //same as JMP
+			Imm = RF[I_IR[19:16]]; //19-16 is jump offset register index
+			if ( ((I_IR[19:16] == I_EDDestRegIdx) && I_EDDestWrite  )  || 
+			  ((I_IR[19:16] == I_MDDestRegIdx) && I_MDDestWrite))
+			  dep_stall = 1;
+			else
+				dep_stall = 0;
 	  end
 	
 	default:
@@ -572,7 +582,7 @@ always @(posedge I_CLOCK)
 begin
   if (I_LOCK == 1'b1)
   begin
-	if (Opcode == `OP_JSR)
+	if (Opcode == `OP_JSR || Opcode == `OP_JSRR)
 		RF[7] = I_PC;
     /////////////////////////////////////////////
     // TODO: Complete here 
@@ -580,6 +590,7 @@ begin
     // register write should come here 
 	//if (I_WriteBackRegIdx && I_WriteBackData)
 		RF[I_WriteBackRegIdx] = I_WriteBackData;
+		VRF[I_WriteBackVRegIdx] = I_VecDestValue;
 	
   end // if (I_LOCK == 1'b1)
 end // always @(posedge I_CLOCK)
@@ -604,6 +615,7 @@ begin
 		O_Src2Value <= Src2Value;
 		O_Imm <= Imm;
 		O_DestRegIdx <= DestRegIdx;
+		O_DestVRegIdx <=DestVRegIdx;
 		O_DE_Valid <= I_FE_Valid;
 		O_CCValue <= I_CCValue;
 		if (dep_stall == 0) begin

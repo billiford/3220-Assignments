@@ -101,6 +101,9 @@ always @(posedge I_CLOCK) begin
 	O_CCWEn <= I_CCWEn;
 	O_WriteBackRegIdx <= I_DestRegIdx;
 	O_WriteBackData <= I_DestValue;
+	O_WriteBackVRegIdx <= I_DestVRegIdx;
+	O_VecDestValue <= I_VecDestValue;
+	O_VRegWEn <= I_VRegWEn;
 	O_RegWEn <= I_RegWEn;
 end
 

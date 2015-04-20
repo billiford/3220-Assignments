@@ -120,6 +120,7 @@ reg [`VREG_ID_WIDTH-1:0] DestVRegIdx;
 //reg [`REG_WIDTH-1:0] RF[0:`NUM_RF-1]; // Scalar Register File (R0-R7: Integer, R8-R15: Floating-point)
 reg[7:0] trav;
 reg write_dest;
+reg v_write_dest;
 reg br_addr_signal;
 reg br_pc_signal;
 reg cc_write;
@@ -217,7 +218,7 @@ integer k;
 		for (k = 0; k<`VREG_WIDTH; k=k+1) begin 
 			VecDestValue[k] = I_VecSrc1Value[k] + I_VecSrc2Value[k]; //is this how indexing works?
 		end
-		write_dest = 1;
+		v_write_dest = 1;
 		br_addr_signal = 0;
 	  end
 	`OP_AND_D:
@@ -305,17 +306,17 @@ integer k;
 		for (i = 0; i<`VREG_WIDTH; i=i+1) begin 
 			VecDestValue[i] = I_VecSrc1Value[i]; //is this how indexing works?
 		end
-		write_dest = 1;
+		v_write_dest = 1;
 		br_addr_signal = 0;
 	  end
 	  
 	`OP_VMOVI: //TODO COMPLETEME, possibly done
 	  begin 
 	  DestVRegIdx = I_DestVRegIdx;
-		for (j = 0; j<`VREG_WIDTH; j=j+1) begin 
+		for (j = 0; j < `VREG_WIDTH; j = j + 1) begin 
 			VecDestValue[j] = I_Imm; //is this how indexing works?
 		end
-		write_dest = 1;
+		v_write_dest = 1;
 		br_addr_signal = 0;
 	  end 
 	 `OP_CMP:
@@ -349,7 +350,8 @@ integer k;
 	`OP_VCOMPMOV: //TODO COMPLETEME
 	  begin
 		DestVRegIdx = I_DestVRegIdx;
-		VecDestValue[I_Idx] = I_Src1Value;		
+		VecDestValue[I_Idx] = I_Src1Value;	
+		v_write_dest = 1;
 		br_addr_signal = 0;
 	  end 
 	
@@ -357,6 +359,7 @@ integer k;
 	  begin
 		DestVRegIdx = I_DestVRegIdx;
 		VecDestValue[I_Idx] = I_Imm;
+		v_write_dest = 1;
 		br_addr_signal = 0;
 	  end 
 	
@@ -465,7 +468,8 @@ integer k;
 
 	`OP_JMP: //TODO COMPLETEME
 	  begin
-
+		R15PC = (I_Imm - I_PC) / 4;
+		br_addr_signal = 1;
 	  end
 
 	`OP_JSR: //TODO COMPLETEME
@@ -476,11 +480,13 @@ integer k;
 
 	`OP_JSRR: //TODO COMPLETEME
 	  begin
-
+		R15PC = (I_Imm - I_PC) / 4;
+		br_addr_signal = 1;
 	  end
 	     
 	default:
 	  begin 
+	    v_write_dest = 0;
 		write_dest = 0;
 		cc_write = 0;
 		br_addr_signal = 0;
@@ -502,6 +508,7 @@ integer k;
    
    end // always @ begin
    
+   assign O_VRegWEn_Signal = v_write_dest;
    assign O_RegWEn_Signal = write_dest;
    assign O_CCWEn_Signal = cc_write;
    assign O_BranchPC_Signal = R15PC;
@@ -534,7 +541,7 @@ begin
     begin 
         O_EX_Valid <= I_DE_Valid;
         O_RegWEn <= O_RegWEn_Signal;
-        O_VRegWEn <= 1'b0; 
+		O_VRegWEn <= O_VRegWEn_Signal;
         O_CCWEn <= O_CCWEn_Signal;
 		O_CCValue <= cc;
 		//O_MDRValue <= MDRValue;
